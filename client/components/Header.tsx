@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from 'next/link'
 
 export default function Header(): JSX.Element {
   const [menu, setmenu] = useState(false);
@@ -31,7 +32,7 @@ export default function Header(): JSX.Element {
               </form>
             </div>
             <div className="write-a-post">
-              <button>Write a post</button>
+              <button><Link href='/post/newpost'><a style={{color:'white'}}>Write a post</a></Link></button>
             </div>
             <div className="header-menu">
               <img src="/images/menu.svg" alt="menu" onClick={displayMenu} />
@@ -41,11 +42,10 @@ export default function Header(): JSX.Element {
                 onMouseLeave={() => setmenu(false)}
               >
                 <ul>
-                  <li>Profile</li>
-                  <li>Write a post</li>
-                  <li>Login/SignUp</li>
-                  <li>Settings</li>
-                  <li>About</li>
+                  <li><Link href='/profile'><a>Profile</a></Link></li>
+                  <li><Link href='/post/newpost'><a>Write a post</a></Link></li>
+                  <li><Link href='/login'><a>Login/SignUp</a></Link></li>
+                  <li><Link href='/about'><a>About</a></Link></li>
                 </ul>
               </div>
             </div>
@@ -53,10 +53,10 @@ export default function Header(): JSX.Element {
         </div>
       </header>
       <div className="slider">
-        <div className="slide">Home</div>
+        <div className="slide"><Link href="/"><a>Home</a></Link></div>
         <div className="slide">Entertainment</div>
         <div className="slide">Politics</div>
-        <div className="slide">Tech</div>
+        <div className="slide"><Link href="/category/tech"><a>Tech</a></Link></div>
         <div className="slide">Lifestyle</div>
         <div className="slide">Personal</div>
         <div className="slide">Health & Wellness</div>
