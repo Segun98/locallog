@@ -11,7 +11,7 @@ export default function Index() {
       <div>
         <section className="latest-posts-home">
           <div className="latest-head">
-            <h2>Latest on Tadlace</h2>
+            <h1>Latest on Tadlace</h1>
           </div>
           <div className="latest-posts">
             <div className="latest-posts-wrap">
@@ -85,7 +85,7 @@ export default function Index() {
 
         <section className="most-popular-section">
           <div className="most-popular-head">
-            <h2>Most Popular</h2>
+            <h1>Most Popular</h1>
           </div>
           <div className="most-popular-wrap">
             <div className="most-popular">

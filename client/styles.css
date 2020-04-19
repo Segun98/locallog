@@ -236,7 +236,8 @@ header {
 }
 
 .main-post img {
-    width: 320px;
+    /* width: 350px; */
+    width: 100%;
 }
 
 .main-post-content {
