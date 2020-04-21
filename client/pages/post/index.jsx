@@ -1,8 +1,20 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import Head from "next/head";
+import { stateToHTML } from 'draft-js-export-html';
+import { convertFromRaw } from 'draft-js'
+
 
 export default function index() {
+
+  const convertFromJSONToHTML = (text) => {
+    try{
+    return { __html: stateToHTML(convertFromRaw(text))}
+    } catch(exp) {
+    console.log(exp)
+    return { __html: 'Error' }
+    }
+    }
   return (
     <Layout>
         <Head>
@@ -24,7 +36,7 @@ export default function index() {
       <br/>
       <br/>
       <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse officia at molestiae corporis dolore aspernatur voluptatibus velit rerum beatae similique!</p>
-
+      <div dangerouslySetInnerHTML={convertFromJSONToHTML(props.post.description)} > </div>
       <style jsx>
           {`
            p{

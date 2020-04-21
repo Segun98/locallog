@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import Head from "next/head";
 
 export default function Index() {
-  function upperCase(item: string): string {
+  function upperCase(item) {
     return item.toUpperCase();
   }
   return (

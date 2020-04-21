@@ -12,13 +12,12 @@
   "author": "Segun Olanitori",
   "license": "ISC",
   "dependencies": {
+    "draft-js": "^0.11.5",
+    "draft-js-export-html": "^1.4.1",
     "next": "^9.3.5",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-draft-wysiwyg": "^1.14.5"
   },
-  "devDependencies": {
-    "@types/node": "^13.11.1",
-    "@types/react": "^16.9.34",
-    "typescript": "^3.8.3"
-  }
+  "devDependencies": {}
 }
