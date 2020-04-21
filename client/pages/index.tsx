@@ -28,7 +28,7 @@ export default function Index() {
                         dried.
                       </p>
                       <h5>Mosh Adani</h5>
-                      <h6>April 20</h6>
+                      <h6>Apr 20</h6>
                     </div>
                   </div>
                 </a>
@@ -43,7 +43,7 @@ export default function Index() {
                       Veniam, officia!
                     </h5>
                     <p>Traversy Media</p>
-                    <h6>April 17</h6>
+                    <h6>Apr 17</h6>
                   </div>
                 </div>
                 <div className="middle-post">
@@ -53,7 +53,7 @@ export default function Index() {
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </h5>
                     <p>John Doe</p>
-                    <h6>April 12</h6>
+                    <h6>Apr 12</h6>
                   </div>
                 </div>
                 <div className="middle-post">
@@ -64,7 +64,7 @@ export default function Index() {
                       Beatae!
                     </h5>
                     <p>Dev Ed</p>
-                    <h6>April 9</h6>
+                    <h6>Apr 9</h6>
                   </div>
                 </div>
               </div>
@@ -76,8 +76,8 @@ export default function Index() {
                   Accusantium, nobis! Coffee is a brewed drink prepared from
                   roasted
                 </p>
-                <h5>Segun OS</h5>
-                <h6>April 15</h6>
+                <h5>Tommy Shelby</h5>
+                <h6>Apr 15</h6>
               </div>
             </div>
           </div>

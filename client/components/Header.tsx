@@ -54,7 +54,7 @@ export default function Header(): JSX.Element {
       </header>
       <div className="slider">
         <div className="slide"><Link href="/"><a>Home</a></Link></div>
-        <div className="slide">Entertainment</div>
+        <div className="slide"><Link href="/category/tech?category=ent" as ="/category/tech/ent"><a>Entertainment</a></Link></div>
         <div className="slide">Politics</div>
         <div className="slide"><Link href="/category/tech"><a>Tech</a></Link></div>
         <div className="slide">Lifestyle</div>

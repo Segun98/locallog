@@ -1,6 +1,33 @@
 @import url('https://fonts.googleapis.com/css?family=Manrope&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaina+2|Manrope&display=swap');
 
+
+/* TABLET SCREEN  */
+
+/* @media only screen and (min-width:600px) {
+    
+} */
+
+/* IPAD PRO | SMALL LAPTOP  */
+
+/* @media only screen and (min-width:1000px) {
+
+    
+} */
+
+/* LAPTOP  */
+
+/* @media only screen and (min-width:1300px) {
+    
+} */
+
+/* 4K SCREEN  */
+
+/* @media only screen and (min-width:2500px) {
+
+   
+}  */
+
 /* GLOBAL STYLES */
 * {
     margin: 0;
@@ -166,8 +193,7 @@ header {
     }
 
     .slider {
-        margin-top: 5px 
-
+        margin-top: 5px
     }
 
     .write-a-post {
@@ -291,7 +317,7 @@ header {
 
 /* MOST POPULAR  */
 
-.most-popular-section{
+.most-popular-section {
     margin: 20px 0;
 }
 
@@ -300,7 +326,7 @@ header {
     width: 90%;
 }
 
-.most-popular-wrap{
+.most-popular-wrap {
     display: grid;
     display: -moz-grid;
     display: -ms-grid;
@@ -310,24 +336,20 @@ header {
     gap: 10px;
 }
 
-.most-popular{
+.most-popular {
     display: flex;
-    /* display: grid;
-    display: -moz-grid;
-    display: -ms-grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px; */
 }
 
-.most-popular p{
+.most-popular p {
     font-size: 0.8rem;
 }
 
-.most-popular-content{
+.most-popular-content {
     line-height: 20px;
     margin-right: 20px;
 }
-.most-popular img{
+
+.most-popular img {
     width: 100px;
     height: 100px;
 }
@@ -340,7 +362,7 @@ header {
         gap: 10px;
     }
 
-    .most-popular-wrap{
+    .most-popular-wrap {
         grid-template-columns: 1fr 1fr;
         gap: 20px;
     }
@@ -353,7 +375,8 @@ header {
     .main-post img {
         width: 400px;
     }
-    .most-popular-wrap{
+
+    .most-popular-wrap {
         gap: 20px;
         width: 85%;
     }
@@ -375,15 +398,16 @@ header {
         width: 400px;
     }
 
-    .most-popular-wrap{
+    .most-popular-wrap {
         gap: 40px;
         width: 90%;
     }
-    .most-popular img{
+
+    .most-popular img {
         width: 200px;
         height: 150px;
     }
-    
+
 }
 
 /* 4K SCREEN  */
@@ -412,7 +436,144 @@ header {
         width: 65%;
     }
 
-    .most-popular-wrap{
+    .most-popular-wrap {
         width: 65%;
+    }
+}
+
+/* CATEGORY PAGE  */
+
+.category {
+    margin: 10px auto;
+    width: 95%;
+}
+
+.category-wrap {
+    display: flex;
+}
+
+.category-header {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.category-items-wrap {
+    display: grid;
+    display: -moz-grid;
+    display: -ms-grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 3rem;
+}
+
+.category-item-content {
+    margin-left: 10px;
+    line-height: 20px;
+}
+
+.category-item-content p {
+    margin: 3px 0;
+}
+
+.category-item {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+}
+
+.category-item img {
+    width: 150px;
+    height: 100px;
+}
+
+.most-popular-category {
+    margin-left: 10px;
+    display: none;
+}
+
+
+.most-popular-category-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
+}
+
+.most-popular-category-item img {
+    width: 100px;
+    height: 100px;
+}
+
+.most-popular-category-item {
+    display: flex;
+}
+
+.most-popular-category-item-content {
+    margin-left: 10px;
+}
+
+.most-popular-category-item-content p {
+    font-size: 0.8rem;
+    margin: 5px 0;
+}
+
+.most-popular-category-item-content p:last-child {
+    font-size: 0.6rem;
+}
+
+/* TABLET SCREEN  */
+
+@media only screen and (min-width:600px) {
+    .category {
+        width: 90%;
+    }
+
+    .category-item img {
+        width: 250px;
+        height: 150px;
+    }
+
+    .category-item-content {
+        margin-left: 20px;
+    }
+}
+
+/* IPAD PRO | SMALL LAPTOP  */
+
+@media only screen and (min-width:1000px) {
+    .category {
+        width: 80%;
+    }
+
+    .category-item-content {
+        margin-left: 30px;
+    }
+}
+
+/* LAPTOP  */
+
+@media only screen and (min-width:1300px) {
+    .most-popular-category {
+        display: block;
+        margin-left: 50px;
+    }
+
+    .category-wrap {
+        justify-content: space-between;
+    }
+}
+
+/* 4K SCREEN  */
+
+@media only screen and (min-width:2500px) {
+    .category {
+        margin: 0 auto;
+        width: 60%;
+    }
+
+    .most-popular-category {
+        margin-left: 190px;
     }
 }
