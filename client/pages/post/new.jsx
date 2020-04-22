@@ -6,6 +6,8 @@ const Editor = dynamic(
 );
 import { EditorState, convertToRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
+import Layout from "../../components/Layout";
+import Head from "next/head";
 
 export default function New() {
   const [title, setTitle] = useState("");
@@ -77,35 +79,44 @@ export default function New() {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <Editor
-          editorState={description}
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
-          onEditorStateChange={(editorState) => setDescription(editorState)}
-          toolbar={{
-            image: {
-              uploadCallback,
-              previewImage: true,
-              alt: { present: true, mandatory: false },
-              inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-            },
-          }}
-          wrapperStyle={{ border: "2px solid green", marginBottom: "20px" }}
-          editorStyle={{ height: "400px", padding: "10px" }}
-          onSubmit={onSubmit}
-        />
-      </form>
+    <Layout>
+      <Head>
+        <title>New Post | Tadlace </title>
+      </Head>
 
-      <style jsx>
-        {`
-          .wrapperClassName {
-            width: 300px;
-          }
-        `}
-      </style>
-    </div>
+      <div>
+        <form onSubmit={onSubmit}>
+          <Editor
+            editorState={description}
+            toolbarClassName="toolbarClassName"
+            wrapperClassName="wrapperClassName"
+            editorClassName="editorClassName"
+            onEditorStateChange={(editorState) => setDescription(editorState)}
+            toolbar={{
+              image: {
+                uploadCallback,
+                previewImage: true,
+                alt: { present: true, mandatory: false },
+                inputAccept:
+                  "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+              },
+            }}
+            wrapperStyle={{ border: "2px solid green", marginBottom: "20px" }}
+            editorStyle={{ height: "400px", padding: "10px" }}
+          />
+          <button onClick={onSubmit} type="submit">
+            submit
+          </button>
+        </form>
+
+        <style jsx>
+          {`
+            .wrapperClassName {
+              width: 300px;
+            }
+          `}
+        </style>
+      </div>
+    </Layout>
   );
 }
