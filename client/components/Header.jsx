@@ -32,7 +32,7 @@ export default function Header(){
               </form>
             </div>
             <div className="write-a-post">
-              <button><Link href='/post/newpost'><a style={{color:'white'}}>Write a post</a></Link></button>
+              <button><Link href='/post/new'><a style={{color:'white'}}>Write a post</a></Link></button>
             </div>
             <div className="header-menu">
               <img src="/images/menu.svg" alt="menu" onClick={displayMenu} />

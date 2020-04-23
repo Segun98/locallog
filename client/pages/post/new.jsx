@@ -1,81 +1,85 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
-import { EditorState, convertToRaw } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
+const importJodit = () => import("jodit-react");
+
+const JoditEditor = dynamic(importJodit, {
+  ssr: false,
+});
 import Layout from "../../components/Layout";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+
+const ADD_POST = gql`
+  mutation addPost(
+    $title: String!
+    $date: String!
+    $description: String!
+    $email: String!
+    $category: String!
+    $author: String!
+  ) {
+    addPost(
+      title: $title
+      date: $date
+      description: $description
+      email: $email
+      category: $category
+      author: $author
+    ) {
+      title
+      date
+      description
+      email
+      category
+      author
+    }
+  }
+`;
 
 export default function New() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState(EditorState.createEmpty());
+  const editor = useRef(null);
 
-  const [uploadedImages, setuploadedImages] = useState([]);
-
-  const uploadCallback = (file) => {
-    // Make sure you have a uploadImages: [] as your default state
-    //  let uploadedImages = uploadedImages;
-
-    const imageObject = {
-      file: file,
-      localSrc: URL.createObjectURL(file),
-    };
-
-    uploadedImages.push(imageObject);
-
-    setuploadedImages(uploadedImages);
-
-    // We need to return a promise with the image src
-    // the img src we will use here will be what's needed
-    // to preview it in the browser. This will be different than what
-    // we will see in the index.md file we generate.
-    return new Promise((resolve, reject) => {
-      resolve({ data: { link: imageObject.localSrc } });
-    });
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // return new Promise((resolve, reject) => {
-    //   fetch("http://localhost:5000/uploadImage", {
-    //     method: "POST",
-    //     body: formData,
-    //   })
-    //     .then((res) => res.json())
-    //     .then((resData) => {
-    //       console.log(resData);
-    //       resolve({ data: { link: resData } });
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       reject(error.toString());
-    //     });
-    // });
+  const config = {
+    readonly: false, // all options from https://xdsoft.net/jodit/doc/
   };
 
-  const onSubmit = (e) => {
+  const router = useRouter();
+  const [addPost, { data, error }] = useMutation(ADD_POST);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [date, setdate] = useState("");
+  const [email, setemail] = useState("");
+  const [category, setcategory] = useState("");
+  const [author, setauthor] = useState("");
+
+  // console.log(content);
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    const newPost = {
-      title: title,
-      description: convertToRaw(description.getCurrentContent()),
-    };
-    console.log("POST: ", newPost);
-    fetch("http://localhost:5000/api/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPost),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setTitle("");
-        setDescription(EditorState.createEmpty());
-        history.goBack();
-      })
-      .catch((err) => console.log("ERROR:", err));
+    try {
+      await addPost({
+        variables: {
+          title,
+          date,
+          description: content,
+          email,
+          category,
+          author,
+        },
+      });
+      setTitle("");
+      setContent("");
+      setdate("");
+      setemail("");
+      setcategory("");
+      setauthor("");
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -86,24 +90,69 @@ export default function New() {
 
       <div>
         <form onSubmit={onSubmit}>
-          <Editor
-            editorState={description}
-            toolbarClassName="toolbarClassName"
-            wrapperClassName="wrapperClassName"
-            editorClassName="editorClassName"
-            onEditorStateChange={(editorState) => setDescription(editorState)}
-            toolbar={{
-              image: {
-                uploadCallback,
-                previewImage: true,
-                alt: { present: true, mandatory: false },
-                inputAccept:
-                  "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-              },
-            }}
-            wrapperStyle={{ border: "2px solid green", marginBottom: "20px" }}
-            editorStyle={{ height: "400px", padding: "10px" }}
-          />
+          <div>
+            <label htmlFor="title">title:</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="date">date:</label>
+            <input
+              type="text"
+              value={date}
+              onChange={(e) => {
+                setdate(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="email">email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setemail(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="category">category:</label>
+            <input
+              type="text"
+              value={category}
+              onChange={(e) => {
+                setcategory(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="author">author:</label>
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => {
+                setauthor(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="Article">
+              <h3>Article</h3>
+            </label>
+
+            <JoditEditor
+              ref={editor}
+              value={content}
+              config={config}
+              tabIndex={1} // tabIndex of textarea
+              onBlur={(newContent) => setContent(newContent)}
+            />
+          </div>
           <button onClick={onSubmit} type="submit">
             submit
           </button>

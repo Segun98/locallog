@@ -4,7 +4,9 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Layout from "../components/Layout";
 import Head from "next/head";
-// import Link from "next/link";
+import Link from "next/link";
+import ReactHtmlParser from "react-html-parser"
+
 
 export const ALL_POSTS_QUERY = gql`
   {
@@ -20,18 +22,52 @@ export const ALL_POSTS_QUERY = gql`
   }
 `;
 
+// export const POST_QUERY = gql`
+//   {
+//     post(id: "5ea0bfa1b24d0d2024352703") {
+//       id
+//       title
+//     }
+//   }
+// `;
+
 function Index() {
+  // const [graphpost, setgraphpost] = useState([]);
+  // const [errormess, seterror] = useState({
+  //   err: "error loading post",
+  //   loading: "loading...",
+  //   nothing: null
+  // })
+  // const { data: datapost } = useQuery(POST_QUERY, {
+  //   //   // Setting this value to true will make the component rerender when
+  //   //   // the "networkStatus" changes, so we are able to know if it is fetching
+  //   //   // more data
+  //     notifyOnNetworkStatusChange: true,
+  //   });
+
+  // function fetchPost(){
+  //   const {post} = datapost
+  //   setgraphpost(post);
+
+  // }
+  // console.log(graphpost);
+
   const [graphdata, setgraphdata] = useState([]);
-  const { data } = useQuery(ALL_POSTS_QUERY, {
+  const { error, data, loading } = useQuery(ALL_POSTS_QUERY, {
     // Setting this value to true will make the component rerender when
     // the "networkStatus" changes, so we are able to know if it is fetching
     // more data
     notifyOnNetworkStatusChange: true,
   });
+
   useEffect(() => {
-    setgraphdata(data.posts);
+    fetchPosts();
   }, []);
-  console.log(graphdata);
+
+  function fetchPosts() {
+    const { posts } = data;
+    setgraphdata(posts);
+  }
 
   return (
     <Layout>
@@ -40,16 +76,21 @@ function Index() {
       </Head>
       <div>
         <section className="latest-posts-home">
-          {graphdata.map(dat => (
-            <ul key={dat.id}>
-              <li>{dat.title}</li>
-              <li>{dat.description}</li>
-              <li>{dat.category}</li>
-              <li>{dat.author}</li>
-              <li>{dat.date}</li>
-              <li>{dat.email}</li>
-            </ul>
-          ))}
+          <div>
+            {graphdata.map((dat) => (
+              <ul key={dat.id}>
+                <li><Link href={`/post/${dat.id}`} ><a>{dat.title}</a></Link></li>
+                <li>{ReactHtmlParser(dat.description)}</li>
+                <li>{dat.category}</li>
+                <li>{dat.author}</li>
+                <li>{dat.date}</li>
+                <li>{dat.email}</li>
+              </ul>
+            ))}
+            <br />
+            <br />
+          </div>
+
           {/* <div className="latest-head">
             <h1>Latest on Tadlace</h1>
           </div>
