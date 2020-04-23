@@ -1,15 +1,16 @@
 const graphql = require('graphql')
-const {
-    posts,
-    users
-} = require('./dummydb')
-
+// const {
+//     posts,
+//     users
+// } = require('./dummydb')
+const Posts = require('../models/posts')
 const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLSchema,
     GraphQLID,
-    GraphQLList
+    GraphQLList,
+    GraphQLNonNull
 } = graphql
 
 
@@ -42,29 +43,29 @@ const PostType = new GraphQLObjectType({
     })
 });
 
-const UsersType = new GraphQLObjectType({
-    name: 'Users',
-    fields: () => ({
-        id: {
-            type: GraphQLID
-        },
-        email: {
-            type: GraphQLString
-        },
-        fullname: {
-            type: GraphQLString
-        },
-        password: {
-            type: GraphQLString
-        },
-        posts: {
-            type: new GraphQLList(PostType),
-            resolve(parent, args) {
-                return posts.filter(post => post.email === parent.email)
-            }
-        }
-    })
-});
+// const UsersType = new GraphQLObjectType({
+//     name: 'Users',
+//     fields: () => ({
+//         id: {
+//             type: GraphQLID
+//         },
+//         email: {
+//             type: GraphQLString
+//         },
+//         fullname: {
+//             type: GraphQLString
+//         },
+//         password: {
+//             type: GraphQLString
+//         },
+//         posts: {
+//             type: new GraphQLList(PostType),
+//             resolve(parent, args) {
+//                 return posts.filter(post => post.email === parent.email)
+//             }
+//         }
+//     })
+// });
 
 
 const RootQuery = new GraphQLObjectType({
@@ -78,38 +79,81 @@ const RootQuery = new GraphQLObjectType({
                 }
             },
             resolve(parent, args) {
-                return posts.find(post => post.id === args.id)
+                return Posts.findById(args.id)
+                // return posts.find(post => post.id === args.id)
             }
         },
         posts: {
             type: new GraphQLList(PostType),
             resolve() {
-                return posts
+                return Posts.find()
+                // return posts
             }
-        },
-        user: {
-            type: UsersType,
-            args: {
-                email: {
-                    type: GraphQLString
-                }
-            },
-            resolve(parent, args) {
-                return users.find(user => user.email === args.email)
-            }
-        },
-        users: {
-            type: new GraphQLList(UsersType),
-            resolve() {
-                return users
-            }
-        },
+        }
+        // user: {
+        //     type: UsersType,
+        //     args: {
+        //         email: {
+        //             type: GraphQLString
+        //         }
+        //     },
+        //     resolve(parent, args) {
+        //         return users.find(user => user.email === args.email)
+        //     }
+        // },
+        // users: {
+        //     type: new GraphQLList(UsersType),
+        //     resolve() {
+        //         return users
+        //     }
+        // },
 
     }
 
 })
 
+const Mutation = new GraphQLObjectType({
+    name: "Mutation",
+    fields: {
+        addPost: {
+            type: PostType,
+            args: {
+                title: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                description: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                date: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                category: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                author: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                email: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve(parent, args){
+
+                let post = new Posts({
+                    title: args.title,
+                    description: args.description,
+                    date: args.date,
+                    category: args.category,
+                    author: args.author,
+                    email: args.email
+                });
+                return post.save()
+            }
+        }
+    }
+})
 
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 })

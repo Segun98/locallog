@@ -10,7 +10,7 @@ dotenv.config()
 const connectDB = require('./db')
 
 const PORT = process.env.PORT || 8080
-// connectDB()
+connectDB()
 
 // app.use(express.json())
 // app.use(express.urlencoded({

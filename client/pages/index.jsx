@@ -1,8 +1,38 @@
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@apollo/react-hooks";
+// import { NetworkStatus } from "apollo-client";
+import gql from "graphql-tag";
 import Layout from "../components/Layout";
 import Head from "next/head";
-import Link from "next/link";
+// import Link from "next/link";
 
-export default function Index() {
+export const ALL_POSTS_QUERY = gql`
+  {
+    posts {
+      id
+      title
+      description
+      category
+      author
+      date
+      email
+    }
+  }
+`;
+
+function Index() {
+  const [graphdata, setgraphdata] = useState([]);
+  const { data } = useQuery(ALL_POSTS_QUERY, {
+    // Setting this value to true will make the component rerender when
+    // the "networkStatus" changes, so we are able to know if it is fetching
+    // more data
+    notifyOnNetworkStatusChange: true,
+  });
+  useEffect(() => {
+    setgraphdata(data.posts);
+  }, []);
+  console.log(graphdata);
+
   return (
     <Layout>
       <Head>
@@ -10,7 +40,17 @@ export default function Index() {
       </Head>
       <div>
         <section className="latest-posts-home">
-          <div className="latest-head">
+          {graphdata.map(dat => (
+            <ul key={dat.id}>
+              <li>{dat.title}</li>
+              <li>{dat.description}</li>
+              <li>{dat.category}</li>
+              <li>{dat.author}</li>
+              <li>{dat.date}</li>
+              <li>{dat.email}</li>
+            </ul>
+          ))}
+          {/* <div className="latest-head">
             <h1>Latest on Tadlace</h1>
           </div>
           <div className="latest-posts">
@@ -178,21 +218,11 @@ export default function Index() {
               </div>
               <img src="/images/articleseven.jpg" alt="articlesix" />
             </div>
-          </div>
+          </div> */}
         </section>
-        <style jsx>
-          {`
-            // img {
-            //   width: 90%;
-            // }
-            // p {
-            //   white-space: nowrap;
-            //   overflow: hidden;
-            //   text-overflow: ellipsis;
-            // }
-          `}
-        </style>
       </div>
     </Layout>
   );
 }
+
+export default Index;
