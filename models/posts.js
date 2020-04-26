@@ -29,6 +29,12 @@ const Posts = new mongoose.Schema({
         type: String,
         required: true
     },
+    count: {
+        type: Number
+    },
+    url: {
+        type: String
+    },
     EditeddAt: {
         type: Date,
         default: Date.now

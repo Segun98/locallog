@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Link from 'next/link'
+import Link from "next/link";
 
-export default function Header(){
+export default function Header() {
   const [menu, setmenu] = useState(false);
   const [search, setsearch] = useState(true);
 
@@ -32,7 +32,11 @@ export default function Header(){
               </form>
             </div>
             <div className="write-a-post">
-              <button><Link href='/post/new'><a style={{color:'white'}}>Write a post</a></Link></button>
+              <button>
+                <Link href="/post/new">
+                  <a style={{ color: "white" }}>Write a post</a>
+                </Link>
+              </button>
             </div>
             <div className="header-menu">
               <img src="/images/menu.svg" alt="menu" onClick={displayMenu} />
@@ -42,10 +46,18 @@ export default function Header(){
                 onMouseLeave={() => setmenu(false)}
               >
                 <ul>
-                  <li><Link href='/profile'><a>Profile</a></Link></li>
-                  <li><Link href='/post/newpost'><a>Write a post</a></Link></li>
-                  <li><Link href='/login'><a>Login/SignUp</a></Link></li>
-                  <li><Link href='/about'><a>About</a></Link></li>
+                  <li>Profile</li>
+                  <li>
+                    <Link href="/post/new">
+                      <a>Write a post</a>
+                    </Link>
+                  </li>
+                  <li>Login/SignUp</li>
+                  <li>
+                    <Link href="/about">
+                      <a>About</a>
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -53,14 +65,51 @@ export default function Header(){
         </div>
       </header>
       <div className="slider">
-        <div className="slide"><Link href="/"><a>Home</a></Link></div>
-        <div className="slide"><Link href="/category/tech?category=ent" as ="/category/tech/ent"><a>Entertainment</a></Link></div>
-        <div className="slide">Politics</div>
-        <div className="slide"><Link href="/category/tech"><a>Tech</a></Link></div>
-        <div className="slide">Lifestyle</div>
-        <div className="slide">Personal</div>
-        <div className="slide">Health & Wellness</div>
-        <div className="slide">Food</div>
+        <div className="slide">
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=business">
+            <a>Business</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=entertainment">
+            <a>Entertainment</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=politics">
+            <a>Politics</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=technology">
+            <a>Technology</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=lifestyle">
+            <a>Lifestyle</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=personal">
+            <a>Personal</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=health&wellness">
+            <a>Health & Wellness</a>
+          </Link>
+        </div>
+        <div className="slide">
+          <Link href="/category?category=food">
+            <a>Food</a>
+          </Link>
+        </div>
       </div>
     </div>
   );

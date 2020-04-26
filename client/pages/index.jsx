@@ -1,58 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
-// import { NetworkStatus } from "apollo-client";
 import gql from "graphql-tag";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import Link from "next/link";
-import ReactHtmlParser from "react-html-parser"
+import ErrorMessage from "../components/ErrorMessage";
 
-
-export const ALL_POSTS_QUERY = gql`
+const ALL_POSTS_QUERY = gql`
   {
     posts {
       id
       title
-      description
-      category
       author
       date
-      email
+      url
     }
   }
 `;
 
-// export const POST_QUERY = gql`
-//   {
-//     post(id: "5ea0bfa1b24d0d2024352703") {
-//       id
-//       title
-//     }
-//   }
-// `;
-
 function Index() {
-  // const [graphpost, setgraphpost] = useState([]);
-  // const [errormess, seterror] = useState({
-  //   err: "error loading post",
-  //   loading: "loading...",
-  //   nothing: null
-  // })
-  // const { data: datapost } = useQuery(POST_QUERY, {
-  //   //   // Setting this value to true will make the component rerender when
-  //   //   // the "networkStatus" changes, so we are able to know if it is fetching
-  //   //   // more data
-  //     notifyOnNetworkStatusChange: true,
-  //   });
-
-  // function fetchPost(){
-  //   const {post} = datapost
-  //   setgraphpost(post);
-
-  // }
-  // console.log(graphpost);
-
+  //data state
   const [graphdata, setgraphdata] = useState([]);
+
+  const [underror, setunderror] = useState(false);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  //Graphql query
   const { error, data, loading } = useQuery(ALL_POSTS_QUERY, {
     // Setting this value to true will make the component rerender when
     // the "networkStatus" changes, so we are able to know if it is fetching
@@ -60,13 +36,59 @@ function Index() {
     notifyOnNetworkStatusChange: true,
   });
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  //checks to be sure the data is fully loaded
+  if (loading) {
+    const message = "Loading...";
+    return <ErrorMessage message={message} />;
+  }
+  if (error) {
+    const message =
+      "Error fetching Data, refresh the page or check your internet connection";
+    return <ErrorMessage message={message} />;
+  }
+
+  if (underror) {
+    const message =
+      "Error fetching Data, refresh the page or check your internet connection";
+    return <ErrorMessage message={message} />;
+  }
 
   function fetchPosts() {
-    const { posts } = data;
-    setgraphdata(posts);
+    try {
+      const { posts } = data;
+      setgraphdata(posts);
+    } catch (err) {
+      console.log(err.message);
+      setunderror(true);
+    }
+  }
+
+  //Last check for data
+  if (graphdata.length === 0) {
+    return null;
+  } else if (data) {
+    //To get latest posts
+    var firstItem = graphdata[graphdata.length - 1];
+    var secondItem = graphdata[graphdata.length - 2];
+    var thirdItem = graphdata[graphdata.length - 3];
+    var fourthItem = graphdata[graphdata.length - 4];
+    var fifthItem = graphdata[graphdata.length - 5];
+  }
+
+  function truncateTitle(str) {
+    if (str.length > 80) {
+      return str.slice(0, 80) + "...";
+    } else {
+      return str;
+    }
+  }
+
+  function truncateAlt(str) {
+    if (str.length > 20) {
+      return str.slice(0, 20);
+    } else {
+      return str;
+    }
   }
 
   return (
@@ -76,190 +98,116 @@ function Index() {
       </Head>
       <div>
         <section className="latest-posts-home">
-          <div>
-            {graphdata.map((dat) => (
-              <ul key={dat.id}>
-                <li><Link href={`/post/${dat.id}`} ><a>{dat.title}</a></Link></li>
-                <li>{ReactHtmlParser(dat.description)}</li>
-                <li>{dat.category}</li>
-                <li>{dat.author}</li>
-                <li>{dat.date}</li>
-                <li>{dat.email}</li>
-              </ul>
-            ))}
-            <br />
-            <br />
-          </div>
-
-          {/* <div className="latest-head">
+          <div className="latest-head">
             <h1>Latest on Tadlace</h1>
           </div>
           <div className="latest-posts">
             <div className="latest-posts-wrap">
-              <Link href="/post">
+              <Link href={`/post/${firstItem.id}`}>
                 <a>
                   <div className="main-post">
-                    <img src="/images/articlefive.jpg" alt="articlefive" />
+                    <img
+                      src={`${firstItem.url}`}
+                      alt={truncateAlt(`${firstItem.title}`)}
+                    />
                     <div className="main-post-content">
-                      <h3>Why You Should (not) Take Coffee Every Day </h3>
-                      <p>
-                        Coffee is a brewed drink prepared from roasted coffee
-                        beans, the seeds of berries from certain Coffea species.
-                        Once ripe, coffee berries are picked, processed, and
-                        dried.
-                      </p>
-                      <h5>Mosh Adani</h5>
-                      <h6>Apr 20</h6>
+                      <h5>{truncateTitle(firstItem.title)}</h5>
+                      <p>{firstItem.author}</p>
+                      <h6>{firstItem.date}</h6>
                     </div>
                   </div>
                 </a>
               </Link>
 
               <div className="middle-posts">
-                <div className="middle-post">
-                  <img src="/images/articleone.png" alt="articleone" />
-                  <div className="middle-post-content">
-                    <h5>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Veniam, officia!
-                    </h5>
-                    <p>Traversy Media</p>
-                    <h6>Apr 17</h6>
-                  </div>
-                </div>
-                <div className="middle-post">
-                  <img src="/images/articletwo.jpg" alt="articletwo" />
-                  <div className="middle-post-content">
-                    <h5>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </h5>
-                    <p>John Doe</p>
-                    <h6>Apr 12</h6>
-                  </div>
-                </div>
-                <div className="middle-post">
-                  <img src="/images/articlethree.jpg" alt="articlethree" />
-                  <div className="middle-post-content">
-                    <h5>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Beatae!
-                    </h5>
-                    <p>Dev Ed</p>
-                    <h6>Apr 9</h6>
-                  </div>
-                </div>
+                <Link href={`/post/${secondItem.id}`}>
+                  <a>
+                    <div className="middle-post">
+                      <img
+                        src={`${secondItem.url}`}
+                        alt={truncateAlt(`${secondItem.title}`)}
+                      />
+                      <div className="middle-post-content">
+                        <h5>{truncateTitle(secondItem.title)}</h5>
+                        <p>{secondItem.author}</p>
+                        <h6>{secondItem.date}</h6>
+                      </div>
+                    </div>
+                  </a>
+                </Link>
+                <Link href={`/post/${thirdItem.id}`}>
+                  <a>
+                    <div className="middle-post">
+                      <img
+                        src={`${thirdItem.url}`}
+                        alt={truncateAlt(`${thirdItem.title}`)}
+                      />
+                      <div className="middle-post-content">
+                        <h5>{truncateTitle(thirdItem.title)}</h5>
+                        <p>{thirdItem.author}</p>
+                        <h6>{thirdItem.date}</h6>
+                      </div>
+                    </div>
+                  </a>
+                </Link>
+
+                <Link href={`/post/${fourthItem.id}`}>
+                  <a>
+                    <div className="middle-post">
+                      <img
+                        src={`${fourthItem.url}`}
+                        alt={truncateAlt(`${fourthItem.title}`)}
+                      />
+                      <div className="middle-post-content">
+                        <h5>{truncateTitle(fourthItem.title)}</h5>
+                        <p>{fourthItem.author}</p>
+                        <h6>{fourthItem.date}</h6>
+                      </div>
+                    </div>
+                  </a>
+                </Link>
               </div>
-              <div className="right-post">
-                <img src="/images/articlefour.jpg" alt="articlefour" />
-                <h3>Lorem ipsum dolor sit amet consectetur adipisicing.</h3>
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Accusantium, nobis! Coffee is a brewed drink prepared from
-                  roasted
-                </p>
-                <h5>Tommy Shelby</h5>
-                <h6>Apr 15</h6>
-              </div>
+
+              <Link href={`/post/${fifthItem.id}`}>
+                <a>
+                  <div className="right-post">
+                    <img
+                      src={`${fifthItem.url}`}
+                      alt={truncateAlt(`${fifthItem.title}`)}
+                    />
+                    <h5>{truncateTitle(fifthItem.title)}</h5>
+                    <p>{fifthItem.author}</p>
+                    <h6>{fifthItem.date}</h6>
+                  </div>
+                </a>
+              </Link>
             </div>
           </div>
         </section>
 
         <section className="most-popular-section">
           <div className="most-popular-head">
-            <h1>Most Popular</h1>
+            <h1>All Posts</h1>
           </div>
           <div className="most-popular-wrap">
-            <div className="most-popular">
-              <div className="most-popular-content">
-                <h5>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo,
-                  sed?
-                </h5>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  a minima magni dolore iste.
-                </p>
-                <h6>John Ruu</h6>
-                <p>May 5, 2020</p>
-              </div>
-              <img src="/images/articlesix.jpg" alt="articlesix" />
-            </div>
-            <div className="most-popular">
-              <div className="most-popular-content">
-                <h5>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo,
-                  sed?
-                </h5>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  a minima magni dolore iste.
-                </p>
-                <h6>John Ruu</h6>
-                <p>May 5, 2020</p>
-              </div>
-              <img src="/images/articleseven.jpg" alt="articlesix" />
-            </div>
-            <div className="most-popular">
-              <div className="most-popular-content">
-                <h5>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo,
-                  sed?
-                </h5>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  a minima magni dolore iste.
-                </p>
-                <h6>John Ruu</h6>
-                <p>May 5, 2020</p>
-              </div>
-              <img src="/images/articlesix.jpg" alt="articlesix" />
-            </div>
-            <div className="most-popular">
-              <div className="most-popular-content">
-                <h5>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo,
-                  sed?
-                </h5>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  a minima magni dolore iste.
-                </p>
-                <h6>John Ruu</h6>
-                <p>May 5, 2020</p>
-              </div>
-              <img src="/images/articleseven.jpg" alt="articlesix" />
-            </div>
-            <div className="most-popular">
-              <div className="most-popular-content">
-                <h5>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo,
-                  sed?
-                </h5>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  a minima magni dolore iste.
-                </p>
-                <h6>John Ruu</h6>
-                <p>May 5, 2020</p>
-              </div>
-              <img src="/images/articlesix.jpg" alt="articlesix" />
-            </div>
-            <div className="most-popular">
-              <div className="most-popular-content">
-                <h5>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo,
-                  sed?
-                </h5>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
-                  a minima magni dolore iste.
-                </p>
-                <h6>John Ruu</h6>
-                <p>May 5, 2020</p>
-              </div>
-              <img src="/images/articleseven.jpg" alt="articlesix" />
-            </div>
-          </div> */}
+            {graphdata.map((allPosts) => (
+              <Link key={allPosts.id} href={`/post/${allPosts.id}`}>
+                <a>
+                  <div className="most-popular">
+                    <div className="most-popular-content">
+                      <h5>{truncateTitle(allPosts.title)}</h5>
+                      <p style={{ margin: "5px 0" }}>{allPosts.author}</p>
+                      <p>{allPosts.date}</p>
+                    </div>
+                    <img
+                      src={`${allPosts.url}`}
+                      alt={truncateAlt(`${allPosts.title}`)}
+                    />
+                  </div>
+                </a>
+              </Link>
+            ))}
+          </div>
         </section>
       </div>
     </Layout>

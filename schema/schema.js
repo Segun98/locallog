@@ -10,7 +10,8 @@ const {
     GraphQLSchema,
     GraphQLID,
     GraphQLList,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLFloat
 } = graphql
 
 
@@ -38,7 +39,14 @@ const PostType = new GraphQLObjectType({
         },
         email: {
             type: GraphQLString
+        },
+        count: {
+            type : GraphQLFloat
+        },
+        url: {
+            type : GraphQLString
         }
+
 
     })
 });
@@ -78,8 +86,12 @@ const RootQuery = new GraphQLObjectType({
                     type: GraphQLID
                 }
             },
-            resolve(parent, args) {
-                return Posts.findById(args.id)
+            resolve: async function (parent, args) {
+                
+              await Posts.findOneAndUpdate({_id:args.id}, { $inc: { count: 1 },});
+
+                const posts = await Posts.findById(args.id)
+                return posts
                 // return posts.find(post => post.id === args.id)
             }
         },
@@ -135,6 +147,12 @@ const Mutation = new GraphQLObjectType({
                 },
                 email: {
                     type: new GraphQLNonNull(GraphQLString)
+                },
+                count: {
+                    type: new GraphQLNonNull(GraphQLFloat)
+                },
+                url: {
+                    type: new GraphQLNonNull(GraphQLString)
                 }
             },
             resolve(parent, args){
@@ -145,7 +163,9 @@ const Mutation = new GraphQLObjectType({
                     date: args.date,
                     category: args.category,
                     author: args.author,
-                    email: args.email
+                    email: args.email,
+                    count: args.count,
+                    url: args.url
                 });
                 return post.save()
             }

@@ -13,13 +13,15 @@ const POST_QUERY = gql`
       id
       title
       description
+      count
+      url
     }
   }
 `;
 export default function index() {
   const router = useRouter();
   const { id } = router.query;
-
+// console.log(router);
   const [graphpost, setgraphpost] = useState([]);
 
   const { loading, error, data } = useQuery(POST_QUERY, {
@@ -28,17 +30,22 @@ export default function index() {
     },
     notifyOnNetworkStatusChange: true,
   });
-  // console.log(data);
-  // console.log(id);
 
   function fetchPost() {
-    const { post } = data;
-    setgraphpost(post);
+    try {
+      const { post } = data;
+      setgraphpost(post);
+    } catch (err) {
+      console.log(err.message);
+      router.push("/404")
+    }
   }
 
   useEffect(() => {
     fetchPost()
   }, [])
+
+
   return (
     <Layout>
       <Head>
@@ -46,6 +53,9 @@ export default function index() {
       </Head>
       <div style={{ margin: "0 auto", width: "70%" }}>
         <div>{graphpost.title}</div>
+        <div>{graphpost.count}</div>
+        <div>{graphpost.url}</div>
+        <img src={`${graphpost.url}`} alt={graphpost.id} />
         <li>{ReactHtmlParser(graphpost.description)}</li>
         <style jsx>
           {`
