@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../components/Layout";
 import Head from "next/head";
+import Footer from "../components/Footer";
 
 export default function About() {
   return (
@@ -9,64 +10,81 @@ export default function About() {
         <title>About | Tadlace</title>
       </Head>
       <div className="about-page">
-        <h3 style={{ margin: "30px 0", textAlign: "center" }}>About Tadlace</h3>
-        <div
-          className="about-page-body"
-        >
+        <h3 style={{ margin: "20px 0", textAlign: "center" }}>About Tadlace</h3>
+        <div className="about-page-body">
           <h5>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error
-            optio voluptas suscipit laudantium non? Ab dolores praesentium dolor
-            saepe soluta architecto minus deleniti inventore illo. Quidem
-            inventore quibusdam nulla modi?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dolorum dicta voluptate, quasi alias corrupti cum! Quaerat eos accusantium sed ipsum ducimus nisi, quos doloremque.
+            Tadlace is an online publishing platform built for people to express
+            themselves
           </h5>
           <br />
-          <br />
           <h5>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-            quidem distinctio iusto laudantium blanditiis dolore vitae nobis
-            libero nemo quos, deserunt maiores eos rem recusandae rerum
-            voluptatum ea magnam voluptas odit, facilis voluptates vero unde
-            quasi laboriosam. Earum, sunt quasi?
+            This website was developed by Segun Olanitori, a Front End Developer
+            who loves to build useful solutions on the web
           </h5>
           <br />
-          <br />
           <h5>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Perferendis amet repudiandae ad ducimus repellendus quaerat.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, possimus. Iste corrupti nihil iure voluptas officiis temporibus, sapiente odio minus exercitationem harum laboriosam ex quibusdam quos molestiae ratione optio deleniti eum ea alias. A, numquam?
+            This website is a work in progress, I was too excited so I released
+            it early.
           </h5>
           <br />
-          <br />
           <h5>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolor,
-            eius doloribus velit doloremque blanditiis ab quidem officia ratione
-            modi aspernatur, accusamus debitis molestiae vel voluptatibus cumque
-            alias numquam maxime voluptatum accusantium officiis repellat!
-            Impedit, necessitatibus.
+            I need a volunteer Fullstack developer to assist in completing this
+            project, It was built with Nextjs, GraphQL, ExpressJs and MongoDB.{" "}
+            <a
+              href="https://github.com/Segun98/Blog-Nextjs"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{textDecoration:"underline"}}
+            >
+              GitHub
+            </a>
           </h5>
+          <br />
+          <h5>Updates Coming</h5>
+          <ul>
+            <li>Authentication(Login/signUp)</li>
+            <li>Author Profile</li>
+            <li>Comments</li>
+          </ul>
+          <br />
+          <div id="contact">
+            Contact Me{" "}
+            <a
+              href="https://segunos.tk/contact"
+              style={{ textDecoration: "underline" }}
+            >
+              {" "}
+              Here
+            </a>
+          </div>
+          <br />
         </div>
 
-        <style jsx>{`
-        .about-page-body{
-          margin:auto;
-          width:90%;
-          text-align:justify
-        }
+        <Footer />
+        <style jsx>
+          {`
+            .about-page-body {
+              margin: auto;
+              width: 90%;
+              text-align: justify;
+            }
 
-        @media only screen and (min-width:600px){
-          .about-page-body{
-          width:60%;
-        }
-        }
+            ul li {
+              list-style: circle;
+            }
 
-        @media only screen and (min-width:1300px){
-          .about-page-body{
-          width:50%;
-        }
-        }
-        
-        `}
+            @media only screen and (min-width: 600px) {
+              .about-page-body {
+                width: 60%;
+              }
+            }
+
+            @media only screen and (min-width: 1300px) {
+              .about-page-body {
+                width: 50%;
+              }
+            }
+          `}
         </style>
       </div>
     </Layout>

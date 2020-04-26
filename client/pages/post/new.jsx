@@ -42,6 +42,7 @@ const ADD_POST = gql`
 `;
 
 export default function New() {
+  const [Modal, setModal] = useState(false);
   //Text Editor
   const editor = useRef(null);
   const config = {
@@ -70,16 +71,15 @@ export default function New() {
   const [count] = useState(0);
   const [url, seturl] = useState("");
 
-  function capital_letter(str) 
-{
+  function capital_letter(str) {
     str = str.split(" ");
 
     for (var i = 0, x = str.length; i < x; i++) {
-        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+      str[i] = str[i][0].toUpperCase() + str[i].substr(1);
     }
 
     return str.join(" ");
-}
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -105,6 +105,7 @@ export default function New() {
             url,
           },
         });
+        setModal(true);
         setTitle("");
         setContent("");
         setemail("");
@@ -123,34 +124,57 @@ export default function New() {
         <title>New Post | Tadlace </title>
       </Head>
       <div>
+        <div
+          style={{
+            display: Modal ? "block" : "none",
+            color: "white",
+            background: "green",
+            padding: "10px 10px",
+            position:"fixed",
+            top:"0px",
+            left:"0px",
+            right:"0px"
+          }}
+        >
+          Your Post Has Been Successfuly Published!! You Will Now Be Redirected
+          To Your Post's Page
+        </div>
         <section className="new-post-page">
-          <form onSubmit={onSubmit} className="new-post-form">
-            <div>
-              <label htmlFor="title">Title:</label>
+          <form onSubmit={onSubmit} className="new-post-form" autoComplete="on">
+            <div className="form-item">
+              <label htmlFor="title">
+                {" "}
+                <h3>Title</h3>
+              </label>
               <input
                 type="text"
                 required
-                placeholder="Title..."
+                placeholder="My Post Title..."
                 value={title}
+                className="title"
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
               />
             </div>
-            <div>
-              <label htmlFor="email">Email:</label>
+            <div className="form-item">
+              <label htmlFor="email">
+                <h3>Email</h3>
+              </label>
               <input
                 type="email"
                 value={email}
                 required
-                placeholder="please enter a valid email"
+                placeholder="Please enter a valid email"
                 onChange={(e) => {
                   setemail(e.target.value);
                 }}
               />
             </div>
-            <div>
-              <label htmlFor="category">Category:</label>
+            <div className="form-item">
+              <label htmlFor="category">
+                <h3>Post Category</h3>
+              </label>
               <select
                 value={Category}
                 onChange={(e) => {
@@ -169,8 +193,10 @@ export default function New() {
                 <option value="Other">Other</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="author">Author:</label>
+            <div className="form-item">
+              <label htmlFor="author">
+                <h3>Author</h3>
+              </label>
               <input
                 type="text"
                 value={author}
@@ -182,17 +208,20 @@ export default function New() {
                 }}
               />
             </div>
-            <div>
+            <div className="form-item">
               <label htmlFor="imgUrl">
-                Image URL:(
-                <a
-                  href="https://pixabay.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  We recommend Pixabay
-                </a>
-                )
+                <h3>Cover Image URL</h3>{" "}
+                <small>
+                  checkout{" "}
+                  <a
+                    href="https://pixabay.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "underline" }}
+                  >
+                    Pixabay for free stock photos
+                  </a>{" "}
+                </small>
               </label>
               <input
                 type="url"
@@ -204,9 +233,9 @@ export default function New() {
                 }}
               />
             </div>
-            <div>
+            <div className="form-item">
               <label htmlFor="Article">
-                <h3>Article</h3>
+                <h2>Write Post</h2>
               </label>
 
               <JoditEditor
@@ -217,9 +246,11 @@ export default function New() {
                 onBlur={(newContent) => setContent(newContent)}
               />
             </div>
-            <button disabled={loading} type="submit">
-              submit
-            </button>
+            <div className="submit-post">
+              <button disabled={loading} type="submit" className="submit-post">
+                Publish
+              </button>
+            </div>
           </form>
         </section>
 

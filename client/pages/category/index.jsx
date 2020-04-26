@@ -113,7 +113,6 @@ export default function Index() {
           <h2>Category - {capitalize(query.category)}</h2>
         </div>
 
-        {/* <div className="category-wrap"> */}
         <div className="category-items-wrap">
         {filteredCategory.map((allPosts) => (
           <CategoryList
@@ -126,75 +125,8 @@ export default function Index() {
             date={allPosts.date}
           />
         ))}
-        </div>
-
-        {/* <section className="most-popular-category">
-            <div className="most-popular-category-wrap">
-              <h3 style={{ textAlign: "right" }}>Most Popular</h3>
-              <div className="most-popular-category-item">
-                <img src="/images/articlethree.jpg" alt="articlesix" />
-                <div className="most-popular-category-item-content">
-                  <h5>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Illo, sed?
-                  </h5>
-                  <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Esse a minima magni dolore iste.
-                  </p>
-                  <h6>John Ruu</h6>
-                  <p>May 5, 2020</p>
-                </div>
-              </div>
-              <div className="most-popular-category-item">
-                <img src="/images/articlefour.jpg" alt="articlesix" />
-                <div className="most-popular-category-item-content">
-                  <h5>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Illo, sed?
-                  </h5>
-                  <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Esse a minima magni dolore iste.
-                  </p>
-                  <h6>John Ruu</h6>
-                  <p>May 5, 2020</p>
-                </div>
-              </div>
-              <div className="most-popular-category-item">
-                <img src="/images/articlefive.jpg" alt="articlesix" />
-                <div className="most-popular-category-item-content">
-                  <h5>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Illo, sed?
-                  </h5>
-                  <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Esse a minima magni dolore iste.
-                  </p>
-                  <h6>John Ruu</h6>
-                  <p>May 5, 2020</p>
-                </div>
-              </div>
-              <div className="most-popular-category-item">
-                <img src="/images/articleseven.jpg" alt="articlesix" />
-                <div className="most-popular-category-item-content">
-                  <h5>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Illo, sed?
-                  </h5>
-                  <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Esse a minima magni dolore iste.
-                  </p>
-                  <h6>John Ruu</h6>
-                  <p>May 5, 2020</p>
-                </div>
-              </div>
-            </div>
-          </section> */}
+        </div> 
       </div>
-      {/* </div> */}
     </Layout>
   );
 }
