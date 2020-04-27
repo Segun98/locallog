@@ -9,12 +9,12 @@ export default function createApolloClient(initialState, ctx) {
   return new ApolloClient({
     ssrMode: Boolean(ctx),
     link: new HttpLink({
-      uri: '/graphql', // Server URL (must be absolute)
+      uri: 'http://Localhost:8080/graphql', // Server URL (must be absolute)
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
-      fetch,
-      fetchOptions: {
-        mode: 'no-cors',
-      },
+      fetch
+      // fetchOptions: {
+      //   mode: 'no-cors',
+      // },
     }),
     cache: new InMemoryCache().restore(initialState),
   })
