@@ -5,15 +5,14 @@ const connectDB = async () => {
       const conn = await  mongoose.connect(process.env.MONGO_URI, {
           useNewUrlParser: true,
           useCreateIndex: true,
-          useUnifiedTopology: true,
-          useFindAndModify:false
+          useUnifiedTopology: true
       });
 
       console.log(`Mongoose connect to ${conn.connection.host} `);
       
     } catch (err) {
         console.log(`Error : ${err.message}`);
-        // process.exit(1)
+        process.exit(1)
     }
 }
 
