@@ -11,14 +11,19 @@ const connectDB = require('./db')
 
 const PORT = process.env.PORT || 8080
 connectDB()
-
+// enable cors
+var corsOptions = {
+    origin: 'https://locallog.now.sh/',
+    credentials: true // <-- REQUIRED backend setting
+  };
+ 
+  app.use(cors(corsOptions));
 // app.use(express.json())
 // app.use(express.urlencoded({
 //     extended: false
 // }));
-app.use(cors())
 
-app.use('/graphql', cors(), graphqlHTTP({
+app.use('/graphql', cors(corsOptions), graphqlHTTP({
 graphiql:true,
 schema
 }))
