@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Link from "next/link";
-import ErrorMessage from "../components/ErrorMessage";
+import { useRouter } from 'next/router'
 
 const ALL_POSTS_QUERY = gql`
   {
@@ -18,9 +18,10 @@ const ALL_POSTS_QUERY = gql`
 `;
 
 export default function MostPopular() {
+const router = useRouter()
+
   //data state
   const [Popular, setmostPopular] = useState([]);
-  const [underror, setunderror] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -34,30 +35,16 @@ export default function MostPopular() {
     notifyOnNetworkStatusChange: true,
   });
 
-  //checks to be sure the data is fully loaded
-  if (loading) {
-    const message = "Loading...";
-    return <ErrorMessage message={message} />;
-  }
-  if (error) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
-
-  if (underror) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
 
   function fetchPosts() {
     try {
-      const { posts } = data;
-      setmostPopular(posts);
+      if (data) {
+        const { posts } = data;
+        setmostPopular(posts);  
+      }
     } catch (err) {
       console.log(err.message);
-      setunderror(true);
+      // setunderror(true);
     }
   }
   //Last check for data
@@ -86,17 +73,18 @@ export default function MostPopular() {
 
   return (
     <div>
-      <div className="most-popular">
-        <div className="most-popular-head">
+      <div>
+        <div className="most-popular-head-id" >
           <h2>Most Popular</h2>
         </div>
-        <div className="most-popular-wrap">
-          <div className="most-popular-item">
+        <br/>
+        <div className="most-popular-wrap-id" >
+          <div className="most-popular-item-id">
             <img
               src={`${sorted[0].url}`}
               alt={truncateAlt(`${sorted[0].title}`)}
             />
-            <div className="most-popular-content">
+            <div className="most-popular-content-id">
             <Link href={`/post/${sorted[0].id}`}>
             <a>
               <h4>{truncateTitle(sorted[0].title)}</h4>
@@ -106,12 +94,12 @@ export default function MostPopular() {
             </Link>
             </div>
           </div>
-          <div className="most-popular-item">
+          <div className="most-popular-item-id">
             <img
               src={`${sorted[1].url}`}
               alt={truncateAlt(`${sorted[1].title}`)}
             />
-            <div className="most-popular-content">
+            <div className="most-popular-content-id">
             <Link href={`/post/${sorted[1].id}`}>
             <a>
               <h4>{truncateTitle(sorted[1].title)}</h4>
@@ -121,12 +109,12 @@ export default function MostPopular() {
             </Link>
             </div>
           </div>
-          <div className="most-popular-item">
+          <div className="most-popular-item-id">
             <img
               src={`${sorted[2].url}`}
               alt={truncateAlt(`${sorted[2].title}`)}
             />
-            <div className="most-popular-content">
+            <div className="most-popular-content-id">
             <Link href={`/post/${sorted[2].id}`}>
             <a>
               <h4>{truncateTitle(sorted[2].title)}</h4>
@@ -136,12 +124,12 @@ export default function MostPopular() {
             </Link>
             </div>
           </div>
-          <div className="most-popular-item">
+          <div className="most-popular-item-id">
             <img
               src={`${sorted[3].url}`}
               alt={truncateAlt(`${sorted[3].title}`)}
             />
-            <div className="most-popular-content">
+            <div className="most-popular-content-id">
             <Link href={`/post/${sorted[3].id}`}>
             <a>
               <h4>{truncateTitle(sorted[3].title)}</h4>

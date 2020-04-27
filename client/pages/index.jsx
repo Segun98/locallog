@@ -14,6 +14,7 @@ const ALL_POSTS_QUERY = gql`
       author
       date
       url
+      count
     }
   }
 `;
@@ -36,6 +37,11 @@ function Index() {
     notifyOnNetworkStatusChange: true,
   });
 
+  //data state
+  const [Popular, setmostPopular] = useState([]);
+
+  const [allPosts, setallPosts] = useState([])
+
   //checks to be sure the data is fully loaded
   if (loading) {
     const message = "Loading...";
@@ -55,8 +61,12 @@ function Index() {
 
   function fetchPosts() {
     try {
-      const { posts } = data;
-      setgraphdata(posts);
+      if (data) {
+        const { posts } = data;
+        setgraphdata(posts);
+        setmostPopular(posts);
+        setallPosts(posts) 
+      }
     } catch (err) {
       console.log(err.message);
       setunderror(true);
@@ -73,6 +83,13 @@ function Index() {
     var thirdItem = graphdata[graphdata.length - 3];
     var fourthItem = graphdata[graphdata.length - 4];
     var fifthItem = graphdata[graphdata.length - 5];
+
+    //Render new posts first
+    var newfirst = allPosts.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+    //Most Popular
+    var sorted = Popular.sort((a, b) => b.count - a.count);
   }
 
   function truncateTitle(str) {
@@ -91,10 +108,26 @@ function Index() {
     }
   }
 
+
   return (
     <Layout>
       <Head>
         <title>Home | Tadlace</title>
+        <meta name="Description" content=" Tadlace is an online publishing platform built for people to express
+            themselves" />
+          <meta name="keywords" content="Publishing, Platform , Tadlace" />
+          <meta name="author" content="Segun Olanitori" />
+          <meta property="og:description" content=" Tadlace is an online publishing platform built for people to express
+            themselves" />
+          <meta name="twitter:title" content="Tadlace" />
+          <meta name="twitter:description" content=" Tadlace is an online publishing platform built for people to express
+            themselves" />
+          <meta name="twitter:card" content="summary" />
+          <meta property="og:type" content="article" />
+          <meta property="og:title" content="Tadlace" />
+          <meta property="og:site_name" content="Tadlace" />
+          <meta property="article:publisher" content="Segun Olanitori" />
+          <meta property="article:author" content="Segun Olanitori" />
       </Head>
       <div>
         <section className="latest-posts-home">
@@ -184,13 +217,82 @@ function Index() {
             </div>
           </div>
         </section>
-
+        <div>
+          <div style={{margin:"auto", width:"90%"}}>
+            <div className="most-popular-head-id">
+              <h2>Most Popular</h2>
+            </div>
+            <br />
+            <div className="most-popular-wrap-id">
+              <div className="most-popular-item-id">
+                <img
+                  src={`${sorted[0].url}`}
+                  alt={truncateAlt(`${sorted[0].title}`)}
+                />
+                <div className="most-popular-content-id">
+                  <Link href={`/post/${sorted[0].id}`}>
+                    <a>
+                      <h4>{truncateTitle(sorted[0].title)}</h4>
+                      <p>{sorted[0].author}</p>
+                      <h5>{sorted[0].date}</h5>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <div className="most-popular-item-id">
+                <img
+                  src={`${sorted[1].url}`}
+                  alt={truncateAlt(`${sorted[1].title}`)}
+                />
+                <div className="most-popular-content-id">
+                  <Link href={`/post/${sorted[1].id}`}>
+                    <a>
+                      <h4>{truncateTitle(sorted[1].title)}</h4>
+                      <p>{sorted[1].author}</p>
+                      <h5>{sorted[1].date}</h5>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <div className="most-popular-item-id">
+                <img
+                  src={`${sorted[2].url}`}
+                  alt={truncateAlt(`${sorted[2].title}`)}
+                />
+                <div className="most-popular-content-id">
+                  <Link href={`/post/${sorted[2].id}`}>
+                    <a>
+                      <h4>{truncateTitle(sorted[2].title)}</h4>
+                      <p>{sorted[2].author}</p>
+                      <h5>{sorted[2].date}</h5>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <div className="most-popular-item-id">
+                <img
+                  src={`${sorted[3].url}`}
+                  alt={truncateAlt(`${sorted[3].title}`)}
+                />
+                <div className="most-popular-content-id">
+                  <Link href={`/post/${sorted[3].id}`}>
+                    <a>
+                      <h4>{truncateTitle(sorted[3].title)}</h4>
+                      <p>{sorted[3].author}</p>
+                      <h5>{sorted[3].date}</h5>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <section className="most-popular-section">
           <div className="most-popular-head">
             <h1>All Posts</h1>
           </div>
           <div className="most-popular-wrap">
-            {graphdata.map((allPosts) => (
+            {newfirst.map((allPosts) => (
               <Link key={allPosts.id} href={`/post/${allPosts.id}`}>
                 <a>
                   <div className="most-popular">

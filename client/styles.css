@@ -316,6 +316,46 @@ header {
     font-size: 0.9rem;
 }
 
+/* MOST POPULAR  */
+
+.most-popular-section {
+    margin: 20px 0;
+}
+
+.most-popular-head {
+    margin: 10px auto;
+    width: 90%;
+}
+
+.most-popular-wrap {
+    display: grid;
+    display: -moz-grid;
+    display: -ms-grid;
+    grid-template-columns: 1fr;
+    margin: auto;
+    width: 90%;
+    gap: 10px;
+}
+
+.most-popular {
+    display: flex;
+    justify-content: space-between;
+}
+
+.most-popular p {
+    font-size: 0.8rem;
+}
+
+.most-popular-content {
+    line-height: 20px;
+    margin-right: 20px;
+}
+
+
+.most-popular img {
+    width: 100px;
+    height: 100px;
+}
 
 /* TABLET SCREEN  */
 
@@ -324,7 +364,10 @@ header {
         grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
-
+    .most-popular-wrap {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
 }
 
 /* IPAD PRO | SMALL LAPTOP  */
@@ -333,6 +376,11 @@ header {
 
     .main-post img {
         width: 400px;
+    }
+
+    .most-popular-wrap {
+        gap: 20px;
+        width: 85%;
     }
 
 }
@@ -352,7 +400,15 @@ header {
     .right-post img {
         width: 400px;
     }
+    .most-popular-wrap {
+        gap: 40px;
+        width: 90%;
+    }
 
+    .most-popular img {
+        width: 200px;
+        height: 150px;
+    }
 
 }
 
@@ -379,6 +435,10 @@ header {
     }
 
     .most-popular-head {
+        width: 65%;
+    }
+
+    .most-popular-wrap {
         width: 65%;
     }
 
@@ -636,11 +696,11 @@ header {
     }
 }
 
-.most-popular-head {
+.most-popular-head-id {
     margin: 10px 0;
 }
 
-.most-popular-wrap {
+.most-popular-wrap-id {
     display: grid;
     display: -moz-grid;
     display: -ms-grid;
@@ -649,23 +709,23 @@ header {
     margin-bottom: 10px;
 }
 
-.most-popular-item {
+.most-popular-item-id {
     display: flex;
 }
 
-.most-popular-item img {
+.most-popular-item-id img {
     width: 100px;
     height: 100px;
 }
 
-.most-popular-content {
+.most-popular-content-id {
     margin-left: 20px;
 }
 
 /* TABLET SCREEN  */
 
 @media only screen and (min-width:600px) {
-    .most-popular-wrap {
+    .most-popular-wrap-id {
         grid-template-columns: 1fr 1fr;
     }
 }
@@ -675,7 +735,7 @@ header {
 
 @media only screen and (min-width:2500px) {
 
-    .most-popular-wrap {
+    .most-popular-wrap-id {
         column-gap: 100px;
     }
 }

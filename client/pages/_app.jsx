@@ -1,5 +1,4 @@
 import '../styles.css'
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { withApollo } from '../lib/apollo'
 
 function MyApp({ Component, pageProps }) {

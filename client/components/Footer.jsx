@@ -53,7 +53,7 @@ export default function Footer() {
             justify-content: space-between;
           }
 
-          footer h3 {
+          footer h4 {
             margin: 10px 0;
           }
         }

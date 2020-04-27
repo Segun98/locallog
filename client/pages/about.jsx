@@ -8,13 +8,37 @@ export default function About() {
     <Layout>
       <Head>
         <title>About | Tadlace</title>
+        <meta
+          name="Description"
+          content=" Tadlace is an online publishing platform built for people to express
+            themselves"
+        />
+        <meta name="keywords" content="Publishing, Platform , Tadlace" />
+        <meta name="author" content="Segun Olanitori" />
+        <meta
+          property="og:description"
+          content=" Tadlace is an online publishing platform built for people to express
+            themselves"
+        />
+        <meta name="twitter:title" content="Tadlace" />
+        <meta
+          name="twitter:description"
+          content=" Tadlace is an online publishing platform built for people to express
+            themselves"
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Tadlace" />
+        <meta property="og:site_name" content="Tadlace" />
+        <meta property="article:publisher" content="Segun Olanitori" />
+        <meta property="article:author" content="Segun Olanitori" />
       </Head>
       <div className="about-page">
         <h3 style={{ margin: "20px 0", textAlign: "center" }}>About Tadlace</h3>
         <div className="about-page-body">
           <h5>
-            Tadlace is an online publishing platform built for people to express
-            themselves
+            Tadlace is an online publishing platform built for people to share
+            their thoughts, read other people's thoughts and express themselves
           </h5>
           <br />
           <h5>
@@ -34,7 +58,7 @@ export default function About() {
               href="https://github.com/Segun98/Blog-Nextjs"
               target="_blank"
               rel="noopener noreferrer"
-              style={{textDecoration:"underline"}}
+              style={{ textDecoration: "underline" }}
             >
               GitHub
             </a>

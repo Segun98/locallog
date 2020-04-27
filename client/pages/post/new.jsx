@@ -10,6 +10,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import Footer from '../../components/Footer'
 
 const ADD_POST = gql`
   mutation addPost(
@@ -253,7 +254,7 @@ export default function New() {
             </div>
           </form>
         </section>
-
+          <Footer />
         <style jsx>{``}</style>
       </div>
     </Layout>

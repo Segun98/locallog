@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import ReactHtmlParser from "react-html-parser";
 import ErrorMessage from "../../components/ErrorMessage";
-import MostPopular from '../../components/MostPopular';
-import Footer from '../../components/Footer'
+import MostPopular from "../../components/MostPopular";
+import Footer from "../../components/Footer";
 
 const POST_QUERY = gql`
   query post($id: ID) {
@@ -40,11 +40,6 @@ export default function index() {
     notifyOnNetworkStatusChange: true,
   });
 
-  //checks to be sure the data is fully loaded
-  if (loading) {
-    const message = "Loading...";
-    return <ErrorMessage message={message} />;
-  }
   if (error) {
     const message =
       "Error fetching Data, refresh the page or check your internet connection";
@@ -59,8 +54,10 @@ export default function index() {
 
   function fetchPost() {
     try {
-      const { post } = data;
-      setgraphpost(post);
+      if (data) {
+        const { post } = data;
+        setgraphpost(post);
+      }
     } catch (err) {
       console.log(err.message);
       setunderror(true);
@@ -75,16 +72,55 @@ export default function index() {
     }
   }
 
+  if (process.browser) {
+    // client-side-only code
+    var host = "https://" + window.location.hostname;
+  }
+
   return (
     <Layout>
-      <Head>
-        <title>{graphpost.title} | Tadlace</title>
-        <script
-          async
-          src="https://platform.twitter.com/widgets.js"
-          charSet="utf-8"
-        ></script>
-      </Head>
+      <div>
+        <Head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/images/logo.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/images/logo.png"
+          />
+          <meta name="theme-color" content="#000000" />
+          <link rel="apple-touch-icon" href="/images/logo.png" />
+          <meta property="og:type" content="website" />
+          <title>{graphpost.title} | Tadlace</title>
+          <meta name="Description" content={graphpost.title} />
+          <meta name="keywords" content={graphpost.title} />
+          <meta name="author" content={graphpost.author} />
+          <meta property="og:description" content={graphpost.title} />
+          <meta name="twitter:title" content={graphpost.title} />
+          <meta name="twitter:description" content={graphpost.title} />
+          <meta name="twitter:image" content={graphpost.url} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={`${host}/post/${graphpost.id}`} />
+          <meta property="og:title" content={graphpost.title} />
+          <meta property="og:image" content={graphpost.url} />
+          <meta property="og:site_name" content={graphpost.title} />
+          <meta property="article:publisher" content={graphpost.author} />
+          <meta property="article:author" content={graphpost.author} />
+          <script
+            async
+            src="https://platform.twitter.com/widgets.js"
+            charSet="utf-8"
+          ></script>
+        </Head>
+      </div>
       <div className="single-post">
         <div className="header-image">
           <img
@@ -118,19 +154,19 @@ export default function index() {
           {ReactHtmlParser(graphpost.description)}
         </div>
         <hr />
-        <section style={{marginBottom:"20px"}}>
-        <br/>
-        <h2 style={{marginBottom:"15px"}}>Share Post</h2>
-        <p>
-        <a
-          href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-          data-text={graphpost.title}
-          data-show-count="true"
-          className="twitter-share-button"
-        >
-          Tweet
-        </a>
-        </p>
+        <section style={{ marginBottom: "20px" }}>
+          <br />
+          <h2 style={{ marginBottom: "15px" }}>Share Post</h2>
+          <p>
+            <a
+              href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+              data-text={graphpost.title}
+              data-show-count="true"
+              className="twitter-share-button"
+            >
+              Tweet
+            </a>
+          </p>
         </section>
         <MostPopular />
         <Footer />

@@ -60,8 +60,10 @@ export default function Index() {
 
   function fetchPosts() {
     try {
-      const { posts } = data;
-      setgraphdata(posts);
+      if (data) {
+        const { posts } = data;
+        setgraphdata(posts);  
+      }
     } catch (err) {
       console.log(err.message);
       setunderror(true);
