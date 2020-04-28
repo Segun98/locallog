@@ -9,12 +9,14 @@ export default function createApolloClient(initialState, ctx) {
   return new ApolloClient({
     ssrMode: Boolean(ctx),
     link: new HttpLink({
-      uri: 'https://backlog.now.sh/', // Server URL (must be absolute)
-      credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+      // uri: 'http://localhost:8080/graphql', // Server URL (must be absolute)
+      // credentials: 'same-origin',
       fetch,
-      fetchOptions: {
-        mode: 'no-cors',
-      },
+      uri: 'https://backlog.now.sh/graphql', 
+      credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+      // fetchOptions: {
+      //   mode: 'no-cors',
+      // },
     }),
     cache: new InMemoryCache().restore(initialState),
   })
