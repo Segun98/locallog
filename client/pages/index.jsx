@@ -20,9 +20,9 @@ const ALL_POSTS_QUERY = `
 `;
 
 export async function getStaticProps() {
-  const localendpoint = "http://localhost:8080/graphql";
-  // const prodendpoint = "https://backlog.now.sh/graphql"
-  const res = await request(localendpoint, ALL_POSTS_QUERY);
+  // const localendpoint = "http://localhost:8080/graphql";
+  const prodendpoint = "https://backlog.now.sh/graphql"
+  const res = await request(prodendpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
   return {
@@ -78,7 +78,7 @@ function Index({ posts }) {
           content=" Locallog is an online publishing platform built for people to express
             themselves"
         />
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:type" content="article" />
         <meta property="og:title" content="Locallog" />
         <meta property="og:site_name" content="Locallog" />

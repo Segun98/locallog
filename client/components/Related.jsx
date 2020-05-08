@@ -23,9 +23,9 @@ export default function Related({ category, id }) {
       `;
 
   async function fetchRelated() {
-    const localendpoint = "http://localhost:8080/graphql";
-    // const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(localendpoint, Related);
+    // const localendpoint = "http://localhost:8080/graphql";
+    const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(prodendpoint, Related);
     const data = await res.posts;
     setposts(data);
   }
@@ -76,9 +76,9 @@ export default function Related({ category, id }) {
               <div className="related-content">
                 <Link href={`/post/${relatedpost.id}`}>
                   <a>
-                    <h4>{truncateTitle(relatedpost.title)}</h4>
+                    <h5>{truncateTitle(relatedpost.title)}</h5>
                     <p>{relatedpost.author}</p>
-                    <h5>{relatedpost.date}</h5>
+                    <h6>{relatedpost.date}</h6>
                   </a>
                 </Link>
               </div>

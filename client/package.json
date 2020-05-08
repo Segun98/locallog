@@ -18,7 +18,8 @@
     "next": "^9.3.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-html-parser": "^2.0.2"
+    "react-html-parser": "^2.0.2",
+    "react-share": "^4.1.0"
   },
   "devDependencies": {}
 }

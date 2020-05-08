@@ -98,14 +98,9 @@ export default function New() {
       };
 
       try {
-
-        const localendpoint = "http://localhost:8080/graphql"
-  // const prodendpoint = "https://backlog.now.sh/graphql"
-        const res = await request(
-          localendpoint,
-          ADD_POST,
-          variables
-        );
+        // const localendpoint = "http://localhost:8080/graphql"
+        const prodendpoint = "https://backlog.now.sh/graphql";
+        const res = await request(prodendpoint, ADD_POST, variables);
         setModal(true);
         setTitle("");
         setContent("");
@@ -223,6 +218,7 @@ export default function New() {
                   >
                     Pixabay for free stock photos
                   </a>{" "}
+                  , right-click on an image and "copy image address"
                 </small>
               </label>
               <input

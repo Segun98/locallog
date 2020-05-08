@@ -4,7 +4,10 @@ import Head from "next/head";
 import ReactHtmlParser from "react-html-parser";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
-import Related from '../../components/Related'
+import Related from "../../components/Related";
+import {
+  FacebookIcon
+} from "react-share";
 
 const POSTS_QUERY = `
 query post($id: ID) {
@@ -22,12 +25,12 @@ query post($id: ID) {
 `;
 
 export async function getServerSideProps({ params }) {
-  const localendpoint = "http://localhost:8080/graphql";
-  // const prodendpoint = "https://backlog.now.sh/graphql"
+  // const localendpoint = "http://localhost:8080/graphql";
+  const prodendpoint = "https://backlog.now.sh/graphql"
   const variables = {
     id: params.id,
   };
-  const res = await request(localendpoint, POSTS_QUERY, variables);
+  const res = await request(prodendpoint, POSTS_QUERY, variables);
   const post = await res.post;
 
   return {
@@ -91,18 +94,26 @@ function index({ post }) {
             src="https://platform.twitter.com/widgets.js"
             charSet="utf-8"
           ></script>
+          <script
+            async
+            defer
+            crossorigin="anonymous"
+            src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0"
+          ></script>
         </Head>
       </div>
       <div className="single-post">
         <div className="header-image">
           <img src={`${post.url}`} alt={truncateAlt(`${post.title}`)} />
         </div>
-        <h2 className="single-post-title">{post.title}</h2>
+        <div className="post-title-wrap">
+          <h3 className="single-post-title">{post.title}</h3>
+        </div>
         <hr />
         <div className="post-sub-head">
           <div>
-            <h5>By - {post.author}</h5>
-            <h6>{post.date}</h6>
+            <h4>By - {post.author}</h4>
+            <h5>{post.date}</h5>
           </div>
           <aside style={{ display: "flex" }}>
             <div className="views-count">Views - {post.count}</div>
@@ -124,7 +135,8 @@ function index({ post }) {
         </div>
         <hr />
         <section style={{ marginBottom: "20px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Share Post</h3>
+          <h3 style={{ marginBottom: "10px" }}>Share Post</h3>
+          <div className="social-icons">
           <h6>
             <a
               href="https://twitter.com/share?ref_src=twsrc%5Etfw"
@@ -135,6 +147,23 @@ function index({ post }) {
               Tweet
             </a>
           </h6>
+          <h6>
+            <div
+              className="fb-share-button"
+              data-href="https://developers.facebook.com/docs/plugins/"
+              data-layout="button"
+              data-size="large"
+            >
+              <a
+                target="_blank"
+                href={`https://www.facebook.com/sharer/sharer.php?u=https://locallog.now.sh/post/${post.id}`}
+                className="fb-xfbml-parse-ignore"
+              >
+              <FacebookIcon size={32} />
+              </a>
+            </div>
+          </h6>
+          </div>
         </section>
         <section>
           <Related category={post.category} id={post.id} />
@@ -143,11 +172,13 @@ function index({ post }) {
       </div>
       <style jsx>
         {`
-
-       .single-post-body p, h1, h2, h3, h4{
-          font-family: 'Manrope', sans-serif;
-          font-size: 1.5rem
-        }
+          .single-post-body p,
+          h1,
+          h2,
+          h3,
+          h4 {
+            font-family: "Manrope", sans-serif;
+          }
           .single-post {
             margin: auto;
             width: 90%;
@@ -163,9 +194,13 @@ function index({ post }) {
             display: flex;
             justify-content: space-between;
           }
-
+          .post-title-wrap {
+            margin: auto;
+            width: 80%;
+          }
           .single-post-title {
-            margin: 10px 0;
+            margin: 15px 0;
+            text-align: center;
           }
 
           .single-post-body {
@@ -178,6 +213,15 @@ function index({ post }) {
 
           .post-sub-head {
             padding: 10px 0;
+          }
+
+          .social-icons{
+            display:flex;
+            align-items:center
+          }
+
+          .social-icons h6{
+            margin-left:10px
           }
 
           /* TABLET SCREEN  */

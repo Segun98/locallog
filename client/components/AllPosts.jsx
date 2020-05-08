@@ -23,9 +23,9 @@ export default function AllPosts() {
   `;
 
   async function fetchAll() {
-    const localendpoint = "http://localhost:8080/graphql"
-  // const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(localendpoint, ALL_POSTS);
+    // const localendpoint = "http://localhost:8080/graphql";
+    const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(prodendpoint, ALL_POSTS);
     const data = await res.posts;
     setposts(data);
   }
@@ -129,8 +129,12 @@ export default function AllPosts() {
               grid-template-columns: 1fr 1fr;
               gap: 20px;
             }
-            .all-posts-head h1{
-                font-size:1.5rem
+            .all-posts-head h1 {
+              font-size: 1.5rem;
+            }
+
+            .all-posts-head {
+              margin: 15px auto;
             }
           }
 
@@ -148,7 +152,6 @@ export default function AllPosts() {
             .all-posts-wrap {
               grid-template-columns: 1fr 1fr 1fr;
               gap: 30px;
-              
             }
 
             .all-posts img {

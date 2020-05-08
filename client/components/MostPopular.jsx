@@ -23,9 +23,9 @@ export default function MostPopular() {
   `;
 
   async function fetchPopular() {
-    const localendpoint = "http://localhost:8080/graphql"
-  // const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(localendpoint, MOST_POPULAR);
+    // const localendpoint = "http://localhost:8080/graphql"
+  const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(prodendpoint, MOST_POPULAR);
     const data = await res.posts;
     setposts(data);
   }
