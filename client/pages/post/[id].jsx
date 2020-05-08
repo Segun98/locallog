@@ -29,7 +29,7 @@ export async function getServerSideProps({ params }) {
     POSTS_QUERY,
     variables
   );
-  const post = await res.post;
+  const post = await res.post; 
 
   return {
     props: {
