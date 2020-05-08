@@ -20,7 +20,9 @@ const ALL_POSTS_QUERY = `
 `;
 
 export async function getStaticProps() {
-  const res = await request("https://backlog.now.sh/graphql", ALL_POSTS_QUERY);
+  const localendpoint = "http://localhost:8080/graphql";
+  // const prodendpoint = "https://backlog.now.sh/graphql"
+  const res = await request(localendpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
   return {
@@ -57,36 +59,36 @@ function Index({ posts }) {
   return (
     <Layout>
       <Head>
-        <title>Home | Tadlace</title>
+        <title>Home | Locallog</title>
         <meta
           name="Description"
-          content=" Tadlace is an online publishing platform built for people to express
+          content=" Locallog is an online publishing platform built for people to express
             themselves"
         />
-        <meta name="keywords" content="Publishing, Platform , Tadlace" />
+        <meta name="keywords" content="Publishing, Platform , Locallog" />
         <meta name="author" content="Segun Olanitori" />
         <meta
           property="og:description"
-          content=" Tadlace is an online publishing platform built for people to express
+          content=" Locallog is an online publishing platform built for people to express
             themselves"
         />
-        <meta name="twitter:title" content="Tadlace" />
+        <meta name="twitter:title" content="Locallog" />
         <meta
           name="twitter:description"
-          content=" Tadlace is an online publishing platform built for people to express
+          content=" Locallog is an online publishing platform built for people to express
             themselves"
         />
         <meta name="twitter:card" content="summary" />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content="Tadlace" />
-        <meta property="og:site_name" content="Tadlace" />
+        <meta property="og:title" content="Locallog" />
+        <meta property="og:site_name" content="Locallog" />
         <meta property="article:publisher" content="Segun Olanitori" />
         <meta property="article:author" content="Segun Olanitori" />
       </Head>
       <div>
         <section className="latest-posts-home">
           <div className="latest-head">
-            <h1>Latest on Tadlace</h1>
+            <h1>Latest on Locallog</h1>
           </div>
           <div className="latest-posts">
             <div className="latest-posts-wrap">
@@ -183,6 +185,15 @@ function Index({ posts }) {
       <style jsx>
         {`
           /* INDEX PAGE  */
+
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            color: rgb(41, 41, 41);
+          }
 
           .latest-posts-home {
             margin: 5px auto;

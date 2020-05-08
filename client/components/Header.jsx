@@ -13,7 +13,7 @@ export default function Header() {
     <div>
       <header>
         <div className="header-wrap">
-          <div className="logo">Tadlace</div>
+          <div className="logo">Locallog</div>
           <div className="nav">
             <div className="search">
               <img
@@ -129,7 +129,6 @@ export default function Header() {
           }
 
           .logo {
-            font-family: "Baloo Bhaina 2", cursive;
             font-size: 35px;
           }
 

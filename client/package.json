@@ -12,22 +12,12 @@
   "author": "Segun Olanitori",
   "license": "ISC",
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.5",
-    "@apollo/react-ssr": "^3.1.5",
-    "apollo-cache-inmemory": "^1.6.5",
-    "apollo-client": "^2.6.8",
-    "apollo-link-http": "^1.5.17",
-    "draft-js": "^0.11.5",
-    "draft-js-export-html": "^1.4.1",
-    "graphql": "^15.0.0",
     "graphql-request": "^1.8.2",
-    "graphql-tag": "^2.10.3",
     "isomorphic-unfetch": "^3.0.0",
     "jodit-react": "^1.0.42",
     "next": "^9.3.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-draft-wysiwyg": "^1.14.5",
     "react-html-parser": "^2.0.2"
   },
   "devDependencies": {}

@@ -23,7 +23,9 @@ export default function AllPosts() {
   `;
 
   async function fetchAll() {
-    const res = await request("https://backlog.now.sh/graphql", ALL_POSTS);
+    const localendpoint = "http://localhost:8080/graphql"
+  // const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(localendpoint, ALL_POSTS);
     const data = await res.posts;
     setposts(data);
   }
@@ -127,6 +129,9 @@ export default function AllPosts() {
               grid-template-columns: 1fr 1fr;
               gap: 20px;
             }
+            .all-posts-head h1{
+                font-size:1.5rem
+            }
           }
 
           /* IPAD PRO | SMALL LAPTOP  */
@@ -134,7 +139,6 @@ export default function AllPosts() {
           @media only screen and (min-width: 1000px) {
             .all-posts-wrap {
               gap: 20px;
-              width: 85%;
             }
           }
 
@@ -142,8 +146,9 @@ export default function AllPosts() {
 
           @media only screen and (min-width: 1300px) {
             .all-posts-wrap {
-              gap: 40px;
-              width: 90%;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 30px;
+              
             }
 
             .all-posts img {
@@ -156,7 +161,7 @@ export default function AllPosts() {
 
           @media only screen and (min-width: 2500px) {
             .all-posts-head {
-              width: 65%;
+              width: 70%;
             }
 
             .all-posts-wrap {

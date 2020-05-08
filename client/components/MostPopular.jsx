@@ -23,7 +23,9 @@ export default function MostPopular() {
   `;
 
   async function fetchPopular() {
-    const res = await request("https://backlog.now.sh/graphql", MOST_POPULAR);
+    const localendpoint = "http://localhost:8080/graphql"
+  // const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(localendpoint, MOST_POPULAR);
     const data = await res.posts;
     setposts(data);
   }
@@ -162,11 +164,19 @@ export default function MostPopular() {
             }
           }
 
+          @media only screen and (min-width: 1300px) {
+            .most-popular-wrap-id {
+              gap: 50px;
+              grid-template-columns: 1fr 1fr 1fr;
+            }
+
+          }
+
           /* 4K SCREEN  */
 
           @media only screen and (min-width: 2500px) {
             .most-popular-wrap-id {
-              column-gap: 100px;
+              gap: 70px;
             }
 
             .most-popular-wrap {

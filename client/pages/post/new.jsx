@@ -98,8 +98,11 @@ export default function New() {
       };
 
       try {
+
+        const localendpoint = "http://localhost:8080/graphql"
+  // const prodendpoint = "https://backlog.now.sh/graphql"
         const res = await request(
-          "https://backlog.now.sh/graphql",
+          localendpoint,
           ADD_POST,
           variables
         );

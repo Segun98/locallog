@@ -19,7 +19,10 @@ const ALL_POSTS_QUERY = `
 `;
 
 export async function getServerSideProps() {
-  const res = await request("https://backlog.now.sh/graphql", ALL_POSTS_QUERY);
+
+  const localendpoint = "http://localhost:8080/graphql"
+  // const prodendpoint = "https://backlog.now.sh/graphql"
+  const res = await request(localendpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
   return {

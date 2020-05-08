@@ -36,21 +36,13 @@
 }
 
 body {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Manrope', sans-serif !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: rgb(41, 41, 41);
-}
 
-/* p {
-    color: rgb(173, 173, 173);
-} */
+p {
+    font-family: 'Manrope', sans-serif !important;
+}
 
 li {
     list-style: none;
@@ -168,73 +160,6 @@ a {
 
     .most-popular-category {
         margin-left: 190px;
-    }
-}
-
-
-
-
-/* SINGE POST  [ID].JS */
-
-.single-post {
-    margin: auto;
-    width: 90%;
-    margin-top: 20px;
-}
-
-.header-image img {
-    width: 100%;
-    height: auto;
-}
-
-.post-sub-head {
-    display: flex;
-    justify-content: space-between;
-}
-
-
-.single-post-title {
-    margin: 10px 0;
-}
-
-.single-post-body {
-    margin: 10px 0;
-}
-
-.views-count {
-    margin-right: 10px;
-}
-
-.post-sub-head {
-    padding: 10px 0;
-}
-
-/* TABLET SCREEN  */
-
-@media only screen and (min-width:600px) {
-    .views-count {
-        margin-right: 40px;
-    }
-}
-
-/* IPAD PRO | SMALL LAPTOP  */
-
-@media only screen and (min-width:1000px) {
-    .single-post {
-        width: 70%;
-    }
-
-    .header-image img {
-        height: 500px;
-    }
-}
-
-/* 4K SCREEN  */
-
-@media only screen and (min-width:2500px) {
-
-    .single-post {
-        width: 50%;
     }
 }
 

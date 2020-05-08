@@ -2,9 +2,9 @@ import React from "react";
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import ReactHtmlParser from "react-html-parser";
-import MostPopular from "../../components/MostPopular";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
+import Related from '../../components/Related'
 
 const POSTS_QUERY = `
 query post($id: ID) {
@@ -16,20 +16,19 @@ query post($id: ID) {
         url
         author
         date
+        category
       }
     }
 `;
 
 export async function getServerSideProps({ params }) {
+  const localendpoint = "http://localhost:8080/graphql";
+  // const prodendpoint = "https://backlog.now.sh/graphql"
   const variables = {
     id: params.id,
   };
-  const res = await request(
-    "https://backlog.now.sh/graphql",
-    POSTS_QUERY,
-    variables
-  );
-  const post = await res.post; 
+  const res = await request(localendpoint, POSTS_QUERY, variables);
+  const post = await res.post;
 
   return {
     props: {
@@ -39,18 +38,12 @@ export async function getServerSideProps({ params }) {
 }
 
 function index({ post }) {
-
   function truncateAlt(str) {
     if (str.length > 20) {
       return str.slice(0, 20);
     } else {
       return str;
     }
-  }
-
-  if (process.browser) {
-    // client-side-only code
-    var host = "https://" + window.location;
   }
 
   return (
@@ -84,7 +77,10 @@ function index({ post }) {
           <meta name="twitter:image" content={post.url} />
           <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:type" content="article" />
-          <meta property="og:url" content={`${host}/post/${post.id}`} />
+          <meta
+            property="og:url"
+            content={`https://locallog.now.sh/post/${post.id}`}
+          />
           <meta property="og:title" content={post.title} />
           <meta property="og:image" content={post.url} />
           <meta property="og:site_name" content={post.title} />
@@ -105,8 +101,8 @@ function index({ post }) {
         <hr />
         <div className="post-sub-head">
           <div>
-            <p>By - {post.author}</p>
-            <p>{post.date}</p>
+            <h5>By - {post.author}</h5>
+            <h6>{post.date}</h6>
           </div>
           <aside style={{ display: "flex" }}>
             <div className="views-count">Views - {post.count}</div>
@@ -128,9 +124,8 @@ function index({ post }) {
         </div>
         <hr />
         <section style={{ marginBottom: "20px" }}>
-          <br />
-          <h2 style={{ marginBottom: "15px" }}>Share Post</h2>
-          <p>
+          <h3 style={{ marginBottom: "15px" }}>Share Post</h3>
+          <h6>
             <a
               href="https://twitter.com/share?ref_src=twsrc%5Etfw"
               data-text={post.title}
@@ -139,11 +134,81 @@ function index({ post }) {
             >
               Tweet
             </a>
-          </p>
+          </h6>
         </section>
-        <MostPopular />
+        <section>
+          <Related category={post.category} id={post.id} />
+        </section>
         <Footer />
       </div>
+      <style jsx>
+        {`
+
+       .single-post-body p, h1, h2, h3, h4{
+          font-family: 'Manrope', sans-serif;
+          font-size: 1.5rem
+        }
+          .single-post {
+            margin: auto;
+            width: 90%;
+            margin-top: 20px;
+          }
+
+          .header-image img {
+            width: 100%;
+            height: auto;
+          }
+
+          .post-sub-head {
+            display: flex;
+            justify-content: space-between;
+          }
+
+          .single-post-title {
+            margin: 10px 0;
+          }
+
+          .single-post-body {
+            margin: 10px 0;
+          }
+
+          .views-count {
+            margin-right: 10px;
+          }
+
+          .post-sub-head {
+            padding: 10px 0;
+          }
+
+          /* TABLET SCREEN  */
+
+          @media only screen and (min-width: 600px) {
+            .views-count {
+              margin-right: 40px;
+            }
+          }
+
+          /* IPAD PRO | SMALL LAPTOP  */
+
+          @media only screen and (min-width: 1000px) {
+            .single-post {
+              width: 70%;
+            }
+
+            .header-image img {
+              height: 500px;
+            }
+          }
+
+          /* 4K SCREEN  */
+
+          @media only screen and (min-width: 2500px) {
+            .single-post {
+              width: 50%;
+            }
+          }
+        `}
+      </style>
     </Layout>
   );
 }
