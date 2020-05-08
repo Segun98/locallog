@@ -4,6 +4,7 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 
 export default function About() {
+  
   return (
     <Layout>
       <Head>
@@ -114,3 +115,4 @@ export default function About() {
     </Layout>
   );
 }
+

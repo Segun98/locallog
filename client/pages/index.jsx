@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import Link from "next/link";
 import ErrorMessage from "../components/ErrorMessage";
+import { request } from "graphql-request";
+import AllPosts from "../components/AllPosts";
+import MostPopular from "../components/MostPopular";
 
-const ALL_POSTS_QUERY = gql`
+const ALL_POSTS_QUERY = `
   {
     posts {
       id
@@ -19,78 +19,24 @@ const ALL_POSTS_QUERY = gql`
   }
 `;
 
-function Index() {
-  //data state
-  const [graphdata, setgraphdata] = useState([]);
+export async function getStaticProps() {
+  const res = await request("https://backlog.now.sh/graphql", ALL_POSTS_QUERY);
+  const posts = await res.posts;
 
-  const [underror, setunderror] = useState(false);
+  return {
+    props: {
+      posts,
+    },
+  };
+}
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  //Graphql query
-  const { error, data, loading } = useQuery(ALL_POSTS_QUERY, {
-    // Setting this value to true will make the component rerender when
-    // the "networkStatus" changes, so we are able to know if it is fetching
-    // more data
-    notifyOnNetworkStatusChange: true,
-  });
-
-  //data state
-  const [Popular, setmostPopular] = useState([]);
-
-  const [allPosts, setallPosts] = useState([])
-
-  //checks to be sure the data is fully loaded
-  if (loading) {
-    const message = "Loading...";
-    return <ErrorMessage message={message} />;
-  }
-  if (error) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
-
-  if (underror) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
-
-  function fetchPosts() {
-    try {
-      if (data) {
-        const { posts } = data;
-        setgraphdata(posts);
-        setmostPopular(posts);
-        setallPosts(posts) 
-      }
-    } catch (err) {
-      console.log(err.message);
-      setunderror(true);
-    }
-  }
-
-  //Last check for data
-  if (graphdata.length === 0) {
-    return null;
-  } else if (data) {
-    //To get latest posts
-    var firstItem = graphdata[graphdata.length - 1];
-    var secondItem = graphdata[graphdata.length - 2];
-    var thirdItem = graphdata[graphdata.length - 3];
-    var fourthItem = graphdata[graphdata.length - 4];
-    var fifthItem = graphdata[graphdata.length - 5];
-
-    //Render new posts first
-    var newfirst = allPosts.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
-    //Most Popular
-    var sorted = Popular.sort((a, b) => b.count - a.count);
-  }
+function Index({ posts }) {
+  //LATEST POSTS
+  var firstItem = posts[posts.length - 1];
+  var secondItem = posts[posts.length - 2];
+  var thirdItem = posts[posts.length - 3];
+  var fourthItem = posts[posts.length - 4];
+  var fifthItem = posts[posts.length - 5];
 
   function truncateTitle(str) {
     if (str.length > 80) {
@@ -108,26 +54,34 @@ function Index() {
     }
   }
 
-
   return (
     <Layout>
       <Head>
         <title>Home | Tadlace</title>
-        <meta name="Description" content=" Tadlace is an online publishing platform built for people to express
-            themselves" />
-          <meta name="keywords" content="Publishing, Platform , Tadlace" />
-          <meta name="author" content="Segun Olanitori" />
-          <meta property="og:description" content=" Tadlace is an online publishing platform built for people to express
-            themselves" />
-          <meta name="twitter:title" content="Tadlace" />
-          <meta name="twitter:description" content=" Tadlace is an online publishing platform built for people to express
-            themselves" />
-          <meta name="twitter:card" content="summary" />
-          <meta property="og:type" content="article" />
-          <meta property="og:title" content="Tadlace" />
-          <meta property="og:site_name" content="Tadlace" />
-          <meta property="article:publisher" content="Segun Olanitori" />
-          <meta property="article:author" content="Segun Olanitori" />
+        <meta
+          name="Description"
+          content=" Tadlace is an online publishing platform built for people to express
+            themselves"
+        />
+        <meta name="keywords" content="Publishing, Platform , Tadlace" />
+        <meta name="author" content="Segun Olanitori" />
+        <meta
+          property="og:description"
+          content=" Tadlace is an online publishing platform built for people to express
+            themselves"
+        />
+        <meta name="twitter:title" content="Tadlace" />
+        <meta
+          name="twitter:description"
+          content=" Tadlace is an online publishing platform built for people to express
+            themselves"
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Tadlace" />
+        <meta property="og:site_name" content="Tadlace" />
+        <meta property="article:publisher" content="Segun Olanitori" />
+        <meta property="article:author" content="Segun Olanitori" />
       </Head>
       <div>
         <section className="latest-posts-home">
@@ -217,103 +171,151 @@ function Index() {
             </div>
           </div>
         </section>
-        <div>
-          <div style={{margin:"auto", width:"90%"}}>
-            <div className="most-popular-head-id">
-              <h2>Most Popular</h2>
-            </div>
-            <br />
-            <div className="most-popular-wrap-id">
-              <div className="most-popular-item-id">
-                <img
-                  src={`${sorted[0].url}`}
-                  alt={truncateAlt(`${sorted[0].title}`)}
-                />
-                <div className="most-popular-content-id">
-                  <Link href={`/post/${sorted[0].id}`}>
-                    <a>
-                      <h4>{truncateTitle(sorted[0].title)}</h4>
-                      <p>{sorted[0].author}</p>
-                      <h5>{sorted[0].date}</h5>
-                    </a>
-                  </Link>
-                </div>
-              </div>
-              <div className="most-popular-item-id">
-                <img
-                  src={`${sorted[1].url}`}
-                  alt={truncateAlt(`${sorted[1].title}`)}
-                />
-                <div className="most-popular-content-id">
-                  <Link href={`/post/${sorted[1].id}`}>
-                    <a>
-                      <h4>{truncateTitle(sorted[1].title)}</h4>
-                      <p>{sorted[1].author}</p>
-                      <h5>{sorted[1].date}</h5>
-                    </a>
-                  </Link>
-                </div>
-              </div>
-              <div className="most-popular-item-id">
-                <img
-                  src={`${sorted[2].url}`}
-                  alt={truncateAlt(`${sorted[2].title}`)}
-                />
-                <div className="most-popular-content-id">
-                  <Link href={`/post/${sorted[2].id}`}>
-                    <a>
-                      <h4>{truncateTitle(sorted[2].title)}</h4>
-                      <p>{sorted[2].author}</p>
-                      <h5>{sorted[2].date}</h5>
-                    </a>
-                  </Link>
-                </div>
-              </div>
-              <div className="most-popular-item-id">
-                <img
-                  src={`${sorted[3].url}`}
-                  alt={truncateAlt(`${sorted[3].title}`)}
-                />
-                <div className="most-popular-content-id">
-                  <Link href={`/post/${sorted[3].id}`}>
-                    <a>
-                      <h4>{truncateTitle(sorted[3].title)}</h4>
-                      <p>{sorted[3].author}</p>
-                      <h5>{sorted[3].date}</h5>
-                    </a>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <section className="most-popular-section">
-          <div className="most-popular-head">
-            <h1>All Posts</h1>
-          </div>
-          <div className="most-popular-wrap">
-            {newfirst.map((allPosts) => (
-              <Link key={allPosts.id} href={`/post/${allPosts.id}`}>
-                <a>
-                  <div className="most-popular">
-                    <div className="most-popular-content">
-                      <h5>{truncateTitle(allPosts.title)}</h5>
-                      <p style={{ margin: "5px 0" }}>{allPosts.author}</p>
-                      <p>{allPosts.date}</p>
-                    </div>
-                    <img
-                      src={`${allPosts.url}`}
-                      alt={truncateAlt(`${allPosts.title}`)}
-                    />
-                  </div>
-                </a>
-              </Link>
-            ))}
-          </div>
+
+        <section>
+          <MostPopular />
+        </section>
+
+        <section>
+          <AllPosts />
         </section>
       </div>
+      <style jsx>
+        {`
+          /* INDEX PAGE  */
+
+          .latest-posts-home {
+            margin: 5px auto;
+            width: 95%;
+          }
+
+          .latest-head {
+            margin: 0 auto;
+            margin-bottom: 10px;
+            width: 95%;
+          }
+
+          .latest-posts-wrap {
+            display: grid;
+            display: -moz-grid;
+            display: -ms-grid;
+            grid-template-columns: 1fr;
+            margin: auto;
+            width: 95%;
+            gap: 20px;
+          }
+
+          .main-post img {
+            /* width: 350px; */
+            width: 100%;
+            height: 300px;
+          }
+
+          .main-post-content {
+            line-height: 25px;
+            margin-top: 5px;
+          }
+
+          .main-post-content p {
+            font-size: 0.9rem;
+          }
+
+          .middle-posts {
+            display: grid;
+            display: -moz-grid;
+            display: -ms-grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+
+          .middle-post {
+            display: flex;
+          }
+
+          .middle-post-content {
+            margin-left: 10px;
+            line-height: 20px;
+          }
+
+          .middle-post p {
+            font-size: 0.8rem;
+          }
+
+          .middle-post img {
+            width: 150px;
+            height: 100px;
+          }
+
+          .right-post img {
+            width: 320px;
+            height: 300px;
+          }
+
+          .right-post {
+            line-height: 25px;
+            display: none;
+          }
+
+          .right-post p {
+            font-size: 0.9rem;
+          }
+
+          /* TABLET SCREEN  */
+
+          @media only screen and (min-width: 600px) {
+            .latest-posts-wrap {
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+            }
+          }
+
+          /* IPAD PRO | SMALL LAPTOP  */
+
+          @media only screen and (min-width: 1000px) {
+            .main-post img {
+              width: 400px;
+            }
+          }
+
+          /* LAPTOP  */
+
+          @media only screen and (min-width: 1300px) {
+            .latest-posts-wrap {
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 30px;
+            }
+
+            .right-post {
+              display: block;
+            }
+
+            .right-post img {
+              width: 400px;
+            }
+          }
+
+          @media only screen and (min-width: 2500px) {
+            .latest-posts-wrap {
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 50px;
+              width: 70%;
+            }
+
+            .main-post img {
+              width: 450px;
+            }
+
+            .right-post img {
+              width: 450px;
+            }
+
+            .latest-head {
+              width: 70%;
+            }
+          }
+        `}
+      </style>
     </Layout>
   );
 }
-
 export default Index;

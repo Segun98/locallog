@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import Link from "next/link";
-import { useRouter } from 'next/router'
+import { request } from "graphql-request";
+import ErrorMessage from "./ErrorMessage";
 
-const ALL_POSTS_QUERY = gql`
+export default function MostPopular() {
+  useEffect(() => {
+    fetchPopular();
+  }, []);
+  const [posts, setposts] = useState([]);
+
+  const MOST_POPULAR = `
   {
     posts {
       id
@@ -15,44 +20,19 @@ const ALL_POSTS_QUERY = gql`
       count
     }
   }
-`;
+  `;
 
-export default function MostPopular() {
-const router = useRouter()
-
-  //data state
-  const [Popular, setmostPopular] = useState([]);
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  //Graphql query
-  const { error, data, loading } = useQuery(ALL_POSTS_QUERY, {
-    // Setting this value to true will make the component rerender when
-    // the "networkStatus" changes, so we are able to know if it is fetching
-    // more data
-    notifyOnNetworkStatusChange: true,
-  });
-
-
-  function fetchPosts() {
-    try {
-      if (data) {
-        const { posts } = data;
-        setmostPopular(posts);  
-      }
-    } catch (err) {
-      console.log(err.message);
-      // setunderror(true);
-    }
+  async function fetchPopular() {
+    const res = await request("https://backlog.now.sh/graphql", MOST_POPULAR);
+    const data = await res.posts;
+    setposts(data);
   }
-  //Last check for data
-  if (Popular.length === 0) {
-    return null;
-  } else if (data) {
-    //To get latest posts
-    var sorted = Popular.sort((a, b) => b.count - a.count);
+
+  if (posts.length === 0) {
+    const message = "Loading";
+    return <ErrorMessage message={message} />;
+  } else if (posts.length > 0) {
+    var sorted = posts.sort((a, b) => b.count - a.count);
   }
 
   function truncateTitle(str) {
@@ -73,25 +53,25 @@ const router = useRouter()
 
   return (
     <div>
-      <div>
-        <div className="most-popular-head-id" >
+      <div className="most-popular-wrap">
+        <div className="most-popular-head-id">
           <h2>Most Popular</h2>
         </div>
-        <br/>
-        <div className="most-popular-wrap-id" >
+        <br />
+        <div className="most-popular-wrap-id">
           <div className="most-popular-item-id">
             <img
               src={`${sorted[0].url}`}
               alt={truncateAlt(`${sorted[0].title}`)}
             />
             <div className="most-popular-content-id">
-            <Link href={`/post/${sorted[0].id}`}>
-            <a>
-              <h4>{truncateTitle(sorted[0].title)}</h4>
-              <p>{sorted[0].author}</p>
-              <h5>{sorted[0].date}</h5>
-            </a>
-            </Link>
+              <Link href={`/post/${sorted[0].id}`}>
+                <a>
+                  <h4>{truncateTitle(sorted[0].title)}</h4>
+                  <p>{sorted[0].author}</p>
+                  <h5>{sorted[0].date}</h5>
+                </a>
+              </Link>
             </div>
           </div>
           <div className="most-popular-item-id">
@@ -100,13 +80,13 @@ const router = useRouter()
               alt={truncateAlt(`${sorted[1].title}`)}
             />
             <div className="most-popular-content-id">
-            <Link href={`/post/${sorted[1].id}`}>
-            <a>
-              <h4>{truncateTitle(sorted[1].title)}</h4>
-              <p>{sorted[1].author}</p>
-              <h5>{sorted[1].date}</h5>
-            </a>
-            </Link>
+              <Link href={`/post/${sorted[1].id}`}>
+                <a>
+                  <h4>{truncateTitle(sorted[1].title)}</h4>
+                  <p>{sorted[1].author}</p>
+                  <h5>{sorted[1].date}</h5>
+                </a>
+              </Link>
             </div>
           </div>
           <div className="most-popular-item-id">
@@ -115,13 +95,13 @@ const router = useRouter()
               alt={truncateAlt(`${sorted[2].title}`)}
             />
             <div className="most-popular-content-id">
-            <Link href={`/post/${sorted[2].id}`}>
-            <a>
-              <h4>{truncateTitle(sorted[2].title)}</h4>
-              <p>{sorted[2].author}</p>
-              <h5>{sorted[2].date}</h5>
-            </a>
-            </Link>
+              <Link href={`/post/${sorted[2].id}`}>
+                <a>
+                  <h4>{truncateTitle(sorted[2].title)}</h4>
+                  <p>{sorted[2].author}</p>
+                  <h5>{sorted[2].date}</h5>
+                </a>
+              </Link>
             </div>
           </div>
           <div className="most-popular-item-id">
@@ -130,17 +110,71 @@ const router = useRouter()
               alt={truncateAlt(`${sorted[3].title}`)}
             />
             <div className="most-popular-content-id">
-            <Link href={`/post/${sorted[3].id}`}>
-            <a>
-              <h4>{truncateTitle(sorted[3].title)}</h4>
-              <p>{sorted[3].author}</p>
-              <h5>{sorted[3].date}</h5>
-            </a>
-            </Link>
+              <Link href={`/post/${sorted[3].id}`}>
+                <a>
+                  <h4>{truncateTitle(sorted[3].title)}</h4>
+                  <p>{sorted[3].author}</p>
+                  <h5>{sorted[3].date}</h5>
+                </a>
+              </Link>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>
+        {`
+          .most-popular-wrap {
+            margin: auto;
+            width: 90%;
+          }
+          .most-popular-head-id {
+            margin: 10px 0;
+          }
+
+          .most-popular-wrap-id {
+            display: grid;
+            display: -moz-grid;
+            display: -ms-grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+          }
+
+          .most-popular-item-id {
+            display: flex;
+          }
+
+          .most-popular-item-id img {
+            width: 100px;
+            height: 100px;
+          }
+
+          .most-popular-content-id {
+            margin-left: 20px;
+          }
+
+          /* TABLET SCREEN  */
+
+          @media only screen and (min-width: 600px) {
+            .most-popular-wrap-id {
+              grid-template-columns: 1fr 1fr;
+            }
+          }
+
+          /* 4K SCREEN  */
+
+          @media only screen and (min-width: 2500px) {
+            .most-popular-wrap-id {
+              column-gap: 100px;
+            }
+
+            .most-popular-wrap {
+              width: 65%;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

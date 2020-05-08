@@ -101,7 +101,7 @@ export default function Header() {
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=health&wellness">
+          <Link href="/category?category=health">
             <a>Health & Wellness</a>
           </Link>
         </div>
@@ -111,6 +111,181 @@ export default function Header() {
           </Link>
         </div>
       </div>
+
+      <style jsx>
+        {`
+          /* HEADER STYLES */
+
+          header {
+            padding: 5px 0;
+          }
+
+          .header-wrap {
+            margin: auto;
+            width: 85%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .logo {
+            font-family: "Baloo Bhaina 2", cursive;
+            font-size: 35px;
+          }
+
+          .nav {
+            display: flex;
+            align-items: center;
+          }
+
+          .search {
+            display: flex;
+          }
+
+          .search img {
+            margin-right: 5px;
+            cursor: pointer;
+          }
+
+          .search .search-input {
+            border: 1px solid black;
+            padding: 8px 5px;
+            width: 100px;
+            display: none;
+            border-radius: 5px;
+          }
+
+          .search-input.search-close {
+            display: block;
+          }
+
+          .search input:focus {
+            outline: none;
+          }
+
+          .write-a-post {
+            margin: 0 15px;
+            display: none;
+          }
+
+          .write-a-post button {
+            background: black;
+            border: 1px solid black;
+            padding: 10px 10px;
+            cursor: pointer;
+            color: white;
+            border-radius: 5px;
+          }
+
+          .header-menu {
+            position: relative;
+          }
+
+          .header-menu img {
+            width: 25px;
+            cursor: pointer;
+            margin-left: 10px;
+          }
+
+          .header-menu .menu-wrap {
+            position: absolute;
+            right: 5px;
+            top: 40px;
+            z-index: 99999;
+          }
+
+          .menu-wrap ul {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            border-radius: 5px;
+            background: white;
+          }
+
+          .menu-wrap ul li {
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid black;
+            display: block;
+            text-align: center;
+            padding: 3px 7px;
+          }
+
+          .menu-wrap ul li:first-child {
+            margin-top: 10px;
+          }
+
+          .slider {
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 auto;
+            margin-top: -2px;
+            width: 80%;
+            justify-content: space-between;
+          }
+
+          .slide {
+            flex-shrink: 0;
+            margin: 0 5px;
+            padding-bottom: 8px;
+            font-size: 0.9rem;
+          }
+
+          /* TABLET SCREEN  */
+
+          @media only screen and (min-width: 600px) {
+            .header-wrap {
+              width: 90%;
+            }
+
+            .search .search-input {
+              width: 300px;
+            }
+
+            .slider {
+              margin-top: 5px;
+            }
+
+            .write-a-post {
+              display: block;
+            }
+
+            .menu-wrap ul li:nth-child(2) {
+              display: none;
+            }
+          }
+
+          /* IPAD PRO | SMALL LAPTOP  */
+
+          @media only screen and (min-width: 1000px) {
+            .search .search-input {
+              display: block;
+              width: 400px;
+            }
+          }
+
+          /* LAPTOP  */
+
+          @media only screen and (min-width: 1400px) {
+            .header-wrap {
+              width: 80%;
+            }
+          }
+
+          /* 4K SCREEN  */
+
+          @media only screen and (min-width: 2500px) {
+            .header-wrap {
+              width: 60%;
+            }
+
+            .slider {
+              width: 60%;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

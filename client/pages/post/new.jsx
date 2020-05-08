@@ -8,11 +8,44 @@ const JoditEditor = dynamic(importJodit, {
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import Footer from '../../components/Footer'
+import Footer from "../../components/Footer";
+import { request } from "graphql-request";
 
-const ADD_POST = gql`
+export default function New() {
+  const [Modal, setModal] = useState(false);
+
+  const [disable, setdisable] = useState(false);
+  //Text Editor
+  const editor = useRef(null);
+  const config = {
+    readonly: false, // all options from https://xdsoft.net/jodit/doc/
+    askBeforePasteHTML: false,
+    askBeforePasteFromWord: false,
+  };
+
+  //Router
+  const router = useRouter();
+
+  //Input fields states
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [email, setemail] = useState("");
+  const [Category, setCategory] = useState("");
+  const [author, setauthor] = useState("");
+  const [count] = useState(0);
+  const [url, seturl] = useState("");
+
+  function capital_letter(str) {
+    str = str.split(" ");
+
+    for (var i = 0, x = str.length; i < x; i++) {
+      str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+    }
+
+    return str.join(" ");
+  }
+
+  const ADD_POST = `
   mutation addPost(
     $title: String!
     $date: String!
@@ -41,49 +74,9 @@ const ADD_POST = gql`
     }
   }
 `;
-
-export default function New() {
-  const [Modal, setModal] = useState(false);
-  //Text Editor
-  const editor = useRef(null);
-  const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    askBeforePasteHTML: false,
-    askBeforePasteFromWord: false,
-  };
-
-  //Router
-  const router = useRouter();
-
-  //GraphQL query
-  const [addPost, { data, error, loading }] = useMutation(ADD_POST);
-
-  //Takes you to the post's page
-  if (data) {
-    router.push(`/post/${data.addPost.id}`);
-  }
-
-  //Input fields states
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [email, setemail] = useState("");
-  const [Category, setCategory] = useState("");
-  const [author, setauthor] = useState("");
-  const [count] = useState(0);
-  const [url, seturl] = useState("");
-
-  function capital_letter(str) {
-    str = str.split(" ");
-
-    for (var i = 0, x = str.length; i < x; i++) {
-      str[i] = str[i][0].toUpperCase() + str[i].substr(1);
-    }
-
-    return str.join(" ");
-  }
-
   const onSubmit = async (e) => {
     e.preventDefault();
+    setdisable(true);
     // Prevents short content
     if (content.length < 400) {
       alert("Post too short");
@@ -93,19 +86,23 @@ export default function New() {
       const today = new Date();
       const date = today.toLocaleDateString("en-US", dateOptions);
 
+      const variables = {
+        title: capital_letter(title),
+        date,
+        description: content,
+        email,
+        category: `${Category === "" ? "Other" : Category}`,
+        author,
+        count,
+        url,
+      };
+
       try {
-        await addPost({
-          variables: {
-            title: capital_letter(title),
-            date,
-            description: content,
-            email,
-            category: `${Category === "" ? "Other" : Category}`,
-            author,
-            count,
-            url,
-          },
-        });
+        const res = await request(
+          "https://backlog.now.sh/graphql",
+          ADD_POST,
+          variables
+        );
         setModal(true);
         setTitle("");
         setContent("");
@@ -113,6 +110,7 @@ export default function New() {
         setCategory("");
         setauthor("");
         seturl("");
+        router.push(`/post/${res.addPost.id}`);
       } catch (err) {
         console.log(err.message);
       }
@@ -131,10 +129,10 @@ export default function New() {
             color: "white",
             background: "green",
             padding: "10px 10px",
-            position:"fixed",
-            top:"0px",
-            left:"0px",
-            right:"0px"
+            position: "fixed",
+            top: "0px",
+            left: "0px",
+            right: "0px",
           }}
         >
           Your Post Has Been Successfuly Published!! You Will Now Be Redirected
@@ -189,7 +187,7 @@ export default function New() {
                 <option value="Technology">Technology</option>
                 <option value="Lifestyle">Lifestyle</option>
                 <option value="Personal">Personal</option>
-                <option value="Health % Wellness">Health % Wellness</option>
+                <option value="Health">Health & Wellness</option>
                 <option value="Food">Food</option>
                 <option value="Other">Other</option>
               </select>
@@ -248,13 +246,13 @@ export default function New() {
               />
             </div>
             <div className="submit-post">
-              <button disabled={loading} type="submit" className="submit-post">
+              <button disabled={disable} type="submit" className="submit-post">
                 Publish
               </button>
             </div>
           </form>
         </section>
-          <Footer />
+        <Footer />
         <style jsx>{``}</style>
       </div>
     </Layout>

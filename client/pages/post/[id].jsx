@@ -1,68 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Layout from "../../components/Layout";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
 import ReactHtmlParser from "react-html-parser";
-import ErrorMessage from "../../components/ErrorMessage";
 import MostPopular from "../../components/MostPopular";
 import Footer from "../../components/Footer";
+import { request } from "graphql-request";
 
-const POST_QUERY = gql`
-  query post($id: ID) {
-    post(id: $id) {
-      id
-      title
-      description
-      count
-      url
-      author
-      date
-    }
-  }
-`;
-export default function index() {
-  const router = useRouter();
-  const { id } = router.query;
-  useEffect(() => {
-    fetchPost();
-  }, []);
-
-  const [underror, setunderror] = useState(false);
-
-  const [graphpost, setgraphpost] = useState([]);
-
-  const { loading, error, data } = useQuery(POST_QUERY, {
-    variables: {
-      id: id,
-    },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  if (error) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
-
-  if (underror) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
-
-  function fetchPost() {
-    try {
-      if (data) {
-        const { post } = data;
-        setgraphpost(post);
+const POSTS_QUERY = `
+query post($id: ID) {
+      post(id: $id) {
+        id
+        title
+        description
+        count
+        url
+        author
+        date
       }
-    } catch (err) {
-      console.log(err.message);
-      setunderror(true);
     }
-  }
+`;
+
+export async function getServerSideProps({ params }) {
+  const variables = {
+    id: params.id,
+  };
+  const res = await request(
+    "https://backlog.now.sh/graphql",
+    POSTS_QUERY,
+    variables
+  );
+  const post = await res.post;
+
+  return {
+    props: {
+      post,
+    },
+  };
+}
+
+function index({ post }) {
 
   function truncateAlt(str) {
     if (str.length > 20) {
@@ -74,7 +50,7 @@ export default function index() {
 
   if (process.browser) {
     // client-side-only code
-    var host = "https://" + window.location.hostname;
+    var host = "https://" + window.location;
   }
 
   return (
@@ -98,22 +74,22 @@ export default function index() {
           <meta name="theme-color" content="#000000" />
           <link rel="apple-touch-icon" href="/images/logo.png" />
           <meta property="og:type" content="website" />
-          <title>{graphpost.title} | Tadlace</title>
-          <meta name="Description" content={graphpost.title} />
-          <meta name="keywords" content={graphpost.title} />
-          <meta name="author" content={graphpost.author} />
-          <meta property="og:description" content={graphpost.title} />
-          <meta name="twitter:title" content={graphpost.title} />
-          <meta name="twitter:description" content={graphpost.title} />
-          <meta name="twitter:image" content={graphpost.url} />
+          <title>{post.title} | Tadlace</title>
+          <meta name="Description" content={post.title} />
+          <meta name="keywords" content={post.title} />
+          <meta name="author" content={post.author} />
+          <meta property="og:description" content={post.title} />
+          <meta name="twitter:title" content={post.title} />
+          <meta name="twitter:description" content={post.title} />
+          <meta name="twitter:image" content={post.url} />
           <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:type" content="article" />
-          <meta property="og:url" content={`${host}/post/${graphpost.id}`} />
-          <meta property="og:title" content={graphpost.title} />
-          <meta property="og:image" content={graphpost.url} />
-          <meta property="og:site_name" content={graphpost.title} />
-          <meta property="article:publisher" content={graphpost.author} />
-          <meta property="article:author" content={graphpost.author} />
+          <meta property="og:url" content={`${host}/post/${post.id}`} />
+          <meta property="og:title" content={post.title} />
+          <meta property="og:image" content={post.url} />
+          <meta property="og:site_name" content={post.title} />
+          <meta property="article:publisher" content={post.author} />
+          <meta property="article:author" content={post.author} />
           <script
             async
             src="https://platform.twitter.com/widgets.js"
@@ -123,24 +99,21 @@ export default function index() {
       </div>
       <div className="single-post">
         <div className="header-image">
-          <img
-            src={`${graphpost.url}`}
-            alt={truncateAlt(`${graphpost.title}`)}
-          />
+          <img src={`${post.url}`} alt={truncateAlt(`${post.title}`)} />
         </div>
-        <h2 className="single-post-title">{graphpost.title}</h2>
+        <h2 className="single-post-title">{post.title}</h2>
         <hr />
         <div className="post-sub-head">
           <div>
-            <p>By - {graphpost.author}</p>
-            <p>{graphpost.date}</p>
+            <p>By - {post.author}</p>
+            <p>{post.date}</p>
           </div>
           <aside style={{ display: "flex" }}>
-            <div className="views-count">Views - {graphpost.count}</div>
+            <div className="views-count">Views - {post.count}</div>
             <div style={{ display: "flex" }}>
               <a
                 href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-                data-text={graphpost.title}
+                data-text={post.title}
                 data-show-count="true"
                 className="twitter-share-button"
               >
@@ -151,7 +124,7 @@ export default function index() {
         </div>
         <hr />
         <div className="single-post-body">
-          {ReactHtmlParser(graphpost.description)}
+          {ReactHtmlParser(post.description)}
         </div>
         <hr />
         <section style={{ marginBottom: "20px" }}>
@@ -160,7 +133,7 @@ export default function index() {
           <p>
             <a
               href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-              data-text={graphpost.title}
+              data-text={post.title}
               data-show-count="true"
               className="twitter-share-button"
             >
@@ -174,3 +147,5 @@ export default function index() {
     </Layout>
   );
 }
+
+export default index;

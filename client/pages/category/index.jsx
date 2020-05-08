@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import Head from "next/head";
-import ErrorMessage from "../../components/ErrorMessage";
 import CategoryList from "../../components/CategoryList";
+import { request } from "graphql-request";
 
-const ALL_POSTS_QUERY = gql`
+const ALL_POSTS_QUERY = `
   {
     posts {
       id
@@ -20,55 +18,24 @@ const ALL_POSTS_QUERY = gql`
   }
 `;
 
-export default function Index() {
+export async function getServerSideProps() {
+  const res = await request("https://backlog.now.sh/graphql", ALL_POSTS_QUERY);
+  const posts = await res.posts;
+
+  return {
+    props: {
+      posts,
+    },
+  };
+}
+
+export default function Index({ posts }) {
   const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
   const { query } = router;
-
-  //data state
-  const [graphdata, setgraphdata] = useState([]);
-
-  const [underror, setunderror] = useState(false);
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  //Graphql query
-  const { error, data, loading } = useQuery(ALL_POSTS_QUERY, {
-    // Setting this value to true will make the component rerender when
-    // the "networkStatus" changes, so we are able to know if it is fetching
-    // more data
-    notifyOnNetworkStatusChange: true,
-  });
-
-  //checks to be sure the data is fully loaded
-  if (loading) {
-    const message = "Loading...";
-    return <ErrorMessage message={message} />;
-  }
-  if (error) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
-
-  if (underror) {
-    const message =
-      "Error fetching Data, refresh the page or check your internet connection";
-    return <ErrorMessage message={message} />;
-  }
-
-  function fetchPosts() {
-    try {
-      if (data) {
-        const { posts } = data;
-        setgraphdata(posts);  
-      }
-    } catch (err) {
-      console.log(err.message);
-      setunderror(true);
-    }
-  }
 
   const capitalize = (s) => {
     try {
@@ -95,20 +62,14 @@ export default function Index() {
     }
   }
 
-  const filteredCategory = graphdata.filter(
-    (categoryData) => categoryData.category === capitalize(query.category)
+  const filteredCategory = posts.filter(
+    (post) => post.category === capitalize(query.category)
   );
-
-  if (filteredCategory.length===0) {
-    const message = "No Post on this category, write the first?";
-    return <ErrorMessage message={message} />;
-  }
-
 
   return (
     <Layout>
       <Head>
-        <title>{capitalize(query.category)} | Category</title>
+        <title> {filteredCategory[0].category} | Category</title>
       </Head>
       <div className="category">
         <div className="category-header">
@@ -116,18 +77,18 @@ export default function Index() {
         </div>
 
         <div className="category-items-wrap">
-        {filteredCategory.map((allPosts) => (
-          <CategoryList
-            key={allPosts.id}
-            href={`/post/${allPosts.id}`}
-            src={`${allPosts.url}`}
-            alt={truncateAlt(`${allPosts.title}`)}
-            title={truncateTitle(allPosts.title)}
-            author={allPosts.author}
-            date={allPosts.date}
-          />
-        ))}
-        </div> 
+          {filteredCategory.map((allPosts) => (
+            <CategoryList
+              key={allPosts.id}
+              href={`/post/${allPosts.id}`}
+              src={`${allPosts.url}`}
+              alt={truncateAlt(`${allPosts.title}`)}
+              title={truncateTitle(allPosts.title)}
+              author={allPosts.author}
+              date={allPosts.date}
+            />
+          ))}
+        </div>
       </div>
     </Layout>
   );
