@@ -10,6 +10,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
+import { truncateMeta } from "../../utils/truncate";
 
 export default function New() {
   const [Modal, setModal] = useState(false);
@@ -34,7 +35,9 @@ export default function New() {
   const [author, setauthor] = useState("");
   const [count] = useState(0);
   const [url, seturl] = useState("");
-
+  const [metaDesc, setmetaDesc] = useState("");
+  const [authorProfile, setauthorProfile] = useState("")
+  
   function capital_letter(str) {
     str = str.split(" ");
 
@@ -55,6 +58,8 @@ export default function New() {
     $author: String!
     $count: Float!
     $url: String!
+    $metaDesc: String!
+    $authorProfile: String!
   ) {
     addPost(
       title: $title
@@ -65,6 +70,8 @@ export default function New() {
       author: $author
       count: $count
       url: $url
+      metaDesc: $metaDesc
+      authorProfile: $authorProfile
     ) {
       id
       description
@@ -95,6 +102,8 @@ export default function New() {
         author,
         count,
         url,
+        metaDesc: truncateMeta(metaDesc),
+        authorProfile
       };
 
       try {
@@ -108,6 +117,8 @@ export default function New() {
         setCategory("");
         setauthor("");
         seturl("");
+        setmetaDesc("");
+        setauthorProfile("")
         router.push(`/post/${res.addPost.id}`);
       } catch (err) {
         console.log(err.message);
@@ -138,99 +149,151 @@ export default function New() {
         </div>
         <section className="new-post-page">
           <form onSubmit={onSubmit} className="new-post-form" autoComplete="on">
-            <div className="form-item">
-              <label htmlFor="title">
-                {" "}
-                <h3>Title</h3>
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="My Post Title..."
-                value={title}
-                className="title"
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-            </div>
-            <div className="form-item">
-              <label htmlFor="email">
-                <h3>Email</h3>
-              </label>
-              <input
-                type="email"
-                value={email}
-                required
-                placeholder="Please enter a valid email"
-                onChange={(e) => {
-                  setemail(e.target.value);
-                }}
-              />
-            </div>
-            <div className="form-item">
-              <label htmlFor="category">
-                <h3>Post Category</h3>
-              </label>
-              <select
-                value={Category}
-                onChange={(e) => {
-                  setCategory(e.target.value);
-                }}
-              >
-                <option value="">--select--</option>
-                <option value="Business">Business</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Politics">Politics</option>
-                <option value="Technology">Technology</option>
-                <option value="Lifestyle">Lifestyle</option>
-                <option value="Personal">Personal</option>
-                <option value="Health">Health & Wellness</option>
-                <option value="Food">Food</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div className="form-item">
-              <label htmlFor="author">
-                <h3>Author</h3>
-              </label>
-              <input
-                type="text"
-                value={author}
-                required
-                maxLength="20"
-                placeholder="Please enter your full name"
-                onChange={(e) => {
-                  setauthor(e.target.value);
-                }}
-              />
-            </div>
-            <div className="form-item">
-              <label htmlFor="imgUrl">
-                <h3>Cover Image URL</h3>{" "}
-                <small>
-                  checkout{" "}
-                  <a
-                    href="https://pixabay.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: "underline" }}
-                  >
-                    Pixabay for free stock photos
-                  </a>{" "}
-                  , right-click on an image and "copy image address"
-                </small>
-              </label>
-              <input
-                type="url"
-                required
-                placeholder="image url"
-                value={url}
-                onChange={(e) => {
-                  seturl(e.target.value);
-                }}
-              />
-            </div>
+            <main className="form-wrap-new">
+              <div className="form-item">
+                <label htmlFor="title">
+                  {" "}
+                  <h3>Title</h3>
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="My Post Title..."
+                  value={title}
+                  className="title"
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-item">
+                <label htmlFor="email">
+                  <h3>Email</h3>
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  required
+                  placeholder="Please enter a valid email"
+                  onChange={(e) => {
+                    setemail(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-item">
+                <label htmlFor="category">
+                  <h3>Post Category</h3>
+                </label>
+                <select
+                  value={Category}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                >
+                  <option value="">--select--</option>
+                  <option value="Business">Business</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Politics">Politics</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Lifestyle">Lifestyle</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Health">Health & Wellness</option>
+                  <option value="Food">Food</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div className="form-item">
+                <label htmlFor="author">
+                  <h3>Author</h3>
+                </label>
+                <input
+                  type="text"
+                  value={author}
+                  required
+                  maxLength="20"
+                  placeholder="Please enter your full name"
+                  onChange={(e) => {
+                    setauthor(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-item">
+                <label htmlFor="imgUrl">
+                  <h3>Cover Image URL</h3>{" "}
+                  <small style={{ fontSize: "0.7rem" }}>
+                    Right-click on an image and "copy image/link address",
+                    checkout{" "}
+                    <a
+                      href="https://pixabay.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "underline" }}
+                    >
+                      Pixabay
+                    </a>{" "}
+                    for free stock photos
+                  </small>
+                </label>
+                <input
+                  type="url"
+                  required
+                  placeholder="image url"
+                  value={url}
+                  onChange={(e) => {
+                    seturl(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="description"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "-13px",
+                  }}
+                >
+                  <h3>Post Description</h3>
+                  <small>(for SEO)</small>
+                </label>
+                <br />
+                <textarea
+                  cols="45"
+                  rows="5"
+                  value={metaDesc}
+                  onChange={(e) => {
+                    setmetaDesc(e.target.value);
+                  }}
+                  placeholder="Paste a sentence or two from your article"
+                  required
+                  style={{ padding: "15px 10px", width: "100%" }}
+                ></textarea>
+              </div>
+              <div>
+                <label
+                  htmlFor="profile"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "-13px",
+                  }}
+                >
+                  <h3>Author Profile</h3>
+                  <small style={{ fontSize: "12px" }}>(not required)</small>
+                </label>
+                <br />
+                <textarea
+                  cols="45"
+                  rows="5"
+                  value={authorProfile}
+                  onChange={(e) => {
+                    setauthorProfile(e.target.value);
+                  }}
+                  placeholder="A brief profile about you. You could add your social media handles and contact info. (This is displayed publicly under your post)"
+                  style={{ padding: "15px 10px", width: "100%" }}
+                ></textarea>
+              </div>
+            </main>
             <div className="form-item">
               <label htmlFor="Article">
                 <h2>Write Post</h2>

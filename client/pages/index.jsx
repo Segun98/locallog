@@ -1,10 +1,10 @@
 import Layout from "../components/Layout";
 import Head from "next/head";
 import Link from "next/link";
-import ErrorMessage from "../components/ErrorMessage";
 import { request } from "graphql-request";
 import AllPosts from "../components/AllPosts";
 import MostPopular from "../components/MostPopular";
+import {truncateAlt, truncateTitle} from "../utils/truncate"
 
 const ALL_POSTS_QUERY = `
   {
@@ -40,21 +40,6 @@ function Index({ posts }) {
   var fourthItem = posts[posts.length - 4];
   var fifthItem = posts[posts.length - 5];
 
-  function truncateTitle(str) {
-    if (str.length > 80) {
-      return str.slice(0, 80) + "...";
-    } else {
-      return str;
-    }
-  }
-
-  function truncateAlt(str) {
-    if (str.length > 20) {
-      return str.slice(0, 20);
-    } else {
-      return str;
-    }
-  }
 
   return (
     <Layout>
@@ -62,24 +47,21 @@ function Index({ posts }) {
         <title>Home | Locallog</title>
         <meta
           name="Description"
-          content=" Locallog is an online publishing platform built for people to express
-            themselves"
+          content="Locallog is an online publishing platform built for people to share their stories, inform and impact the rest of the world, one article at a time"
         />
         <meta name="keywords" content="Publishing, Platform , Locallog" />
         <meta name="author" content="Segun Olanitori" />
         <meta
           property="og:description"
-          content=" Locallog is an online publishing platform built for people to express
-            themselves"
+          content="Locallog is an online publishing platform built for people to share their stories, inform and impact the rest of the world, one article at a time"
         />
         <meta name="twitter:title" content="Locallog" />
         <meta
           name="twitter:description"
-          content=" Locallog is an online publishing platform built for people to express
-            themselves"
+          content="Locallog is an online publishing platform built for people to share their stories, inform and impact the rest of the world, one article at a time"
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="og:type" content="article" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content="Locallog" />
         <meta property="og:site_name" content="Locallog" />
         <meta property="article:publisher" content="Segun Olanitori" />

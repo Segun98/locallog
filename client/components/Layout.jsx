@@ -22,7 +22,6 @@ export default function Layout(props) {
           />
           <meta name="theme-color" content="#000000" />
           <link rel="apple-touch-icon" href="/images/logo.png" />
-          <meta property="og:type" content="website" />
         </Head>
       </div>
       <Header />

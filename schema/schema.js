@@ -45,6 +45,12 @@ const PostType = new GraphQLObjectType({
         },
         url: {
             type : GraphQLString
+        },
+        metaDesc: {
+            type : GraphQLString
+        },
+        authorProfile: {
+            type : GraphQLString
         }
 
 
@@ -153,6 +159,12 @@ const Mutation = new GraphQLObjectType({
                 },
                 url: {
                     type: new GraphQLNonNull(GraphQLString)
+                },
+                metaDesc: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                authorProfile: {
+                    type: GraphQLString
                 }
             },
             resolve(parent, args){
@@ -165,7 +177,9 @@ const Mutation = new GraphQLObjectType({
                     author: args.author,
                     email: args.email,
                     count: args.count,
-                    url: args.url
+                    url: args.url,
+                    metaDesc: args.metaDesc,
+                    authorProfile: args.authorProfile
                 });
                 return post.save()
             }

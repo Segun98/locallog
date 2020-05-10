@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import Head from "next/head";
 import CategoryList from "../../components/CategoryList";
 import { request } from "graphql-request";
+import { truncateTitle, truncateAlt} from '../../utils/truncate'
 
 const ALL_POSTS_QUERY = `
   {
@@ -48,22 +49,6 @@ export default function Index({ posts }) {
       console.log(err);
     }
   };
-
-  function truncateTitle(str) {
-    if (str.length > 80) {
-      return str.slice(0, 80) + "...";
-    } else {
-      return str;
-    }
-  }
-
-  function truncateAlt(str) {
-    if (str.length > 20) {
-      return str.slice(0, 20);
-    } else {
-      return str;
-    }
-  }
 
   const filteredCategory = posts.filter(
     (post) => post.category === capitalize(query.category)

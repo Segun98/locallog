@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Header() {
   const [menu, setmenu] = useState(false);
-  const [search, setsearch] = useState(true);
+  // const [search, setsearch] = useState(true);
 
   function displayMenu() {
     setmenu((prevMenu) => !prevMenu);
@@ -15,22 +15,14 @@ export default function Header() {
         <div className="header-wrap">
           <div className="logo">Locallog</div>
           <div className="nav">
-            <div className="search">
-              <img
-                src="/images/search.svg"
-                alt="search"
-                onClick={() => setsearch((prevsearch) => !prevsearch)}
+            <form>
+            <img src="/images/search.svg" alt="search"/>
+              <input
+                className="search-input"
+                type="text"
+                placeholder="Find author or post..."
               />
-              <form>
-                <input
-                  className={
-                    search ? "search-input" : "search-input search-close"
-                  }
-                  type="text"
-                  placeholder="Search for a post"
-                />
-              </form>
-            </div>
+            </form>
             <div className="write-a-post">
               <button>
                 <Link href="/post/new">
@@ -46,16 +38,19 @@ export default function Header() {
                 onMouseLeave={() => setmenu(false)}
               >
                 <ul>
-                  <li>Profile</li>
                   <li>
                     <Link href="/post/new">
                       <a>Write a post</a>
                     </Link>
                   </li>
-                  <li>Login/SignUp</li>
                   <li>
                     <Link href="/about">
                       <a>About</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about#contact">
+                      <a>Contact</a>
                     </Link>
                   </li>
                 </ul>
@@ -129,7 +124,7 @@ export default function Header() {
           }
 
           .logo {
-            font-size: 35px;
+            font-size: 30px;
           }
 
           .nav {
@@ -137,28 +132,21 @@ export default function Header() {
             align-items: center;
           }
 
-          .search {
-            display: flex;
-          }
-
-          .search img {
-            margin-right: 5px;
-            cursor: pointer;
-          }
-
-          .search .search-input {
+          .search-input {
             border: 1px solid black;
-            padding: 8px 5px;
-            width: 100px;
-            display: none;
+            padding: 5px 5px;
+            width: 120px;
             border-radius: 5px;
           }
-
-          .search-input.search-close {
-            display: block;
+          form{
+            display:flex;
+            align-items:center
           }
-
-          .search input:focus {
+          form img{
+            width: 15px;
+            height: 15px
+          }
+          form input:focus {
             outline: none;
           }
 
@@ -207,7 +195,7 @@ export default function Header() {
             border-bottom: 1px solid black;
             display: block;
             text-align: center;
-            padding: 3px 7px;
+            padding: 3px 20px;
           }
 
           .menu-wrap ul li:first-child {
@@ -238,7 +226,7 @@ export default function Header() {
               width: 90%;
             }
 
-            .search .search-input {
+            form .search-input {
               width: 300px;
             }
 
@@ -250,7 +238,7 @@ export default function Header() {
               display: block;
             }
 
-            .menu-wrap ul li:nth-child(2) {
+            .menu-wrap ul li:nth-child(1) {
               display: none;
             }
           }
@@ -258,7 +246,7 @@ export default function Header() {
           /* IPAD PRO | SMALL LAPTOP  */
 
           @media only screen and (min-width: 1000px) {
-            .search .search-input {
+            form .search-input {
               display: block;
               width: 400px;
             }

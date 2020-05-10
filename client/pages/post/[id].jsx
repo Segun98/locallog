@@ -8,6 +8,7 @@ import Related from "../../components/Related";
 import {
   FacebookIcon
 } from "react-share";
+import {truncateAlt} from '../../utils/truncate'
 
 const POSTS_QUERY = `
 query post($id: ID) {
@@ -20,6 +21,8 @@ query post($id: ID) {
         author
         date
         category
+        metaDesc
+        authorProfile
       }
     }
 `;
@@ -41,42 +44,19 @@ export async function getServerSideProps({ params }) {
 }
 
 function index({ post }) {
-  function truncateAlt(str) {
-    if (str.length > 20) {
-      return str.slice(0, 20);
-    } else {
-      return str;
-    }
-  }
-
   return (
     <Layout>
       <div>
         <Head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/images/logo.png"
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/images/logo.png"
-          />
-          <meta name="theme-color" content="#000000" />
-          <link rel="apple-touch-icon" href="/images/logo.png" />
-          <meta property="og:type" content="website" />
           <title>{post.title} | Tadlace</title>
-          <meta name="Description" content={post.title} />
+          <meta name="Description" content={post.metaDesc} />
           <meta name="keywords" content={post.title} />
           <meta name="author" content={post.author} />
-          <meta property="og:description" content={post.title} />
+          <meta property="og:description" content={post.metaDesc} />
           <meta name="twitter:title" content={post.title} />
-          <meta name="twitter:description" content={post.title} />
+          <meta name="twitter:description" content={post.metaDesc} />
           <meta name="twitter:image" content={post.url} />
           <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:type" content="article" />

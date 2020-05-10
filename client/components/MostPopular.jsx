@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
 import ErrorMessage from "./ErrorMessage";
+import {truncateTitle, truncateAlt} from "../utils/truncate"
 
 export default function MostPopular() {
   useEffect(() => {
@@ -37,21 +38,6 @@ export default function MostPopular() {
     var sorted = posts.sort((a, b) => b.count - a.count);
   }
 
-  function truncateTitle(str) {
-    if (str.length > 80) {
-      return str.slice(0, 80) + "...";
-    } else {
-      return str;
-    }
-  }
-
-  function truncateAlt(str) {
-    if (str.length > 20) {
-      return str.slice(0, 20);
-    } else {
-      return str;
-    }
-  }
 
   return (
     <div>

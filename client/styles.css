@@ -231,7 +231,13 @@ a {
     .new-post-page {
         width: 70%;
     }
-
+  .form-wrap-new{
+      display: grid;
+      display: -moz-grid;
+      display: -ms-grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap:20px
+  }
 }
 
 /* 4K SCREEN  */

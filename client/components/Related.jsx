@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
 import ErrorMessage from "./ErrorMessage";
+import {truncateAlt, truncateTitle} from "../utils/truncate"
 
 export default function Related({ category, id }) {
   useEffect(() => {
@@ -36,27 +37,12 @@ export default function Related({ category, id }) {
   } else if (posts.length > 0) {
     const filt = posts.filter((post) => post.id !== id);
     var related = filt.filter((post) => post.category === category);
+                      // .reverse()
     // var firstItem = posts[posts.length - 1];
     // var secondItem = posts[posts.length - 2];
     // var thirdItem = posts[posts.length - 3];
     // var fourthItem = posts[posts.length - 4];
     // var fifthItem = posts[posts.length - 5];
-  }
-
-  function truncateTitle(str) {
-    if (str.length > 80) {
-      return str.slice(0, 80) + "...";
-    } else {
-      return str;
-    }
-  }
-
-  function truncateAlt(str) {
-    if (str.length > 20) {
-      return str.slice(0, 20);
-    } else {
-      return str;
-    }
   }
 
   return (

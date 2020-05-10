@@ -35,6 +35,12 @@ const Posts = new mongoose.Schema({
     url: {
         type: String
     },
+    metaDesc: {
+        type: String
+    },
+    authorProfile: {
+        type: String
+    },
     EditedAt: {
         type: Date,
         default: Date.now

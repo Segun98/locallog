@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { request } from "graphql-request";
 import Link from "next/link";
 import ErrorMessage from "./ErrorMessage";
+import { truncateAlt, truncateTitle} from "../utils/truncate"
 
 export default function AllPosts() {
   useEffect(() => {
@@ -35,24 +36,6 @@ export default function AllPosts() {
     return <ErrorMessage message={message} />;
   } else if (posts.length > 0) {
     var newfirst = posts.reverse();
-  }
-
-  //   console.log(newfirst);
-
-  function truncateTitle(str) {
-    if (str.length > 80) {
-      return str.slice(0, 80) + "...";
-    } else {
-      return str;
-    }
-  }
-
-  function truncateAlt(str) {
-    if (str.length > 20) {
-      return str.slice(0, 20);
-    } else {
-      return str;
-    }
   }
 
   return (
