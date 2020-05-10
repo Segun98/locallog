@@ -1,8 +1,4 @@
 const graphql = require('graphql')
-// const {
-//     posts,
-//     users
-// } = require('./dummydb')
 const Posts = require('../models/posts')
 const {
     GraphQLObjectType,
@@ -13,74 +9,7 @@ const {
     GraphQLNonNull,
     GraphQLFloat
 } = graphql
-
-
-
-const PostType = new GraphQLObjectType({
-    name: 'Post',
-    fields: () => ({
-        id: {
-            type: GraphQLID
-        },
-        title: {
-            type: GraphQLString
-        },
-        description: {
-            type: GraphQLString
-        },
-        date: {
-            type: GraphQLString
-        },
-        category: {
-            type: GraphQLString
-        },
-        author: {
-            type: GraphQLString
-        },
-        email: {
-            type: GraphQLString
-        },
-        count: {
-            type : GraphQLFloat
-        },
-        url: {
-            type : GraphQLString
-        },
-        metaDesc: {
-            type : GraphQLString
-        },
-        authorProfile: {
-            type : GraphQLString
-        }
-
-
-    })
-});
-
-// const UsersType = new GraphQLObjectType({
-//     name: 'Users',
-//     fields: () => ({
-//         id: {
-//             type: GraphQLID
-//         },
-//         email: {
-//             type: GraphQLString
-//         },
-//         fullname: {
-//             type: GraphQLString
-//         },
-//         password: {
-//             type: GraphQLString
-//         },
-//         posts: {
-//             type: new GraphQLList(PostType),
-//             resolve(parent, args) {
-//                 return posts.filter(post => post.email === parent.email)
-//             }
-//         }
-//     })
-// });
-
+const PostType = require('./querytypes')
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -93,39 +22,25 @@ const RootQuery = new GraphQLObjectType({
                 }
             },
             resolve: async function (parent, args) {
-                
-              await Posts.findOneAndUpdate({_id:args.id}, { $inc: { count: 1 },});
+
+                await Posts.findOneAndUpdate({
+                    _id: args.id
+                }, {
+                    $inc: {
+                        count: 1
+                    },
+                });
 
                 const posts = await Posts.findById(args.id)
                 return posts
-                // return posts.find(post => post.id === args.id)
             }
         },
         posts: {
             type: new GraphQLList(PostType),
             resolve() {
                 return Posts.find()
-                // return posts
             }
         }
-        // user: {
-        //     type: UsersType,
-        //     args: {
-        //         email: {
-        //             type: GraphQLString
-        //         }
-        //     },
-        //     resolve(parent, args) {
-        //         return users.find(user => user.email === args.email)
-        //     }
-        // },
-        // users: {
-        //     type: new GraphQLList(UsersType),
-        //     resolve() {
-        //         return users
-        //     }
-        // },
-
     }
 
 })
@@ -167,7 +82,7 @@ const Mutation = new GraphQLObjectType({
                     type: GraphQLString
                 }
             },
-            resolve(parent, args){
+            resolve(parent, args) {
 
                 let post = new Posts({
                     title: args.title,
@@ -190,4 +105,4 @@ const Mutation = new GraphQLObjectType({
 module.exports = new GraphQLSchema({
     query: RootQuery,
     mutation: Mutation
-}) 
+})
