@@ -13,6 +13,9 @@ const PostType = new GraphQLObjectType({
         id: {
             type: GraphQLID
         },
+        titleurl: {
+            type: GraphQLString
+        },
         title: {
             type: GraphQLString
         },

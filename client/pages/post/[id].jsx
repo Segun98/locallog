@@ -11,9 +11,10 @@ import {
 import {truncateAlt} from '../../utils/truncate'
 
 const POSTS_QUERY = `
-query post($id: ID) {
-      post(id: $id) {
+query post($titleurl: String!) {
+      post(titleurl: $titleurl) {
         id
+        titleurl
         title
         description
         count
@@ -28,12 +29,12 @@ query post($id: ID) {
 `;
 
 export async function getServerSideProps({ params }) {
-  // const localendpoint = "http://localhost:8080/graphql";
-  const prodendpoint = "https://backlog.now.sh/graphql"
+  const localendpoint = "http://localhost:8080/graphql";
+  // const prodendpoint = "https://backlog.now.sh/graphql"
   const variables = {
-    id: params.id,
+    titleurl: params.id,
   };
-  const res = await request(prodendpoint, POSTS_QUERY, variables);
+  const res = await request(localendpoint, POSTS_QUERY, variables);
   const post = await res.post;
 
   return {
@@ -62,7 +63,7 @@ function index({ post }) {
           <meta property="og:type" content="article" />
           <meta
             property="og:url"
-            content={`https://locallog.now.sh/post/${post.id}`}
+            content={`https://locallog.now.sh/post/${post.titleurl}`}
           />
           <meta property="og:title" content={post.title} />
           <meta property="og:image" content={post.url} />
@@ -136,7 +137,7 @@ function index({ post }) {
             >
               <a
                 target="_blank"
-                href={`https://www.facebook.com/sharer/sharer.php?u=https://locallog.now.sh/post/${post.id}`}
+                href={`https://www.facebook.com/sharer/sharer.php?u=https://locallog.now.sh/post/${post.titleurl}`}
                 className="fb-xfbml-parse-ignore"
               >
               <FacebookIcon size={32} />

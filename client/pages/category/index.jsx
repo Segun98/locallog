@@ -10,6 +10,7 @@ const ALL_POSTS_QUERY = `
   {
     posts {
       id
+      titleurl
       title
       author
       date
@@ -21,9 +22,9 @@ const ALL_POSTS_QUERY = `
 
 export async function getServerSideProps() {
 
-  // const localendpoint = "http://localhost:8080/graphql"
-  const prodendpoint = "https://backlog.now.sh/graphql"
-  const res = await request(prodendpoint, ALL_POSTS_QUERY);
+  const localendpoint = "http://localhost:8080/graphql"
+  // const prodendpoint = "https://backlog.now.sh/graphql"
+  const res = await request(localendpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
   return {
@@ -36,9 +37,6 @@ export async function getServerSideProps() {
 export default function Index({ posts }) {
   const router = useRouter();
 
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
   const { query } = router;
 
   const capitalize = (s) => {
@@ -68,7 +66,7 @@ export default function Index({ posts }) {
           {filteredCategory.map((allPosts) => (
             <CategoryList
               key={allPosts.id}
-              href={`/post/${allPosts.id}`}
+              href={`/post/${allPosts.titleurl}`}
               src={`${allPosts.url}`}
               alt={truncateAlt(`${allPosts.title}`)}
               title={truncateTitle(allPosts.title)}

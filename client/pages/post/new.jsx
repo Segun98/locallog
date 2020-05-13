@@ -10,7 +10,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
-import { truncateMeta } from "../../utils/truncate";
+import { dash } from '../../utils/truncate'
 
 export default function New() {
   const [Modal, setModal] = useState(false);
@@ -38,6 +38,7 @@ export default function New() {
   const [metaDesc, setmetaDesc] = useState("");
   const [authorProfile, setauthorProfile] = useState("")
   
+  
   function capital_letter(str) {
     str = str.split(" ");
 
@@ -60,6 +61,7 @@ export default function New() {
     $url: String!
     $metaDesc: String!
     $authorProfile: String!
+    $titleurl: String!
   ) {
     addPost(
       title: $title
@@ -72,8 +74,10 @@ export default function New() {
       url: $url
       metaDesc: $metaDesc
       authorProfile: $authorProfile
+      titleurl: $titleurl
     ) {
       id
+      titleurl
       description
       email
       author
@@ -95,6 +99,7 @@ export default function New() {
 
       const variables = {
         title: capital_letter(title),
+        titleurl: dash(title),
         date,
         description: content,
         email,
@@ -102,7 +107,7 @@ export default function New() {
         author,
         count,
         url,
-        metaDesc: truncateMeta(metaDesc),
+        metaDesc,
         authorProfile
       };
 
@@ -119,7 +124,7 @@ export default function New() {
         seturl("");
         setmetaDesc("");
         setauthorProfile("")
-        router.push(`/post/${res.addPost.id}`);
+        router.push(`/post/${res.addPost.titleurl}`);
       } catch (err) {
         console.log(err.message);
       }
@@ -159,9 +164,9 @@ export default function New() {
                   type="text"
                   required
                   placeholder="My Post Title..."
-                  value={title}
+                  defaultValue={title}
                   className="title"
-                  onChange={(e) => {
+                  onBlur={(e) => {
                     setTitle(e.target.value);
                   }}
                 />
@@ -172,10 +177,10 @@ export default function New() {
                 </label>
                 <input
                   type="email"
-                  value={email}
+                  defaultValue={email}
                   required
                   placeholder="Please enter a valid email"
-                  onChange={(e) => {
+                  onBlur={(e) => {
                     setemail(e.target.value);
                   }}
                 />
@@ -185,21 +190,21 @@ export default function New() {
                   <h3>Post Category</h3>
                 </label>
                 <select
-                  value={Category}
-                  onChange={(e) => {
+                  defaultValue={Category}
+                  onBlur={(e) => {
                     setCategory(e.target.value);
                   }}
                 >
-                  <option value="">--select--</option>
-                  <option value="Business">Business</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="Politics">Politics</option>
-                  <option value="Technology">Technology</option>
-                  <option value="Lifestyle">Lifestyle</option>
-                  <option value="Personal">Personal</option>
-                  <option value="Health">Health & Wellness</option>
-                  <option value="Food">Food</option>
-                  <option value="Other">Other</option>
+                  <option defaultValue="">--select--</option>
+                  <option defaultValue="Business">Business</option>
+                  <option defaultValue="Entertainment">Entertainment</option>
+                  <option defaultValue="Politics">Politics</option>
+                  <option defaultValue="Technology">Technology</option>
+                  <option defaultValue="Lifestyle">Lifestyle</option>
+                  <option defaultValue="Personal">Personal</option>
+                  <option defaultValue="Health">Health & Wellness</option>
+                  <option defaultValue="Food">Food</option>
+                  <option defaultValue="Other">Other</option>
                 </select>
               </div>
               <div className="form-item">
@@ -208,11 +213,11 @@ export default function New() {
                 </label>
                 <input
                   type="text"
-                  value={author}
+                  defaultValue={author}
                   required
                   maxLength="20"
                   placeholder="Please enter your full name"
-                  onChange={(e) => {
+                  onBlur={(e) => {
                     setauthor(e.target.value);
                   }}
                 />
@@ -238,8 +243,8 @@ export default function New() {
                   type="url"
                   required
                   placeholder="image url"
-                  value={url}
-                  onChange={(e) => {
+                  defaultValue={url}
+                  onBlur={(e) => {
                     seturl(e.target.value);
                   }}
                 />
@@ -260,8 +265,10 @@ export default function New() {
                 <textarea
                   cols="45"
                   rows="5"
-                  value={metaDesc}
-                  onChange={(e) => {
+                  name="metaDesc"
+                  maxLength="350"
+                  defaultValue={metaDesc}
+                  onBlur={(e) => {
                     setmetaDesc(e.target.value);
                   }}
                   placeholder="Paste a sentence or two from your article"
@@ -285,8 +292,10 @@ export default function New() {
                 <textarea
                   cols="45"
                   rows="5"
-                  value={authorProfile}
-                  onChange={(e) => {
+                  maxLength="250"
+                  name="authorProfile"
+                  defaultValue={authorProfile}
+                  onBlur={(e) => {
                     setauthorProfile(e.target.value);
                   }}
                   placeholder="A brief profile about you. You could add your social media handles and contact info. (This is displayed publicly under your post)"

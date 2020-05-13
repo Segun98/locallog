@@ -11,23 +11,22 @@ const connectDB = require('./db')
 
 const PORT = process.env.PORT || 8080
 connectDB()
-// enable cors
+
 var corsOptions = {
-    origin: 'http://localhost:3000',
-    credentials: true // <-- REQUIRED backend setting
-  };
- 
-  app.use(cors(corsOptions));
+  origin: 'http://localhost:3000',
+  credentials: true // <-- REQUIRED backend setting
+};
+
+app.use(cors(corsOptions));
 // app.use(express.json())
 // app.use(express.urlencoded({
 //     extended: false
 // }));
 
 app.use('/graphql', cors(corsOptions), graphqlHTTP({
-graphiql:true,
-schema
+  graphiql: true,
+  schema
 }))
 
 
-app.listen(PORT, ()=> console.log(`server running on Port ${PORT}`)
-)
+app.listen(PORT, () => console.log(`server running on Port ${PORT}`))

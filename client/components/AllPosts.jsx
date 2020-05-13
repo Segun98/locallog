@@ -14,26 +14,25 @@ export default function AllPosts() {
   {
     posts {
       id
+      titleurl
       title
       author
       date
       url
-      count
     }
   }
   `;
 
   async function fetchAll() {
-    // const localendpoint = "http://localhost:8080/graphql";
-    const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(prodendpoint, ALL_POSTS);
+    const localendpoint = "http://localhost:8080/graphql";
+    // const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(localendpoint, ALL_POSTS);
     const data = await res.posts;
     setposts(data);
   }
 
   if (posts.length === 0) {
-    const message = "Loading";
-    return <ErrorMessage message={message} />;
+    return <ErrorMessage />;
   } else if (posts.length > 0) {
     var newfirst = posts.reverse();
   }
@@ -46,7 +45,7 @@ export default function AllPosts() {
         </div>
         <div className="all-posts-wrap">
           {newfirst.map((allPosts) => (
-            <Link key={allPosts.id} href={`/post/${allPosts.id}`}>
+            <Link key={allPosts.id} href={`/post/${allPosts.titleurl}`}>
               <a>
                 <div className="all-posts">
                   <div className="all-posts-content">

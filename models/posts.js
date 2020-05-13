@@ -5,6 +5,10 @@ const Posts = new mongoose.Schema({
         type: String,
         required: true
     },
+    titleurl: {
+        type: String,
+        required: true
+    },
     description: {
         type: Object,
         required: true

@@ -1,5 +1,4 @@
 const graphql = require('graphql')
-const Posts = require('../models/posts')
 const {
     GraphQLObjectType,
     GraphQLString,
@@ -11,27 +10,28 @@ const {
 } = graphql
 const PostType = require('./querytypes')
 
+
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
         post: {
             type: PostType,
             args: {
-                id: {
-                    type: GraphQLID
+                titleurl: {
+                    type: GraphQLString
                 }
             },
             resolve: async function (parent, args) {
 
                 await Posts.findOneAndUpdate({
-                    _id: args.id
+                    titleurl: args.titleurl
                 }, {
                     $inc: {
                         count: 1
                     },
                 });
 
-                const posts = await Posts.findById(args.id)
+                const posts = await Posts.findById(args.titleurl)
                 return posts
             }
         },
@@ -39,6 +39,30 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(PostType),
             resolve() {
                 return Posts.find()
+            }
+        },
+        search: {
+            type: new GraphQLList(PostType),
+            args: {
+                author: {
+                    type: GraphQLString
+                },
+                title: {
+                    type: GraphQLString
+                }
+
+            },
+            resolve: async function (parent, args) {
+
+                const search = await Posts.find({
+                    $or: [{
+                        author: args.author
+                    }, {
+                        title: args.title
+                    }]
+                })
+
+                return search
             }
         }
     }
@@ -80,23 +104,50 @@ const Mutation = new GraphQLObjectType({
                 },
                 authorProfile: {
                     type: GraphQLString
+                },
+                titleurl: {
+                    type: new GraphQLNonNull(GraphQLString)
                 }
             },
-            resolve(parent, args) {
+            resolve: async function (parent, args) {
 
-                let post = new Posts({
-                    title: args.title,
-                    description: args.description,
-                    date: args.date,
-                    category: args.category,
-                    author: args.author,
-                    email: args.email,
-                    count: args.count,
-                    url: args.url,
-                    metaDesc: args.metaDesc,
-                    authorProfile: args.authorProfile
-                });
-                return post.save()
+                let postexists = await Posts.findOne({
+                    titleurl: args.titleurl
+                })
+                let random = Math.floor(Math.random() * 448994)
+                if (postexists) {
+                    let post = new Posts({
+                        titleurl: `${args.titleurl}-${random}`,
+                        title: args.title,
+                        description: args.description,
+                        date: args.date,
+                        category: args.category,
+                        author: args.author,
+                        email: args.email,
+                        count: args.count,
+                        url: args.url,
+                        metaDesc: args.metaDesc,
+                        authorProfile: args.authorProfile
+                    });
+                    return post.save()
+
+                } else {
+                    let post = new Posts({
+                        titleurl: args.titleurl,
+                        title: args.title,
+                        description: args.description,
+                        date: args.date,
+                        category: args.category,
+                        author: args.author,
+                        email: args.email,
+                        count: args.count,
+                        url: args.url,
+                        metaDesc: args.metaDesc,
+                        authorProfile: args.authorProfile
+                    });
+                    return post.save()
+                }
+
             }
         }
     }

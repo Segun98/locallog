@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
 import ErrorMessage from "./ErrorMessage";
-import {truncateTitle, truncateAlt} from "../utils/truncate"
+import { truncateTitle, truncateAlt } from "../utils/truncate";
 
 export default function MostPopular() {
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function MostPopular() {
   const MOST_POPULAR = `
   {
     posts {
-      id
+      titleurl
       title
       author
       date
@@ -24,20 +24,18 @@ export default function MostPopular() {
   `;
 
   async function fetchPopular() {
-    // const localendpoint = "http://localhost:8080/graphql"
-  const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(prodendpoint, MOST_POPULAR);
+    const localendpoint = "http://localhost:8080/graphql";
+    // const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(localendpoint, MOST_POPULAR);
     const data = await res.posts;
     setposts(data);
   }
 
   if (posts.length === 0) {
-    const message = "Loading";
-    return <ErrorMessage message={message} />;
+    return null;
   } else if (posts.length > 0) {
     var sorted = posts.sort((a, b) => b.count - a.count);
   }
-
 
   return (
     <div>
@@ -53,7 +51,7 @@ export default function MostPopular() {
               alt={truncateAlt(`${sorted[0].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[0].id}`}>
+              <Link href={`/post/${sorted[0].titleurl}`}>
                 <a>
                   <h4>{truncateTitle(sorted[0].title)}</h4>
                   <p>{sorted[0].author}</p>
@@ -68,7 +66,7 @@ export default function MostPopular() {
               alt={truncateAlt(`${sorted[1].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[1].id}`}>
+              <Link href={`/post/${sorted[1].titleurl}`}>
                 <a>
                   <h4>{truncateTitle(sorted[1].title)}</h4>
                   <p>{sorted[1].author}</p>
@@ -83,7 +81,7 @@ export default function MostPopular() {
               alt={truncateAlt(`${sorted[2].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[2].id}`}>
+              <Link href={`/post/${sorted[2].titleurl}`}>
                 <a>
                   <h4>{truncateTitle(sorted[2].title)}</h4>
                   <p>{sorted[2].author}</p>
@@ -98,11 +96,41 @@ export default function MostPopular() {
               alt={truncateAlt(`${sorted[3].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[3].id}`}>
+              <Link href={`/post/${sorted[3].titleurl}`}>
                 <a>
                   <h4>{truncateTitle(sorted[3].title)}</h4>
                   <p>{sorted[3].author}</p>
                   <h5>{sorted[3].date}</h5>
+                </a>
+              </Link>
+            </div>
+          </div>
+          <div className="most-popular-item-id">
+            <img
+              src={`${sorted[4].url}`}
+              alt={truncateAlt(`${sorted[4].title}`)}
+            />
+            <div className="most-popular-content-id">
+              <Link href={`/post/${sorted[4].titleurl}`}>
+                <a>
+                  <h4>{truncateTitle(sorted[4].title)}</h4>
+                  <p>{sorted[4].author}</p>
+                  <h5>{sorted[4].date}</h5>
+                </a>
+              </Link>
+            </div>
+          </div>
+          <div className="most-popular-item-id">
+            <img
+              src={`${sorted[5].url}`}
+              alt={truncateAlt(`${sorted[5].title}`)}
+            />
+            <div className="most-popular-content-id">
+              <Link href={`/post/${sorted[5].titleurl}`}>
+                <a>
+                  <h4>{truncateTitle(sorted[5].title)}</h4>
+                  <p>{sorted[5].author}</p>
+                  <h5>{sorted[5].date}</h5>
                 </a>
               </Link>
             </div>
@@ -155,7 +183,6 @@ export default function MostPopular() {
               gap: 50px;
               grid-template-columns: 1fr 1fr 1fr;
             }
-
           }
 
           /* 4K SCREEN  */

@@ -9,20 +9,19 @@ import {truncateAlt, truncateTitle} from "../utils/truncate"
 const ALL_POSTS_QUERY = `
   {
     posts {
-      id
+      titleurl
       title
       author
       date
       url
-      count
     }
   }
 `;
 
 export async function getStaticProps() {
-  // const localendpoint = "http://localhost:8080/graphql";
-  const prodendpoint = "https://backlog.now.sh/graphql"
-  const res = await request(prodendpoint, ALL_POSTS_QUERY);
+  const localendpoint = "http://localhost:8080/graphql";
+  // const prodendpoint = "https://backlog.now.sh/graphql"
+  const res = await request(localendpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
   return {
@@ -74,7 +73,7 @@ function Index({ posts }) {
           </div>
           <div className="latest-posts">
             <div className="latest-posts-wrap">
-              <Link href={`/post/${firstItem.id}`}>
+              <Link href={`/post/${firstItem.titleurl}`}>
                 <a>
                   <div className="main-post">
                     <img
@@ -91,7 +90,7 @@ function Index({ posts }) {
               </Link>
 
               <div className="middle-posts">
-                <Link href={`/post/${secondItem.id}`}>
+                <Link href={`/post/${secondItem.titleurl}`}>
                   <a>
                     <div className="middle-post">
                       <img
@@ -106,7 +105,7 @@ function Index({ posts }) {
                     </div>
                   </a>
                 </Link>
-                <Link href={`/post/${thirdItem.id}`}>
+                <Link href={`/post/${thirdItem.titleurl}`}>
                   <a>
                     <div className="middle-post">
                       <img
@@ -122,7 +121,7 @@ function Index({ posts }) {
                   </a>
                 </Link>
 
-                <Link href={`/post/${fourthItem.id}`}>
+                <Link href={`/post/${fourthItem.titleurl}`}>
                   <a>
                     <div className="middle-post">
                       <img
@@ -139,7 +138,7 @@ function Index({ posts }) {
                 </Link>
               </div>
 
-              <Link href={`/post/${fifthItem.id}`}>
+              <Link href={`/post/${fifthItem.titleurl}`}>
                 <a>
                   <div className="right-post">
                     <img

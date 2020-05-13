@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
 import ErrorMessage from "./ErrorMessage";
-import {truncateAlt, truncateTitle} from "../utils/truncate"
+import { truncateAlt, truncateTitle } from "../utils/truncate";
 
 export default function Related({ category, id }) {
   useEffect(() => {
@@ -14,6 +14,7 @@ export default function Related({ category, id }) {
       {
         posts {
           id
+          titleurl
           title
           author
           date
@@ -24,9 +25,9 @@ export default function Related({ category, id }) {
       `;
 
   async function fetchRelated() {
-    // const localendpoint = "http://localhost:8080/graphql";
-    const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(prodendpoint, Related);
+    const localendpoint = "http://localhost:8080/graphql";
+    // const prodendpoint = "https://backlog.now.sh/graphql"
+    const res = await request(localendpoint, Related);
     const data = await res.posts;
     setposts(data);
   }
@@ -37,7 +38,7 @@ export default function Related({ category, id }) {
   } else if (posts.length > 0) {
     const filt = posts.filter((post) => post.id !== id);
     var related = filt.filter((post) => post.category === category);
-                      // .reverse()
+    related.reverse();
     // var firstItem = posts[posts.length - 1];
     // var secondItem = posts[posts.length - 2];
     // var thirdItem = posts[posts.length - 3];
@@ -60,7 +61,7 @@ export default function Related({ category, id }) {
                 alt={truncateAlt(`${relatedpost.title}`)}
               />
               <div className="related-content">
-                <Link href={`/post/${relatedpost.id}`}>
+                <Link href={`/post/${relatedpost.titleurl}`}>
                   <a>
                     <h5>{truncateTitle(relatedpost.title)}</h5>
                     <p>{relatedpost.author}</p>

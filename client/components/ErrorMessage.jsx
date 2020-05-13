@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function ErrorMessage({ message }) {
+export default function ErrorMessage() {
   return (
     <div>
       <div className="error-msg">
-        <h3>{message}</h3>
+        <h3>loading...</h3>
       </div>
       <style jsx>
         {`
