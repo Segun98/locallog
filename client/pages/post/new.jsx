@@ -10,7 +10,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
-import { dash } from '../../utils/truncate'
+import { dash } from "../../utils/truncate";
 
 export default function New() {
   const [Modal, setModal] = useState(false);
@@ -36,9 +36,8 @@ export default function New() {
   const [count] = useState(0);
   const [url, seturl] = useState("");
   const [metaDesc, setmetaDesc] = useState("");
-  const [authorProfile, setauthorProfile] = useState("")
-  
-  
+  const [authorProfile, setauthorProfile] = useState("");
+
   function capital_letter(str) {
     str = str.split(" ");
 
@@ -108,13 +107,13 @@ export default function New() {
         count,
         url,
         metaDesc,
-        authorProfile
+        authorProfile,
       };
 
       try {
-        // const localendpoint = "http://localhost:8080/graphql"
-        const prodendpoint = "https://backlog.now.sh/graphql";
-        const res = await request(prodendpoint, ADD_POST, variables);
+        const localendpoint = "http://localhost:8080/graphql";
+        // const prodendpoint = "https://backlog.now.sh/graphql";
+        const res = await request(localendpoint, ADD_POST, variables);
         setModal(true);
         setTitle("");
         setContent("");
@@ -123,7 +122,7 @@ export default function New() {
         setauthor("");
         seturl("");
         setmetaDesc("");
-        setauthorProfile("")
+        setauthorProfile("");
         router.push(`/post/${res.addPost.titleurl}`);
       } catch (err) {
         console.log(err.message);

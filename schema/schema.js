@@ -9,6 +9,9 @@ const {
     GraphQLFloat
 } = graphql
 const PostType = require('./querytypes')
+const commentType = require('./querytypes')
+const Posts = require('../models/posts')
+const Comments = require('../models/comments')
 
 
 const RootQuery = new GraphQLObjectType({
@@ -64,10 +67,18 @@ const RootQuery = new GraphQLObjectType({
 
                 return search
             }
+        },
+        comments: {
+            type: new GraphQLList(commentType),
+            resolve() {
+                return Comments.find()
+            }
         }
     }
 
 })
+
+
 
 const Mutation = new GraphQLObjectType({
     name: "Mutation",
@@ -148,6 +159,37 @@ const Mutation = new GraphQLObjectType({
                     return post.save()
                 }
 
+            }
+        },
+        makeComment: {
+            type: commentType,
+            args: {
+                postid: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                email: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                name: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                comment: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                date: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: async function (parent, args) {
+                let comments = new Comments({
+                    postid: args.postid,
+                    email: args.email,
+                    name: args.name,
+                    comment: args.comment,
+                    date: args.date
+                })
+
+                return comments.save()
             }
         }
     }

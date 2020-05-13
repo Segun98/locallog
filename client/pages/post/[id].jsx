@@ -9,6 +9,7 @@ import {
   FacebookIcon
 } from "react-share";
 import {truncateAlt} from '../../utils/truncate'
+import Comments from '../../components/Comments'
 
 const POSTS_QUERY = `
 query post($titleurl: String!) {
@@ -145,6 +146,9 @@ function index({ post }) {
             </div>
           </h6>
           </div>
+        </section>
+        <section>
+          <Comments id={post.id} />
         </section>
         <section>
           <Related category={post.category} id={post.id} />

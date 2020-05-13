@@ -32,7 +32,8 @@ export default function MostPopular() {
   }
 
   if (posts.length === 0) {
-    return null;
+    const message = "Fetching Most Popular Posts..."
+    return <ErrorMessage message={message} />;
   } else if (posts.length > 0) {
     var sorted = posts.sort((a, b) => b.count - a.count);
   }

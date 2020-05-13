@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { request } from "graphql-request";
 import Link from "next/link";
-import ErrorMessage from "./ErrorMessage";
 import { truncateAlt, truncateTitle} from "../utils/truncate"
 
 export default function AllPosts() {
@@ -32,7 +31,7 @@ export default function AllPosts() {
   }
 
   if (posts.length === 0) {
-    return <ErrorMessage />;
+    return null;
   } else if (posts.length > 0) {
     var newfirst = posts.reverse();
   }

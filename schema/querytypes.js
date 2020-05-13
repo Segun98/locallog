@@ -52,29 +52,30 @@ const PostType = new GraphQLObjectType({
 
 
 
-// const UsersType = new GraphQLObjectType({
-//     name: 'Users',
-//     fields: () => ({
-//         id: {
-//             type: GraphQLID
-//         },
-//         email: {
-//             type: GraphQLString
-//         },
-//         fullname: {
-//             type: GraphQLString
-//         },
-//         password: {
-//             type: GraphQLString
-//         },
-//         posts: {
-//             type: new GraphQLList(PostType),
-//             resolve(parent, args) {
-//                 return posts.filter(post => post.email === parent.email)
-//             }
-//         }
-//     })
-// });
+const CommentType = new GraphQLObjectType({
+    name: 'Comments',
+    fields: () => ({
+        id: {
+            type: GraphQLID
+        },
+        postid: {
+            type: GraphQLString
+        },
+        email: {
+            type: GraphQLString
+        },
+        name: {
+            type: GraphQLString
+        },
+        comment: {
+            type: GraphQLString
+        },
+        date: {
+            type: GraphQLString
+        }
+    })
+});
 
 
-module.exports = PostType
+module.exports.PostType = PostType;
+module.exports.CommentType = CommentType;

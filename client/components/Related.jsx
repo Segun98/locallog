@@ -33,10 +33,10 @@ export default function Related({ category, id }) {
   }
 
   if (posts.length === 0) {
-    const message = "Loading";
+    const message = "Fetching Related Posts...";
     return <ErrorMessage message={message} />;
   } else if (posts.length > 0) {
-    const filt = posts.filter((post) => post.id !== id);
+    const filt = posts.filter((post) => post.id !== id); // prevents the same post from appearing
     var related = filt.filter((post) => post.category === category);
     related.reverse();
     // var firstItem = posts[posts.length - 1];
@@ -49,7 +49,9 @@ export default function Related({ category, id }) {
   return (
     <div>
       <div className="related-head">
-        <h2>Related</h2>
+        <h2 style={{ display: posts.length === 0 ? "none" : "block" }}>
+          Related
+        </h2>
       </div>
       <br />
       <section className="related-section">
