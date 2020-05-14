@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { request } from "graphql-request";
-import ErrorMessage from "./ErrorMessage";
+import { endpoint } from "../utils/utils";
 
 export default function Comments({ id }) {
   useEffect(() => {
     fetchComments();
   }, []);
   const [comments, setcomments] = useState([]);
-  const [disable, setdisable] = useState(false);
   const [comment, setcomment] = useState("");
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
@@ -25,19 +24,16 @@ export default function Comments({ id }) {
       `;
 
   async function fetchComments() {
-    const localendpoint = "http://localhost:8080/graphql";
-    // const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(localendpoint, Comments);
-    const data = await res.comments;
-    setcomments(data);
+    try {
+      const res = await request(endpoint, Comments);
+      const data = await res.comments;
+      setcomments(data);
+    } catch (err) {
+      err.response.message
+    }
   }
+    const postcomments = comments.filter((comment) => comment.postid === id);
 
-  if (comments.length === 0) {
-    const message = "Loading Comments...";
-    return <ErrorMessage message={message} />;
-  } else if (posts.length > 0) {
-    var comments = comments.filter((comment) => comment.postid !== id);
-  }
 
   const make_comment = `
   mutation makeComment(
@@ -61,7 +57,6 @@ export default function Comments({ id }) {
 
   async function onsubmit(e) {
     e.preventDefault();
-    setdisable(true);
 
     //date
     const dateOptions = { month: "short", day: "numeric", year: "numeric" };
@@ -77,15 +72,13 @@ export default function Comments({ id }) {
     };
 
     try {
-      const localendpoint = "http://localhost:8080/graphql";
-      // const prodendpoint = "https://backlog.now.sh/graphql";
-      await request(localendpoint, make_comment, variables);
+      await request(endpoint, make_comment, variables);
       setname("");
       setemail("");
       setcomment("");
       fetchComments();
     } catch (err) {
-      console.log(err.message);
+      console.log(err.response.message);
     }
   }
 
@@ -93,9 +86,9 @@ export default function Comments({ id }) {
     <div>
       <section>
         <div>
-          {comments.map((comment) => (
-            <ul>
-              <li key={comment.postid}>{comment.comment}</li>
+          {postcomments.map((comment, index) => (
+            <ul key={index}>
+              <li>{comment.comment}</li>
             </ul>
           ))}
         </div>
@@ -147,7 +140,7 @@ export default function Comments({ id }) {
             ></textarea>
           </div>
 
-          <button disabled={disable} type="submit">
+          <button type="submit">
             submit
           </button>
         </form>

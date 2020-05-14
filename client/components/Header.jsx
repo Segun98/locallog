@@ -66,42 +66,42 @@ export default function Header() {
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=business">
+          <Link href="/category?category=business" >
             <a>Business</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=entertainment">
+          <Link href="/category?category=entertainment" >
             <a>Entertainment</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=politics">
+          <Link href="/category?category=politics" >
             <a>Politics</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=technology">
+          <Link href="/category?category=technology" >
             <a>Technology</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=lifestyle">
+          <Link href="/category?category=lifestyle" >
             <a>Lifestyle</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=personal">
+          <Link href="/category?category=personal" >
             <a>Personal</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=health">
+          <Link href="/category?category=health" >
             <a>Health & Wellness</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=food">
+          <Link href="/category?category=food" >
             <a>Food</a>
           </Link>
         </div>

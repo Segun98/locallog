@@ -8,10 +8,78 @@ const {
     GraphQLNonNull,
     GraphQLFloat
 } = graphql
-const PostType = require('./querytypes')
-const commentType = require('./querytypes')
 const Posts = require('../models/posts')
 const Comments = require('../models/comments')
+
+
+const PostType = new GraphQLObjectType({
+    name: 'Post',
+    fields: () => ({
+        id: {
+            type: GraphQLID
+        },
+        titleurl: {
+            type: GraphQLString
+        },
+        title: {
+            type: GraphQLString
+        },
+        description: {
+            type: GraphQLString
+        },
+        date: {
+            type: GraphQLString
+        },
+        category: {
+            type: GraphQLString
+        },
+        author: {
+            type: GraphQLString
+        },
+        email: {
+            type: GraphQLString
+        },
+        count: {
+            type: GraphQLFloat
+        },
+        url: {
+            type: GraphQLString
+        },
+        metaDesc: {
+            type: GraphQLString
+        },
+        authorProfile: {
+            type: GraphQLString
+        }
+    })
+});
+
+
+
+
+const CommentType = new GraphQLObjectType({
+    name: 'Comments',
+    fields: () => ({
+        id: {
+            type: GraphQLID
+        },
+        postid: {
+            type: GraphQLString
+        },
+        email: {
+            type: GraphQLString
+        },
+        name: {
+            type: GraphQLString
+        },
+        comment: {
+            type: GraphQLString
+        },
+        date: {
+            type: GraphQLString
+        }
+    })
+});
 
 
 const RootQuery = new GraphQLObjectType({
@@ -34,8 +102,7 @@ const RootQuery = new GraphQLObjectType({
                     },
                 });
 
-                const posts = await Posts.findById(args.titleurl)
-                return posts
+                return Posts.findOne({titleurl:args.titleurl})
             }
         },
         posts: {
@@ -69,7 +136,7 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         comments: {
-            type: new GraphQLList(commentType),
+            type: new GraphQLList(CommentType),
             resolve() {
                 return Comments.find()
             }
@@ -162,7 +229,7 @@ const Mutation = new GraphQLObjectType({
             }
         },
         makeComment: {
-            type: commentType,
+            type: CommentType,
             args: {
                 postid: {
                     type: new GraphQLNonNull(GraphQLString)
@@ -181,7 +248,7 @@ const Mutation = new GraphQLObjectType({
                 }
             },
             resolve: async function (parent, args) {
-                let comments = new Comments({
+                let comments = await new Comments({
                     postid: args.postid,
                     email: args.email,
                     name: args.name,

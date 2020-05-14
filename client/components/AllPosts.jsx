@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { request } from "graphql-request";
 import Link from "next/link";
-import { truncateAlt, truncateTitle} from "../utils/truncate"
+import { truncateAlt, truncateTitle, endpoint} from "../utils/utils"
 
 export default function AllPosts() {
   useEffect(() => {
@@ -23,9 +23,7 @@ export default function AllPosts() {
   `;
 
   async function fetchAll() {
-    const localendpoint = "http://localhost:8080/graphql";
-    // const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(localendpoint, ALL_POSTS);
+    const res = await request(endpoint, ALL_POSTS);
     const data = await res.posts;
     setposts(data);
   }

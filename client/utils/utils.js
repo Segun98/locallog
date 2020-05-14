@@ -19,3 +19,6 @@ export function dash(str) {
   const dashed = trimmed.split(" ").join("-");
   return dashed.toLowerCase()
 }
+
+export const endpoint = "http://localhost:8080/graphql"
+// "https://backlog.now.sh/graphql"

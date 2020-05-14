@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
 import ErrorMessage from "./ErrorMessage";
-import { truncateAlt, truncateTitle } from "../utils/truncate";
+import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
 
 export default function Related({ category, id }) {
   useEffect(() => {
@@ -25,9 +25,7 @@ export default function Related({ category, id }) {
       `;
 
   async function fetchRelated() {
-    const localendpoint = "http://localhost:8080/graphql";
-    // const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(localendpoint, Related);
+    const res = await request(endpoint, Related);
     const data = await res.posts;
     setposts(data);
   }

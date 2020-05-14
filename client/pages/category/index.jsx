@@ -4,7 +4,7 @@ import Layout from "../../components/Layout";
 import Head from "next/head";
 import CategoryList from "../../components/CategoryList";
 import { request } from "graphql-request";
-import { truncateTitle, truncateAlt} from '../../utils/truncate'
+import { truncateTitle, truncateAlt, endpoint } from "../../utils/utils";
 
 const ALL_POSTS_QUERY = `
   {
@@ -21,10 +21,7 @@ const ALL_POSTS_QUERY = `
 `;
 
 export async function getServerSideProps() {
-
-  const localendpoint = "http://localhost:8080/graphql"
-  // const prodendpoint = "https://backlog.now.sh/graphql"
-  const res = await request(localendpoint, ALL_POSTS_QUERY);
+  const res = await request(endpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
   return {

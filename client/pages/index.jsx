@@ -4,7 +4,7 @@ import Link from "next/link";
 import { request } from "graphql-request";
 import AllPosts from "../components/AllPosts";
 import MostPopular from "../components/MostPopular";
-import {truncateAlt, truncateTitle} from "../utils/truncate"
+import {truncateAlt, truncateTitle, endpoint} from "../utils/utils"
 
 const ALL_POSTS_QUERY = `
   {
@@ -19,9 +19,7 @@ const ALL_POSTS_QUERY = `
 `;
 
 export async function getStaticProps() {
-  const localendpoint = "http://localhost:8080/graphql";
-  // const prodendpoint = "https://backlog.now.sh/graphql"
-  const res = await request(localendpoint, ALL_POSTS_QUERY);
+  const res = await request(endpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
   return {

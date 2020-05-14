@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
 import ErrorMessage from "./ErrorMessage";
-import { truncateTitle, truncateAlt } from "../utils/truncate";
+import { truncateTitle, truncateAlt, endpoint } from "../utils/utils";
 
 export default function MostPopular() {
   useEffect(() => {
@@ -24,9 +24,7 @@ export default function MostPopular() {
   `;
 
   async function fetchPopular() {
-    const localendpoint = "http://localhost:8080/graphql";
-    // const prodendpoint = "https://backlog.now.sh/graphql"
-    const res = await request(localendpoint, MOST_POPULAR);
+    const res = await request(endpoint, MOST_POPULAR);
     const data = await res.posts;
     setposts(data);
   }

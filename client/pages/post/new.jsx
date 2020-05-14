@@ -10,7 +10,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
-import { dash } from "../../utils/truncate";
+import { dash, endpoint } from "../../utils/utils";
 
 export default function New() {
   const [Modal, setModal] = useState(false);
@@ -111,9 +111,7 @@ export default function New() {
       };
 
       try {
-        const localendpoint = "http://localhost:8080/graphql";
-        // const prodendpoint = "https://backlog.now.sh/graphql";
-        const res = await request(localendpoint, ADD_POST, variables);
+        const res = await request(endpoint, ADD_POST, variables);
         setModal(true);
         setTitle("");
         setContent("");
@@ -125,7 +123,7 @@ export default function New() {
         setauthorProfile("");
         router.push(`/post/${res.addPost.titleurl}`);
       } catch (err) {
-        console.log(err.message);
+        console.log(err.response.message);
       }
     }
   };

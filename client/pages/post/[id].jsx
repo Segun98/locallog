@@ -8,7 +8,7 @@ import Related from "../../components/Related";
 import {
   FacebookIcon
 } from "react-share";
-import {truncateAlt} from '../../utils/truncate'
+import {truncateAlt, endpoint} from '../../utils/utils'
 import Comments from '../../components/Comments'
 
 const POSTS_QUERY = `
@@ -30,14 +30,12 @@ query post($titleurl: String!) {
 `;
 
 export async function getServerSideProps({ params }) {
-  const localendpoint = "http://localhost:8080/graphql";
-  // const prodendpoint = "https://backlog.now.sh/graphql"
   const variables = {
     titleurl: params.id,
   };
-  const res = await request(localendpoint, POSTS_QUERY, variables);
-  const post = await res.post;
 
+  const res = await request(endpoint, POSTS_QUERY, variables);
+  const post = await res.post;
   return {
     props: {
       post,
@@ -148,7 +146,7 @@ function index({ post }) {
           </div>
         </section>
         <section>
-          <Comments id={post.id} />
+          <Comments id={post.titleurl} />
         </section>
         <section>
           <Related category={post.category} id={post.id} />
