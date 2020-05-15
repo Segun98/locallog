@@ -77,7 +77,7 @@ function index({ post }) {
           <script
             async
             defer
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
             src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0"
           ></script>
         </Head>
@@ -92,11 +92,11 @@ function index({ post }) {
         <hr />
         <div className="post-sub-head">
           <div>
-            <h4>By - {post.author}</h4>
-            <h5>{post.date}</h5>
+            <h4 style={{fontSize:"14px"}}>By - {post.author}</h4>
+            <h5 style={{fontSize:"13px"}}>{post.date}</h5>
           </div>
           <aside style={{ display: "flex" }}>
-            <div className="views-count">Views - {post.count}</div>
+            <div style={{fontSize:"13px"}} className="views-count">Views - {post.count}</div>
             <div style={{ display: "flex" }}>
               <a
                 href="https://twitter.com/share?ref_src=twsrc%5Etfw"
@@ -159,9 +159,12 @@ function index({ post }) {
           h1,
           h2,
           h3,
-          h4 {
+          h4,
+          span {
             font-family: "Manrope", sans-serif;
+            font-size: 1.3rem 
           }
+          
           .single-post {
             margin: auto;
             width: 90%;
@@ -179,7 +182,7 @@ function index({ post }) {
           }
           .post-title-wrap {
             margin: auto;
-            width: 80%;
+            width: 90%;
           }
           .single-post-title {
             margin: 15px 0;

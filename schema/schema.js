@@ -124,15 +124,17 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve: async function (parent, args) {
 
-                const search = await Posts.find({
+               return await Posts.find({
                     $or: [{
-                        author: args.author
+                        author:{$regex: args.author,$options:'i'}
                     }, {
-                        title: args.title
+                        title:{$regex: args.title,$options:'i'}
                     }]
                 })
 
-                return search
+                // return await Posts.find({author: {$regex: args.author,$options:'i'}})
+
+                
             }
         },
         comments: {

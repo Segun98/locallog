@@ -47,7 +47,7 @@ export default function Related({ category, id }) {
   return (
     <div>
       <div className="related-head">
-        <h2 style={{ display: posts.length === 0 ? "none" : "block" }}>
+        <h2 style={{ display: related.length === 0 ? "none" : "block" }}>
           Related
         </h2>
       </div>

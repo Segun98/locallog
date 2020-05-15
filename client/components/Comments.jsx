@@ -29,11 +29,10 @@ export default function Comments({ id }) {
       const data = await res.comments;
       setcomments(data);
     } catch (err) {
-      err.response.message
+      err.response.message;
     }
   }
-    const postcomments = comments.filter((comment) => comment.postid === id);
-
+  const postcomments = comments.filter((comment) => comment.postid === id);
 
   const make_comment = `
   mutation makeComment(
@@ -51,6 +50,8 @@ export default function Comments({ id }) {
     date: $date
     ) {
      comment
+     name
+     date
     }
   }
   `;
@@ -88,7 +89,9 @@ export default function Comments({ id }) {
         <div>
           {postcomments.map((comment, index) => (
             <ul key={index}>
+            <li>{comment.name}</li>
               <li>{comment.comment}</li>
+          <li>{comment.date}</li>
             </ul>
           ))}
         </div>
@@ -140,12 +143,45 @@ export default function Comments({ id }) {
             ></textarea>
           </div>
 
-          <button type="submit">
-            submit
-          </button>
+          <button type="submit">submit</button>
         </form>
       </section>
-      <style jsx>{``}</style>
+      <style jsx>{`
+        form {
+          margin: auto;
+          width: 90%;
+        }
+        form div {
+          margin-top: 5px;
+        }
+        input {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #333
+        }
+        button {
+          padding: 10px 20px;
+          background: #333;
+          color: white;
+          border: none;
+          margin-bottom: 10px;
+        }
+        ul{
+          margin: auto;
+          width: 90%;
+          border: 1px solid lightgrey;
+          margin-bottom: 3px;
+          padding: 10px
+        }
+        ul li:first-child{
+          font-size:13px;
+          color: pink
+        }
+        ul li:last-child{
+          font-size:13px;
+          text-align:right
+        }
+      `}</style>
     </div>
   );
 }

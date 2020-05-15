@@ -1,55 +1,68 @@
-// import React, { useState, useEffect } from "react";
-// import { useRouter } from "next/router";
-// import Layout from "../../components/Layout";
-// import Head from "next/head";
-// import CategoryList from "../../components/CategoryList";
-// import { request } from "graphql-request";
-// import { truncateTitle, truncateAlt, endpoint } from "../../utils/utils";
+import Layout from "../../components/Layout";
+import Head from "next/head";
+import { request } from "graphql-request";
+import { truncateTitle, truncateAlt, endpoint } from "../../utils/utils";
 
-// const SEARCH_QUERY = `
-//   {
-//     search {
-//       titleurl
-//       title
-//       author
-//       date
-//       url
-//     }
-//   }
-// `;
-
-// export async function getServerSideProps() {
-//   const res = await request(endpoint, SEARCH_QUERY);
-//   const posts = await res.posts;
-
-//   return {
-//     props: {
-//       posts,
-//     },
-//   };
-// }
-
-// export default function Search({ posts }) {
-//   const router = useRouter();
-
-//   const { query } = router;
+const SEARCH_QUERY = `
+  query search($author: String!, $title: String!) {
+      search(author: $author, title: $title) {
+        id
+        titleurl
+        title
+        author
+        date
+      }
+    }
+`;
 
 
-//   const capitalize = (s) => {
-//     try {
-//       if (typeof s !== "string") return "";
-//       return s.charAt(0).toUpperCase() + s.slice(1);
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
+export async function getServerSideProps({query}) { 
+   const variables = {
+    author: `${query.author === undefined? query.title : query.author }`,
+    title: `${query.title === undefined? query.author : query.title }`
+  };
+  
+  const res = await request(endpoint, SEARCH_QUERY, variables);
+  const posts = await res.search;
 
-//   return (
-//     <Layout>
-//       <Head>
-//         <title> Search Locallog </title>
-//       </Head>
-//       </div>
-//     </Layout>
-//   );
-// }
+  return {
+    props: {
+      posts
+    },
+  };
+}
+
+export default function Index({posts}) {
+const error = "No results found..."
+  const capitalize = (s) => {
+    try {
+      if (typeof s !== "string") return "";
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return (
+    <Layout>
+      <Head>
+        <title> Search Locallog </title>
+      </Head>
+      <div style={{textAlign:"center", marginTop: posts.length ===0 ?"50px": "1px"}}>
+      {posts.length === 0? error : null}
+      </div>
+      <div>
+          {posts.map(post => (
+            <div key={post.id}>
+            <ul>
+            <li>{post.title}</li>
+            </ul>
+            <ul>
+            <li>{post.author}</li>
+            </ul>
+            </div>
+          ))}
+      </div>
+    </Layout>
+  );
+}

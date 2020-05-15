@@ -37,8 +37,17 @@
 
 body {
     font-family: 'Manrope', sans-serif !important;
+    line-height: 1.5 !important;
 }
 
+button, a{
+    cursor: pointer;
+}
+
+textarea{
+    border: 1px solid #333;
+    font-family: 'Manrope', sans-serif
+}
 
 p {
     font-family: 'Manrope', sans-serif !important;
@@ -248,4 +257,3 @@ a {
         width: 60%;
     }
 }
-

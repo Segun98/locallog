@@ -1,12 +1,21 @@
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 
 export default function Header() {
+  const router = useRouter();
   const [menu, setmenu] = useState(false);
-  // const [search, setsearch] = useState(true);
+  const [search, setsearch] = useState("");
+
 
   function displayMenu() {
     setmenu((prevMenu) => !prevMenu);
+  }
+
+  function handleSearch(e) {
+    e.preventDefault()
+    router.push(`/search?title=${search}`);
   }
 
   return (
@@ -15,12 +24,15 @@ export default function Header() {
         <div className="header-wrap">
           <div className="logo">Locallog</div>
           <div className="nav">
-            <form>
+            <form onSubmit={handleSearch}>
             <img src="/images/search.svg" alt="search"/>
               <input
                 className="search-input"
                 type="text"
                 placeholder="Find author or post..."
+                onChange={(e)=> {
+                  setsearch(e.target.value)
+                }}
               />
             </form>
             <div className="write-a-post">
