@@ -127,7 +127,7 @@ export default function MostPopular() {
             <div className="most-popular-content-id">
               <Link href={`/post/${sorted[5].titleurl}`}>
                 <a>
-                  <h4>{truncateTitle(sorted[5].title)}</h4>
+                  <h5>{truncateTitle(sorted[5].title)}</h5>
                   <p>{sorted[5].author}</p>
                   <h5>{sorted[5].date}</h5>
                 </a>

@@ -18,7 +18,7 @@ const ALL_POSTS_QUERY = `
   }
 `;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await request(endpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
@@ -31,11 +31,11 @@ export async function getStaticProps() {
 
 function Index({ posts }) {
   //LATEST POSTS
-  var firstItem = posts[posts.length - 1];
-  var secondItem = posts[posts.length - 2];
-  var thirdItem = posts[posts.length - 3];
-  var fourthItem = posts[posts.length - 4];
-  var fifthItem = posts[posts.length - 5];
+  const firstItem = posts[posts.length - 1];
+  const secondItem = posts[posts.length - 2];
+  const thirdItem = posts[posts.length - 3];
+  const fourthItem = posts[posts.length - 4];
+  const fifthItem = posts[posts.length - 5];
 
 
   return (

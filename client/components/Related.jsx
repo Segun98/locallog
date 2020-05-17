@@ -31,8 +31,7 @@ export default function Related({ category, id }) {
   }
 
   if (posts.length === 0) {
-    const message = "Fetching Related Posts...";
-    return <ErrorMessage message={message} />;
+    return null
   } else if (posts.length > 0) {
     const filt = posts.filter((post) => post.id !== id); // prevents the same post from appearing
     var related = filt.filter((post) => post.category === category);

@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 
 export default function About() {
   const [disable, setdisable] = useState(false);
+  const [error, seterror] = useState(false)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [moreinfo, setMoreinfo] = useState("");
@@ -45,7 +46,9 @@ export default function About() {
   //       setMoreinfo("");
   //     })
   //     .catch((err) => {
-  //       console.log(err.response.data.message);
+  //       console.log(err);
+            //  setdisable(true);
+            // seterror(true)
   //     });
   // }
 
@@ -147,6 +150,12 @@ export default function About() {
                 ></textarea>
               </div>
               <div style={{ textAlign: "center" }}>
+              <div style={{textAlign:"center", display: disable? "block":"none"}}>
+              <img src="/images/spinner.png" alt="spinner" className="spinner" />
+            </div>
+            <div style={{textAlign:"center", color:"red", display: error? "block":"none"}}>
+              <h3>An error occured, check your internet connection and try again</h3>
+            </div>
                 <button disabled={disable} type="submit">
                   Submit
                 </button>

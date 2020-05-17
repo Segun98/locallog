@@ -5,11 +5,9 @@ import ReactHtmlParser from "react-html-parser";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
 import Related from "../../components/Related";
-import {
-  FacebookIcon
-} from "react-share";
-import {truncateAlt, endpoint} from '../../utils/utils'
-import Comments from '../../components/Comments'
+import { FacebookIcon } from "react-share";
+import { truncateAlt, endpoint } from "../../utils/utils";
+import Comments from "../../components/Comments";
 
 const POSTS_QUERY = `
 query post($titleurl: String!) {
@@ -50,7 +48,7 @@ function index({ post }) {
         <Head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>{post.title} | Tadlace</title>
+          <title>{post.title} | Locallog</title>
           <meta name="Description" content={post.metaDesc} />
           <meta name="keywords" content={post.title} />
           <meta name="author" content={post.author} />
@@ -92,11 +90,21 @@ function index({ post }) {
         <hr />
         <div className="post-sub-head">
           <div>
-            <h4 style={{fontSize:"14px"}}>By - {post.author}</h4>
-            <h5 style={{fontSize:"13px"}}>{post.date}</h5>
+            <h4 style={{ fontSize: "14px" }}>By - {post.author}</h4>
+            <h5 style={{ fontSize: "13px" }}>{post.date}</h5>
           </div>
-          <aside style={{ display: "flex" }}>
-            <div style={{fontSize:"13px"}} className="views-count">Views - {post.count}</div>
+          <aside style={{ display: "flex", alignItems: "baseline" }}>
+            <div
+              style={{ display: "flex", alignItems: "center" }}
+              className="views-count"
+            >
+              <img
+                style={{ width: "20px" }}
+                src="/images/eye.png"
+                alt="views"
+              />{" "}
+              - <span style={{ fontSize: "14px" }}>{post.count}</span>
+            </div>
             <div style={{ display: "flex" }}>
               <a
                 href="https://twitter.com/share?ref_src=twsrc%5Etfw"
@@ -113,36 +121,48 @@ function index({ post }) {
         <div className="single-post-body">
           {ReactHtmlParser(post.description)}
         </div>
+        <div
+          className="author-profile-wrap"
+          style={{ display: post.authorProfile === "" ? "none" : "block" }}
+        >
+          <p>Author Profile</p>
+          <div className="author-profile">
+            <div>
+              <img src="/images/person.png" alt="profile" />
+            </div>
+            <div className="author-profile-content">{post.authorProfile}</div>
+          </div>
+        </div>
         <hr />
         <section style={{ marginBottom: "20px" }}>
           <h3 style={{ marginBottom: "10px" }}>Share Post</h3>
           <div className="social-icons">
-          <h6>
-            <a
-              href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-              data-text={post.title}
-              data-show-count="true"
-              className="twitter-share-button"
-            >
-              Tweet
-            </a>
-          </h6>
-          <h6>
-            <div
-              className="fb-share-button"
-              data-href="https://developers.facebook.com/docs/plugins/"
-              data-layout="button"
-              data-size="large"
-            >
+            <h6>
               <a
-                target="_blank"
-                href={`https://www.facebook.com/sharer/sharer.php?u=https://locallog.now.sh/post/${post.titleurl}`}
-                className="fb-xfbml-parse-ignore"
+                href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+                data-text={post.title}
+                data-show-count="true"
+                className="twitter-share-button"
               >
-              <FacebookIcon size={32} />
+                Tweet
               </a>
-            </div>
-          </h6>
+            </h6>
+            <h6>
+              <div
+                className="fb-share-button"
+                data-href="https://developers.facebook.com/docs/plugins/"
+                data-layout="button"
+                data-size="large"
+              >
+                <a
+                  target="_blank"
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://locallog.now.sh/post/${post.titleurl}`}
+                  className="fb-xfbml-parse-ignore"
+                >
+                  <FacebookIcon size={32} />
+                </a>
+              </div>
+            </h6>
           </div>
         </section>
         <section>
@@ -162,9 +182,8 @@ function index({ post }) {
           h4,
           span {
             font-family: "Manrope", sans-serif;
-            font-size: 1.3rem 
           }
-          
+
           .single-post {
             margin: auto;
             width: 90%;
@@ -179,6 +198,8 @@ function index({ post }) {
           .post-sub-head {
             display: flex;
             justify-content: space-between;
+            margin: auto;
+            width: 88%;
           }
           .post-title-wrap {
             margin: auto;
@@ -190,7 +211,8 @@ function index({ post }) {
           }
 
           .single-post-body {
-            margin: 10px 0;
+            margin: 15px 0;
+            line-height: 1.8 !important;
           }
 
           .views-count {
@@ -201,13 +223,30 @@ function index({ post }) {
             padding: 10px 0;
           }
 
-          .social-icons{
-            display:flex;
-            align-items:center
+          .social-icons {
+            display: flex;
+            align-items: center;
           }
 
-          .social-icons h6{
-            margin-left:10px
+          .social-icons h6 {
+            margin-left: 10px;
+          }
+
+          .author-profile-wrap {
+            margin: 25px auto;
+            width: 90%;
+          }
+          .author-profile {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid lightgrey;
+            padding: 10px;
+          }
+          .author-profile img {
+            margin-right: 10px;
+            border: 1px solid lightgrey;
+            border-radius : 50%;
+            padding:5px
           }
 
           /* TABLET SCREEN  */
@@ -216,6 +255,10 @@ function index({ post }) {
             .views-count {
               margin-right: 40px;
             }
+            .author-profile-wrap {
+              margin: 25px auto;
+              width: 70%;
+            }
           }
 
           /* IPAD PRO | SMALL LAPTOP  */
@@ -223,6 +266,10 @@ function index({ post }) {
           @media only screen and (min-width: 1000px) {
             .single-post {
               width: 70%;
+            }
+            .author-profile-wrap {
+              margin: 25px auto;
+              width: 60%;
             }
 
             .header-image img {

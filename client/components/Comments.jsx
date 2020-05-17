@@ -10,6 +10,8 @@ export default function Comments({ id }) {
   const [comment, setcomment] = useState("");
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
+  const [disable, setdisable] = useState(false);
+  const [error, seterror] = useState(false)
 
   const Comments = `
       {
@@ -28,8 +30,9 @@ export default function Comments({ id }) {
       const res = await request(endpoint, Comments);
       const data = await res.comments;
       setcomments(data);
+      setdisable(false);
     } catch (err) {
-      err.response.message;
+      console.log(err);
     }
   }
   const postcomments = comments.filter((comment) => comment.postid === id);
@@ -58,7 +61,7 @@ export default function Comments({ id }) {
 
   async function onsubmit(e) {
     e.preventDefault();
-
+    setdisable(true);
     //date
     const dateOptions = { month: "short", day: "numeric", year: "numeric" };
     const today = new Date();
@@ -79,23 +82,36 @@ export default function Comments({ id }) {
       setcomment("");
       fetchComments();
     } catch (err) {
-      console.log(err.response.message);
+      console.log(err);
+      setdisable(false);
+      seterror(true)
     }
   }
 
   return (
     <div>
       <section>
+        <div
+          style={{
+            display: postcomments.length === 0 ? "none" : "block",
+            margin: "auto",
+            width: "90%",
+            padding:"5px"
+          }}
+        >
+          <h3>Comments</h3>
+        </div>
         <div>
           {postcomments.map((comment, index) => (
             <ul key={index}>
-            <li>{comment.name}</li>
+              <li>{comment.name}</li>
               <li>{comment.comment}</li>
-          <li>{comment.date}</li>
+              <li>{comment.date}</li>
             </ul>
           ))}
         </div>
         <form autoComplete="on" onSubmit={onsubmit}>
+        <h3>Write a comment</h3>
           <div>
             <label htmlFor="name">Name</label>
             <br />
@@ -142,14 +158,22 @@ export default function Comments({ id }) {
               style={{ padding: "15px 10px", width: "100%" }}
             ></textarea>
           </div>
-
-          <button type="submit">submit</button>
+          <div style={{textAlign:"center", display: disable? "block":"none"}}>
+              <img src="/images/spinner.png" alt="spinner" className="spinner" />
+            </div>
+            <div style={{textAlign:"center", color:"red", display: error? "block":"none"}}>
+              <h3>An error occured, check your internet connection and try again</h3>
+            </div>
+          <button type="submit" disabled={disable}>
+            submit
+          </button>
         </form>
       </section>
       <style jsx>{`
         form {
           margin: auto;
           width: 90%;
+          padding-top:10px
         }
         form div {
           margin-top: 5px;
@@ -157,7 +181,7 @@ export default function Comments({ id }) {
         input {
           width: 100%;
           padding: 10px;
-          border: 1px solid #333
+          border: 1px solid #333;
         }
         button {
           padding: 10px 20px;
@@ -166,20 +190,20 @@ export default function Comments({ id }) {
           border: none;
           margin-bottom: 10px;
         }
-        ul{
+        ul {
           margin: auto;
           width: 90%;
           border: 1px solid lightgrey;
           margin-bottom: 3px;
-          padding: 10px
+          padding: 10px;
         }
-        ul li:first-child{
-          font-size:13px;
-          color: pink
+        ul li:first-child {
+          font-size: 13px;
+          color: pink;
         }
-        ul li:last-child{
-          font-size:13px;
-          text-align:right
+        ul li:last-child {
+          font-size: 13px;
+          text-align: right;
         }
       `}</style>
     </div>

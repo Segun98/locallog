@@ -14,7 +14,7 @@ import { dash, endpoint } from "../../utils/utils";
 
 export default function New() {
   const [Modal, setModal] = useState(false);
-
+  const [error, seterror] = useState(false);
   const [disable, setdisable] = useState(false);
   //Text Editor
   const editor = useRef(null);
@@ -22,6 +22,8 @@ export default function New() {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
     askBeforePasteHTML: false,
     askBeforePasteFromWord: false,
+    saveModeInStorage: true,
+    uploader: { insertImageAsBase64URI: true },
   };
 
   //Router
@@ -86,7 +88,6 @@ export default function New() {
 `;
   const onSubmit = async (e) => {
     e.preventDefault();
-    setdisable(true);
     // Prevents short content
     if (content.length < 400) {
       alert("Post too short");
@@ -111,6 +112,7 @@ export default function New() {
       };
 
       try {
+        setdisable(true);
         const res = await request(endpoint, ADD_POST, variables);
         setModal(true);
         setTitle("");
@@ -123,7 +125,9 @@ export default function New() {
         setauthorProfile("");
         router.push(`/post/${res.addPost.titleurl}`);
       } catch (err) {
-        console.log(err.response.message);
+        console.log(err.response);
+        setdisable(false);
+        seterror(true);
       }
     }
   };
@@ -314,6 +318,29 @@ export default function New() {
               />
             </div>
             <div className="submit-post">
+              <div
+                style={{
+                  textAlign: "center",
+                  display: disable ? "block" : "none",
+                }}
+              >
+                <img
+                  src="/images/spinner.png"
+                  alt="spinner"
+                  className="spinner"
+                />
+              </div>
+              <div
+                style={{
+                  textAlign: "center",
+                  color: "red",
+                  display: error ? "block" : "none",
+                }}
+              >
+                <h3>
+                  An error occured, check your internet connection and try again
+                </h3>
+              </div>
               <button disabled={disable} type="submit" className="submit-post">
                 Publish
               </button>
@@ -321,7 +348,11 @@ export default function New() {
           </form>
         </section>
         <Footer />
-        <style jsx>{``}</style>
+        <style jsx>{`
+          textarea {
+            line-height: 1.5;
+          }
+        `}</style>
       </div>
     </Layout>
   );

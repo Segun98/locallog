@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import CategoryList from "../../components/CategoryList";
 import { request } from "graphql-request";
 import { truncateTitle, truncateAlt, endpoint } from "../../utils/utils";
+import Footer from "../../components/Footer"
 
 const ALL_POSTS_QUERY = `
   {
@@ -48,15 +48,24 @@ export default function Index({ posts }) {
   const filteredCategory = posts.filter(
     (post) => post.category === capitalize(query.category)
   );
+  filteredCategory.reverse();
 
   return (
     <Layout>
       <Head>
-        <title> {filteredCategory[0].category} | Category</title>
+        <title> {capitalize(query.category)} | Category</title>
       </Head>
       <div className="category">
         <div className="category-header">
           <h2>Category - {capitalize(query.category)}</h2>
+        </div>
+        <div
+          style={{
+            textAlign: "center",
+            display: filteredCategory.length === 0 ? "block" : "none",
+          }}
+        >
+          <h3>No post, write the first?</h3>
         </div>
 
         <div className="category-items-wrap">
@@ -71,6 +80,13 @@ export default function Index({ posts }) {
               date={allPosts.date}
             />
           ))}
+        </div>
+        <div
+          style={{
+            marginTop: filteredCategory.length < 3 ? "150px" : "10px",
+          }}
+        >
+        <Footer />
         </div>
       </div>
     </Layout>

@@ -16,7 +16,7 @@ export default function CategoryList({
             <div className="category-item">
               <img src={src} alt={alt} />
               <div className="category-item-content">
-                <h4>{title}</h4>
+                <h5>{title}</h5>
                 <p style={{ margin: "5px 0" }}>{author}</p>
                 <h6>{date}</h6>
               </div>

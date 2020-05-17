@@ -37,7 +37,7 @@
 
 body {
     font-family: 'Manrope', sans-serif !important;
-    line-height: 1.5 !important;
+    line-height: 1.6
 }
 
 button, a{
@@ -46,7 +46,8 @@ button, a{
 
 textarea{
     border: 1px solid #333;
-    font-family: 'Manrope', sans-serif
+    font-family: 'Manrope', sans-serif;
+    line-height: 1.8 !important;
 }
 
 p {
@@ -62,6 +63,23 @@ a {
     color: black;
 }
 
+.spinner{
+    font-size: 40px;
+    animation: spinner 1s ease infinite;
+    position: relative;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(360deg);
+    }
+    50%{
+        transform: rotate(180deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
 
 
 
@@ -72,10 +90,6 @@ a {
 .category {
     margin: 10px auto;
     width: 95%;
-}
-
-.category-wrap {
-    display: flex;
 }
 
 .category-header {
@@ -119,12 +133,17 @@ a {
     }
 
     .category-item img {
-        width: 250px;
+        width: 150px;
         height: 150px;
     }
 
     .category-item-content {
         margin-left: 20px;
+    }
+
+    .category-items-wrap {
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
     }
 
 }

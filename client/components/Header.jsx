@@ -2,20 +2,18 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-
 export default function Header() {
   const router = useRouter();
   const [menu, setmenu] = useState(false);
   const [search, setsearch] = useState("");
-
 
   function displayMenu() {
     setmenu((prevMenu) => !prevMenu);
   }
 
   function handleSearch(e) {
-    e.preventDefault()
-    router.push(`/search?title=${search}`);
+    e.preventDefault();
+    router.push(`/search?author=${search}`);
   }
 
   return (
@@ -25,15 +23,22 @@ export default function Header() {
           <div className="logo">Locallog</div>
           <div className="nav">
             <form onSubmit={handleSearch}>
-            <img src="/images/search.svg" alt="search"/>
-              <input
-                className="search-input"
-                type="text"
-                placeholder="Find author or post..."
-                onChange={(e)=> {
-                  setsearch(e.target.value)
-                }}
-              />
+            <button type="submit" style={{background:"none", border:"none"}}>
+              <img src="/images/search.svg" alt="search" />
+            </button>
+              <div>
+                <label htmlFor="search"></label>
+                <input
+                  className="search-input"
+                  name="search"
+                  type="text"
+                  value={search}
+                  placeholder="Find author or post..."
+                  onChange={(e) => {
+                    setsearch(e.target.value);
+                  }}
+                />
+              </div>
             </form>
             <div className="write-a-post">
               <button>
@@ -78,42 +83,42 @@ export default function Header() {
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=business" >
+          <Link href="/category?category=business">
             <a>Business</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=entertainment" >
+          <Link href="/category?category=entertainment">
             <a>Entertainment</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=politics" >
+          <Link href="/category?category=politics">
             <a>Politics</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=technology" >
+          <Link href="/category?category=technology">
             <a>Technology</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=lifestyle" >
+          <Link href="/category?category=lifestyle">
             <a>Lifestyle</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=personal" >
+          <Link href="/category?category=personal">
             <a>Personal</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=health" >
+          <Link href="/category?category=health">
             <a>Health & Wellness</a>
           </Link>
         </div>
         <div className="slide">
-          <Link href="/category?category=food" >
+          <Link href="/category?category=food">
             <a>Food</a>
           </Link>
         </div>
@@ -149,14 +154,15 @@ export default function Header() {
             padding: 5px 5px;
             width: 120px;
             border-radius: 5px;
+            margin-left:5px
           }
-          form{
-            display:flex;
-            align-items:center
+          form {
+            display: flex;
+            align-items: center;
           }
-          form img{
+          form img {
             width: 15px;
-            height: 15px
+            height: 15px;
           }
           form input:focus {
             outline: none;
