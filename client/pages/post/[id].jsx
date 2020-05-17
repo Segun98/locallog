@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import ReactHtmlParser from "react-html-parser";
@@ -8,6 +7,7 @@ import Related from "../../components/Related";
 import { FacebookIcon } from "react-share";
 import { truncateAlt, endpoint } from "../../utils/utils";
 import Comments from "../../components/Comments";
+
 
 const POSTS_QUERY = `
 query post($titleurl: String!) {
@@ -42,6 +42,7 @@ export async function getServerSideProps({ params }) {
 }
 
 function index({ post }) {
+
   return (
     <Layout>
       <div>

@@ -34,7 +34,6 @@ export async function getServerSideProps({ query }) {
 }
 
 export default function Index({ posts }) {  
-  posts.reverse();
   const error = "No results found...";
  
   return (
@@ -53,8 +52,8 @@ export default function Index({ posts }) {
 
       <div className="category"> 
         <div className="category-items-wrap">
-          {posts.map((post, index) => (
-            <div key={index}>
+          {posts.map((post) => (
+            <div key={post.title}>
               <Link href={`/post/${post.titleurl}`}>
                 <a>
                   <div className="category-item">

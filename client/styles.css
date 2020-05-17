@@ -47,7 +47,7 @@ button, a{
 textarea{
     border: 1px solid #333;
     font-family: 'Manrope', sans-serif;
-    line-height: 1.8 !important;
+    line-height: 1.6 !important;
 }
 
 p {
@@ -81,9 +81,7 @@ a {
     }
 }
 
-
-
-
+/* Category is global because i'm sharing the same classnames as in search page */
 
 /* CATEGORY PAGE  */
 

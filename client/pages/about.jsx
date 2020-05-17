@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 export default function About() {
   const [disable, setdisable] = useState(false);
-  const [error, seterror] = useState(false)
+  const [error, seterror] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [moreinfo, setMoreinfo] = useState("");
+  const [body, setbody] = useState("");
+  const [subject, setsubject] = useState("");
 
   function handleName(e) {
     setName(e.target.value);
@@ -18,39 +20,44 @@ export default function About() {
     setEmail(e.target.value);
   }
 
-  function handleMoreinfo(e) {
-    setMoreinfo(e.target.value);
+  function handlebody(e) {
+    setbody(e.target.value);
   }
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-  //   setdisable(true);
-  //   const payload = {
-  //     email: email,
-  //     text: `
-  //     Name: ${name}
+  function handlesubject(e) {
+    setsubject(e.target.value);
+  }
 
-  //     Body: ${moreinfo}`,
-  //   };
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const payload = {
+      email,
+      subject,
+      body: `${body}
 
-  //   axios({
-  //     url: "/api/mail",
-  //     method: "POST",
-  //     data: payload,
-  //   })
-  //     .then((res) => {
-  //       console.log(res.data.message);
-  //       alert(" " + res.data.message + " ");
-  //       setName("");
-  //       setEmail("");
-  //       setMoreinfo("");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-            //  setdisable(true);
-            // seterror(true)
-  //     });
-  // }
+
+      From: ${name}
+      `,
+    };
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      await axios.post("/api/contact", payload, config);
+      setEmail("");
+      setName("");
+      setbody("");
+      setsubject("");
+    } catch (err) {
+      console.log(err.response);
+      setdisable(false);
+      seterror(true);
+    }
+  }
 
   return (
     <Layout>
@@ -88,14 +95,19 @@ export default function About() {
             their stories, inform and impact the rest of the world, one article
             at a time.
           </p>
-          <h4 style={{ textAlign: "center", margin:"5px 0" }}>What You Get on Locallog</h4>
+          <h4 style={{ textAlign: "center", margin: "5px 0" }}>
+            What You Get on Locallog
+          </h4>
           <ul>
             <li>Write articles quickly and easily without having to sign up</li>
             <li>
               Full control - Your articles are published exactly how you write
               them; no ads in between, all stylings are the same.
             </li>
-            <li>Rich Text-Editor (jodit) - Use keyboard shortcuts on texts and more </li>
+            <li>
+              Rich Text-Editor (jodit) - Use keyboard shortcuts on texts and
+              more{" "}
+            </li>
             <li>
               Aggregate your articles by searching by your name in the search
               box
@@ -108,7 +120,7 @@ export default function About() {
               For further assistance, Contact US
             </h4>
 
-            <form autoComplete="on">
+            <form autoComplete="on" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="Name">Name</label>
                 <br />
@@ -136,26 +148,57 @@ export default function About() {
                   onChange={handleEmail}
                 />
               </div>
+
+              <div>
+                <label htmlFor="subject">Subject</label>
+                <input
+                  type="text"
+                  name="subject"
+                  id="subject"
+                  required
+                  placeholder="subject..."
+                  value={subject}
+                  onChange={handlesubject}
+                />
+              </div>
               <div>
                 <label htmlFor="info">Body</label>
                 <br />
                 <textarea
                   cols="45"
                   rows="12"
-                  value={moreinfo}
-                  onChange={handleMoreinfo}
+                  value={body}
+                  onChange={handlebody}
                   placeholder="Start typing..."
                   required
                   style={{ padding: "15px 10px", width: "100%" }}
                 ></textarea>
               </div>
               <div style={{ textAlign: "center" }}>
-              <div style={{textAlign:"center", display: disable? "block":"none"}}>
-              <img src="/images/spinner.png" alt="spinner" className="spinner" />
-            </div>
-            <div style={{textAlign:"center", color:"red", display: error? "block":"none"}}>
-              <h3>An error occured, check your internet connection and try again</h3>
-            </div>
+                <div
+                  style={{
+                    textAlign: "center",
+                    display: disable ? "block" : "none",
+                  }}
+                >
+                  <img
+                    src="/images/spinner.png"
+                    alt="spinner"
+                    className="spinner"
+                  />
+                </div>
+                <div
+                  style={{
+                    textAlign: "center",
+                    color: "red",
+                    display: error ? "block" : "none",
+                  }}
+                >
+                  <h3>
+                    An error occured, check your internet connection and try
+                    again
+                  </h3>
+                </div>
                 <button disabled={disable} type="submit">
                   Submit
                 </button>
@@ -163,7 +206,7 @@ export default function About() {
             </form>
           </div>
         </div>
-        <br/>
+        <br />
         <Footer />
         <style jsx>
           {`
@@ -175,7 +218,7 @@ export default function About() {
 
             ul li {
               list-style: circle;
-              line-height: 1.5
+              line-height: 1.5;
             }
             form div {
               margin-top: 5px;
@@ -184,12 +227,12 @@ export default function About() {
               width: 100%;
               padding: 10px;
             }
-            button{
+            button {
               padding: 10px 20px;
               background: #333;
               color: white;
               border: none;
-              margin-bottom: 10px
+              margin-bottom: 10px;
             }
             @media only screen and (min-width: 600px) {
               .about-page-body {

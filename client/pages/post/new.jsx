@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
 import { dash, endpoint } from "../../utils/utils";
+import axios from "axios";
 
 export default function New() {
   const [Modal, setModal] = useState(false);
@@ -22,8 +23,7 @@ export default function New() {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
     askBeforePasteHTML: false,
     askBeforePasteFromWord: false,
-    saveModeInStorage: true,
-    uploader: { insertImageAsBase64URI: true },
+    // uploader: { insertImageAsBase64URI: true },
   };
 
   //Router
@@ -39,6 +39,26 @@ export default function New() {
   const [url, seturl] = useState("");
   const [metaDesc, setmetaDesc] = useState("");
   const [authorProfile, setauthorProfile] = useState("");
+
+  async function acknowledgementEmail(title, email, link, author) {
+    const payload = {
+      title: title,
+      email: email,
+      link: link,
+      author: author,
+    };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      await axios.post("/api/acknowledge", payload, config);
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
 
   function capital_letter(str) {
     str = str.split(" ");
@@ -83,6 +103,7 @@ export default function New() {
       email
       author
       url
+      title
     }
   }
 `;
@@ -115,6 +136,12 @@ export default function New() {
         setdisable(true);
         const res = await request(endpoint, ADD_POST, variables);
         setModal(true);
+        await acknowledgementEmail(
+          res.addPost.title,
+          res.addPost.email,
+          res.addPost.titleurl,
+          res.addPost.author
+        );
         setTitle("");
         setContent("");
         setemail("");
@@ -227,7 +254,7 @@ export default function New() {
                 <label htmlFor="imgUrl">
                   <h3>Cover Image URL</h3>{" "}
                   <small style={{ fontSize: "0.7rem" }}>
-                    Right-click on an image and "copy image/link address",
+                    Right-click on an image and "copy image address",
                     checkout{" "}
                     <a
                       href="https://pixabay.com/"
@@ -260,7 +287,7 @@ export default function New() {
                   }}
                 >
                   <h3>Post Description</h3>
-                  <small>(for SEO)</small>
+                  <small> (for SEO)</small>
                 </label>
                 <br />
                 <textarea
@@ -287,7 +314,7 @@ export default function New() {
                   }}
                 >
                   <h3>Author Profile</h3>
-                  <small style={{ fontSize: "12px" }}>(not required)</small>
+                  <small style={{ fontSize: "12px" }}> (not required)</small>
                 </label>
                 <br />
                 <textarea
@@ -338,7 +365,8 @@ export default function New() {
                 }}
               >
                 <h3>
-                  An error occured, check your internet connection and try again
+                  An error occured, check your internet connection and try
+                  again.
                 </h3>
               </div>
               <button disabled={disable} type="submit" className="submit-post">
