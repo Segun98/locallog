@@ -11,7 +11,7 @@ export default function Comments({ id }) {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [disable, setdisable] = useState(false);
-  const [error, seterror] = useState(false)
+  const [error, seterror] = useState(false);
 
   const Comments = `
       {
@@ -75,7 +75,7 @@ export default function Comments({ id }) {
     };
 
     try {
-      seterror(false)
+      seterror(false);
       setdisable(true);
       await request(endpoint, make_comment, variables);
       setname("");
@@ -86,7 +86,7 @@ export default function Comments({ id }) {
     } catch (err) {
       console.log(err);
       setdisable(false);
-      seterror(true)
+      seterror(true);
     }
   }
 
@@ -98,7 +98,7 @@ export default function Comments({ id }) {
             display: postcomments.length === 0 ? "none" : "block",
             margin: "auto",
             width: "90%",
-            padding:"5px"
+            padding: "5px",
           }}
         >
           <h3>Comments</h3>
@@ -113,7 +113,7 @@ export default function Comments({ id }) {
           ))}
         </div>
         <form autoComplete="on" onSubmit={onsubmit}>
-        <h3>Write a comment</h3>
+          <h3>Write a comment</h3>
           <div>
             <label htmlFor="name">Name</label>
             <br />
@@ -160,12 +160,22 @@ export default function Comments({ id }) {
               style={{ padding: "15px 10px", width: "100%" }}
             ></textarea>
           </div>
-          <div style={{textAlign:"center", display: disable? "block":"none"}}>
-              <img src="/images/spinner.png" alt="spinner" className="spinner" />
-            </div>
-            <div style={{textAlign:"center", color:"red", display: error? "block":"none"}}>
-              <h3>An error occured, check your internet connection and try again</h3>
-            </div>
+          <div
+            style={{ textAlign: "center", display: disable ? "block" : "none" }}
+          >
+            <img src="/images/spinner.png" alt="spinner" className="spinner" />
+          </div>
+          <div
+            style={{
+              textAlign: "center",
+              color: "red",
+              display: error ? "block" : "none",
+            }}
+          >
+            <h3>
+              An error occured, check your internet connection and try again
+            </h3>
+          </div>
           <button type="submit" disabled={disable}>
             submit
           </button>
@@ -175,7 +185,7 @@ export default function Comments({ id }) {
         form {
           margin: auto;
           width: 90%;
-          padding-top:10px
+          padding-top: 10px;
         }
         form div {
           margin-top: 5px;
@@ -201,11 +211,14 @@ export default function Comments({ id }) {
         }
         ul li:first-child {
           font-size: 13px;
-          color: pink;
+          color: rgb(51, 62, 99);
         }
         ul li:last-child {
           font-size: 13px;
           text-align: right;
+        }
+        h3 {
+          color: rgb(51, 62, 99);
         }
       `}</style>
     </div>

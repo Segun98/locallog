@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { request } from "graphql-request";
 import Link from "next/link";
-import { truncateAlt, truncateTitle, endpoint} from "../utils/utils"
+import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
 
 export default function AllPosts() {
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function AllPosts() {
     <div>
       <section className="all-posts-section">
         <div className="all-posts-head">
-          <h1>All Posts</h1>
+          <h2>All Posts</h2>
         </div>
         <div className="all-posts-wrap">
           {newfirst.map((allPosts) => (
@@ -63,6 +63,10 @@ export default function AllPosts() {
 
       <style jsx>
         {`
+          h5,
+          h2 {
+            color: rgb(51, 62, 99);
+          }
           .all-posts-section {
             margin: 20px 0;
           }

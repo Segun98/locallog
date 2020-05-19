@@ -3,7 +3,7 @@ import Head from "next/head";
 import { request } from "graphql-request";
 import { truncateTitle, truncateAlt, endpoint } from "../../utils/utils";
 import Link from "next/link";
-import Footer from "../../components/Footer"
+import Footer from "../../components/Footer";
 
 const SEARCH_QUERY = `
   query search($author: String!, $title: String!) {
@@ -33,9 +33,9 @@ export async function getServerSideProps({ query }) {
   };
 }
 
-export default function Index({ posts }) {  
+export default function Index({ posts }) {
   const error = "No results found...";
- 
+
   return (
     <Layout>
       <Head>
@@ -50,7 +50,7 @@ export default function Index({ posts }) {
         {posts.length === 0 ? error : null}
       </div>
 
-      <div className="category"> 
+      <div className="category">
         <div className="category-items-wrap">
           {posts.map((post) => (
             <div key={post.title}>
@@ -74,13 +74,18 @@ export default function Index({ posts }) {
             marginTop: posts.length < 3 ? "150px" : "10px",
           }}
         >
-        <Footer />
+          <Footer />
         </div>
-          <style jsx>{`
-          .category{
-            margin-top: 10px
+        <style jsx>{`
+          .category {
+            margin-top: 10px;
           }
-          `}</style>
+          ,
+          h5,
+          h6 {
+            color: rgb(51, 62, 99);
+          }
+        `}</style>
       </div>
     </Layout>
   );

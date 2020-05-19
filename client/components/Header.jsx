@@ -20,12 +20,19 @@ export default function Header() {
     <div>
       <header>
         <div className="header-wrap">
-          <div className="logo">Locallog</div>
+          <div className="logo">
+            <Link href="/">
+              <a>Locallog</a>
+            </Link>
+          </div>
           <div className="nav">
             <form onSubmit={handleSearch}>
-            <button type="submit" style={{background:"none", border:"none"}}>
-              <img src="/images/search.svg" alt="search" />
-            </button>
+              <button
+                type="submit"
+                style={{ background: "none", border: "none" }}
+              >
+                <img src="/images/search.svg" alt="search" />
+              </button>
               <div>
                 <label htmlFor="search"></label>
                 <input
@@ -134,14 +141,15 @@ export default function Header() {
 
           .header-wrap {
             margin: auto;
-            width: 85%;
+            width: 90%;
             display: flex;
             justify-content: space-between;
             align-items: center;
           }
 
-          .logo {
-            font-size: 30px;
+          .logo a{
+            font-size: 25px;
+            color: rgb(51, 62, 99);
           }
 
           .nav {
@@ -152,9 +160,9 @@ export default function Header() {
           .search-input {
             border: 1px solid black;
             padding: 5px 5px;
-            width: 120px;
+            width: 130px;
             border-radius: 5px;
-            margin-left:5px
+            margin-left: 5px;
           }
           form {
             display: flex;
@@ -174,8 +182,8 @@ export default function Header() {
           }
 
           .write-a-post button {
-            background: black;
-            border: 1px solid black;
+            background: #333;
+            border: 1px solid #333;
             padding: 10px 10px;
             cursor: pointer;
             color: white;
@@ -205,6 +213,7 @@ export default function Header() {
             border: 1px solid black;
             border-radius: 5px;
             background: white;
+            width: 130px;
           }
 
           .menu-wrap ul li {
@@ -213,7 +222,7 @@ export default function Header() {
             border-bottom: 1px solid black;
             display: block;
             text-align: center;
-            padding: 3px 20px;
+            padding: 3px 10px;
           }
 
           .menu-wrap ul li:first-child {
@@ -240,6 +249,9 @@ export default function Header() {
           /* TABLET SCREEN  */
 
           @media only screen and (min-width: 600px) {
+            .logo a{
+              font-size: 28px;
+            }
             .header-wrap {
               width: 90%;
             }

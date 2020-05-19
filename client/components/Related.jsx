@@ -31,7 +31,7 @@ export default function Related({ category, id }) {
   }
 
   if (posts.length === 0) {
-    return null
+    return null;
   } else if (posts.length > 0) {
     const filt = posts.filter((post) => post.id !== id); // prevents the same post from appearing
     var related = filt.filter((post) => post.category === category);
@@ -73,6 +73,10 @@ export default function Related({ category, id }) {
         ))}
       </section>
       <style jsx>{`
+        h5,
+        h2, h6 {
+          color: rgb(51, 62, 99);
+        }
         .related-section {
           display: grid;
           display: -moz-grid;

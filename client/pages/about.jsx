@@ -219,9 +219,12 @@ export default function About() {
               width: 90%;
               text-align: justify;
             }
+            p, li, h3, h4, label{
+              color: rgb(51,62,99)
+            }
 
             ul li {
-              list-style: circle;
+              list-style: square;
               line-height: 1.5;
             }
             form div {

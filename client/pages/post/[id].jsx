@@ -8,7 +8,6 @@ import { FacebookIcon } from "react-share";
 import { truncateAlt, endpoint } from "../../utils/utils";
 import Comments from "../../components/Comments";
 
-
 const POSTS_QUERY = `
 query post($titleurl: String!) {
       post(titleurl: $titleurl) {
@@ -42,7 +41,6 @@ export async function getServerSideProps({ params }) {
 }
 
 function index({ post }) {
-
   return (
     <Layout>
       <div>
@@ -91,8 +89,12 @@ function index({ post }) {
         <hr />
         <div className="post-sub-head">
           <div>
-            <h4 style={{ fontSize: "14px" }}>By - {post.author}</h4>
-            <h5 style={{ fontSize: "13px" }}>{post.date}</h5>
+            <h4 style={{ fontSize: "14px", color: "rgb(51,62,99)" }}>
+              By - {post.author}
+            </h4>
+            <h5 style={{ fontSize: "13px", color: "rgb(51,62,99)" }}>
+              {post.date}
+            </h5>
           </div>
           <aside style={{ display: "flex", alignItems: "baseline" }}>
             <div
@@ -104,7 +106,10 @@ function index({ post }) {
                 src="/images/eye.png"
                 alt="views"
               />{" "}
-              - <span style={{ fontSize: "14px" }}>{post.count}</span>
+              -{" "}
+              <span style={{ fontSize: "14px", color: "rgb(51,62,99)" }}>
+                {post.count}
+              </span>
             </div>
             <div style={{ display: "flex" }}>
               <a
@@ -126,17 +131,22 @@ function index({ post }) {
           className="author-profile-wrap"
           style={{ display: post.authorProfile === "" ? "none" : "block" }}
         >
-          <p>Author Profile</p>
+          <p style={{ color: "rgb(51,62,99)" }}>Author Profile</p>
           <div className="author-profile">
             <div>
               <img src="/images/person.png" alt="profile" />
             </div>
-            <div className="author-profile-content">{post.authorProfile}</div>
+            <div>
+              <h3 style={{ color: "rgb(51,62,99)" }}>{post.author}</h3>
+              <p className="author-profile-content">{post.authorProfile}</p>
+            </div>
           </div>
         </div>
         <hr />
         <section style={{ marginBottom: "20px" }}>
-          <h3 style={{ marginBottom: "10px" }}>Share Post</h3>
+          <h3 style={{ marginBottom: "10px", color: "rgb(51,62,99)" }}>
+            Share Post
+          </h3>
           <div className="social-icons">
             <h6>
               <a
@@ -166,9 +176,11 @@ function index({ post }) {
             </h6>
           </div>
         </section>
+        <hr />
         <section>
           <Comments id={post.titleurl} />
         </section>
+        <hr />
         <section>
           <Related category={post.category} id={post.id} />
         </section>
@@ -209,6 +221,7 @@ function index({ post }) {
           .single-post-title {
             margin: 15px 0;
             text-align: center;
+            color: rgb(51, 62, 99);
           }
 
           .single-post-body {
@@ -246,8 +259,8 @@ function index({ post }) {
           .author-profile img {
             margin-right: 10px;
             border: 1px solid lightgrey;
-            border-radius : 50%;
-            padding:5px
+            border-radius: 50%;
+            padding: 5px;
           }
 
           /* TABLET SCREEN  */
@@ -267,6 +280,9 @@ function index({ post }) {
           @media only screen and (min-width: 1000px) {
             .single-post {
               width: 70%;
+            }
+            .single-post-title {
+              font-size: 1.5rem;
             }
             .author-profile-wrap {
               margin: 25px auto;

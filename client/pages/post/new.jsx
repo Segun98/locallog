@@ -394,6 +394,9 @@ export default function New() {
         </section>
         <Footer />
         <style jsx>{`
+        label h3, h2{
+          color: rgb(51, 62, 99);
+        }
         li{
           list-style: square;
          }

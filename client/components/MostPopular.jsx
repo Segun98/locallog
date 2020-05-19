@@ -139,6 +139,10 @@ export default function MostPopular() {
 
       <style jsx>
         {`
+        h5,
+        h2 {
+          color: rgb(51, 62, 99);
+        }
          
           p {
             font-size: 0.8rem;

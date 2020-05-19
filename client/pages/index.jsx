@@ -164,15 +164,10 @@ function Index({ posts }) {
       <style jsx>
         {`
           /* INDEX PAGE  */
-
-          h1,
-          h2,
-          h3,
-          h4,
-          h5,
-          h6 {
-            color: rgb(41, 41, 41);
+          h5{
+            color: rgb(51,62,99)
           }
+
 
           .latest-posts-home {
             margin: 5px auto;
@@ -183,6 +178,10 @@ function Index({ posts }) {
             margin: 0 auto;
             margin-bottom: 10px;
             width: 95%;
+          }
+          .latest-head h1{
+            color: rgb(51,62,99)
+
           }
 
           .latest-posts-wrap {
