@@ -131,9 +131,6 @@ const RootQuery = new GraphQLObjectType({
                         title:{$regex: args.title,$options:'i'}
                     }]
                 })
-
-                // return await Posts.find({author: {$regex: args.author,$options:'i'}})
-
                 
             }
         },
@@ -142,7 +139,18 @@ const RootQuery = new GraphQLObjectType({
             resolve() {
                 return Comments.find()
             }
-        }
+        },
+        postToEdit: {
+            type: PostType,
+            args: {
+                id: {
+                    type: GraphQLID
+                }
+            },
+            resolve: async function (parent, args) {
+                return await Posts.findOne({_id:args.id})
+            }
+        },
     }
 
 })
@@ -259,6 +267,26 @@ const Mutation = new GraphQLObjectType({
                 })
 
                 return comments.save()
+            }
+        },
+        updatePost: {
+            type: PostType,
+            args: {
+               description: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                id: {
+                    type: GraphQLID
+                }
+            },
+            resolve: async function (parent, args) {
+                await Posts.findOneAndUpdate({
+                    _id: args.id
+                }, {
+                    $set: {
+                        description: args.description
+                    },
+                });
             }
         }
     }

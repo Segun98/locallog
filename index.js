@@ -20,13 +20,14 @@ var corsOptions = {
 // 'http://localhost:3000'
 
 app.use(cors(corsOptions));
-// app.use(express.json())
-// app.use(express.urlencoded({
-//     extended: false
-// }));
+app.use(express.urlencoded({
+    extended: false,
+    limit: '50mb'
+}));
+app.use(express.json({limit: '50mb'}));
 
 app.use('/graphql', cors(corsOptions), graphqlHTTP({
-  graphiql: true,
+  graphiql: false,
   schema
 }))
 

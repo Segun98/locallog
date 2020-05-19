@@ -14,9 +14,12 @@ import { dash, endpoint } from "../../utils/utils";
 import axios from "axios";
 
 export default function New() {
+
+  //error handling
   const [Modal, setModal] = useState(false);
   const [error, seterror] = useState(false);
   const [disable, setdisable] = useState(false);
+
   //Text Editor
   const editor = useRef(null);
   const config = {
@@ -24,6 +27,10 @@ export default function New() {
     askBeforePasteHTML: false,
     askBeforePasteFromWord: false,
     // uploader: { insertImageAsBase64URI: true },
+    saveModeInStorage: true,
+    style: {
+      fontSize: '16px'
+     }
   };
 
   //Router
@@ -40,12 +47,13 @@ export default function New() {
   const [metaDesc, setmetaDesc] = useState("");
   const [authorProfile, setauthorProfile] = useState("");
 
-  async function acknowledgementEmail(title, email, link, author) {
+  async function acknowledgementEmail(title, email, link, author, edit) {
     const payload = {
       title: title,
       email: email,
       link: link,
       author: author,
+      edit: edit
     };
     const config = {
       headers: {
@@ -69,6 +77,8 @@ export default function New() {
 
     return str.join(" ");
   }
+
+  //graphql query
 
   const ADD_POST = `
   mutation addPost(
@@ -107,6 +117,7 @@ export default function New() {
     }
   }
 `;
+
   const onSubmit = async (e) => {
     e.preventDefault();
     // Prevents short content
@@ -133,15 +144,17 @@ export default function New() {
       };
 
       try {
+        seterror(false);
         setdisable(true);
         const res = await request(endpoint, ADD_POST, variables);
-        setModal(true);
         await acknowledgementEmail(
           res.addPost.title,
           res.addPost.email,
           res.addPost.titleurl,
-          res.addPost.author
+          res.addPost.author,
+          res.addPost.id
         );
+        setModal(true);
         setTitle("");
         setContent("");
         setemail("");
@@ -150,11 +163,13 @@ export default function New() {
         seturl("");
         setmetaDesc("");
         setauthorProfile("");
+        setdisable(false);
         router.push(`/post/${res.addPost.titleurl}`);
       } catch (err) {
         console.log(err.response);
         setdisable(false);
         seterror(true);
+        setModal(false);
       }
     }
   };
@@ -175,6 +190,8 @@ export default function New() {
             top: "0px",
             left: "0px",
             right: "0px",
+            zIndex: "99999",
+            textAlign:"center"
           }}
         >
           Your Post Has Been Successfuly Published!! You Will Now Be Redirected
@@ -377,6 +394,9 @@ export default function New() {
         </section>
         <Footer />
         <style jsx>{`
+        li{
+          list-style: square;
+         }
           textarea {
             line-height: 1.5;
           }

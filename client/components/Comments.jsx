@@ -61,7 +61,6 @@ export default function Comments({ id }) {
 
   async function onsubmit(e) {
     e.preventDefault();
-    setdisable(true);
     //date
     const dateOptions = { month: "short", day: "numeric", year: "numeric" };
     const today = new Date();
@@ -76,11 +75,14 @@ export default function Comments({ id }) {
     };
 
     try {
+      seterror(false)
+      setdisable(true);
       await request(endpoint, make_comment, variables);
       setname("");
       setemail("");
       setcomment("");
       fetchComments();
+      setdisable(false);
     } catch (err) {
       console.log(err);
       setdisable(false);

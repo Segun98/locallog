@@ -47,11 +47,15 @@ export default function About() {
     };
 
     try {
+      setdisable(true);
+      seterror(false);
       await axios.post("/api/contact", payload, config);
       setEmail("");
       setName("");
       setbody("");
       setsubject("");
+      setdisable(false);
+      alert("Message Sent!")
     } catch (err) {
       console.log(err.response);
       setdisable(false);

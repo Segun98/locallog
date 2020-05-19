@@ -30,7 +30,7 @@ export default function MostPopular() {
   }
 
   if (posts.length === 0) {
-    const message = "Fetching Most Popular Posts..."
+    const message = "Fetching Most Popular Posts...";
     return <ErrorMessage message={message} />;
   } else if (posts.length > 0) {
     var sorted = posts.sort((a, b) => b.count - a.count);
@@ -52,9 +52,9 @@ export default function MostPopular() {
             <div className="most-popular-content-id">
               <Link href={`/post/${sorted[0].titleurl}`}>
                 <a>
-                  <h4>{truncateTitle(sorted[0].title)}</h4>
+                  <h5>{truncateTitle(sorted[0].title)}</h5>
                   <p>{sorted[0].author}</p>
-                  <h5>{sorted[0].date}</h5>
+                  <h6>{sorted[0].date}</h6>
                 </a>
               </Link>
             </div>
@@ -67,9 +67,9 @@ export default function MostPopular() {
             <div className="most-popular-content-id">
               <Link href={`/post/${sorted[1].titleurl}`}>
                 <a>
-                  <h4>{truncateTitle(sorted[1].title)}</h4>
+                  <h5>{truncateTitle(sorted[1].title)}</h5>
                   <p>{sorted[1].author}</p>
-                  <h5>{sorted[1].date}</h5>
+                  <h6>{sorted[1].date}</h6>
                 </a>
               </Link>
             </div>
@@ -82,9 +82,9 @@ export default function MostPopular() {
             <div className="most-popular-content-id">
               <Link href={`/post/${sorted[2].titleurl}`}>
                 <a>
-                  <h4>{truncateTitle(sorted[2].title)}</h4>
+                  <h5>{truncateTitle(sorted[2].title)}</h5>
                   <p>{sorted[2].author}</p>
-                  <h5>{sorted[2].date}</h5>
+                  <h6>{sorted[2].date}</h6>
                 </a>
               </Link>
             </div>
@@ -97,9 +97,9 @@ export default function MostPopular() {
             <div className="most-popular-content-id">
               <Link href={`/post/${sorted[3].titleurl}`}>
                 <a>
-                  <h4>{truncateTitle(sorted[3].title)}</h4>
+                  <h5>{truncateTitle(sorted[3].title)}</h5>
                   <p>{sorted[3].author}</p>
-                  <h5>{sorted[3].date}</h5>
+                  <h6>{sorted[3].date}</h6>
                 </a>
               </Link>
             </div>
@@ -112,9 +112,9 @@ export default function MostPopular() {
             <div className="most-popular-content-id">
               <Link href={`/post/${sorted[4].titleurl}`}>
                 <a>
-                  <h4>{truncateTitle(sorted[4].title)}</h4>
+                  <h5>{truncateTitle(sorted[4].title)}</h5>
                   <p>{sorted[4].author}</p>
-                  <h5>{sorted[4].date}</h5>
+                  <h6>{sorted[4].date}</h6>
                 </a>
               </Link>
             </div>
@@ -129,7 +129,7 @@ export default function MostPopular() {
                 <a>
                   <h5>{truncateTitle(sorted[5].title)}</h5>
                   <p>{sorted[5].author}</p>
-                  <h5>{sorted[5].date}</h5>
+                  <h6>{sorted[5].date}</h6>
                 </a>
               </Link>
             </div>
@@ -139,6 +139,10 @@ export default function MostPopular() {
 
       <style jsx>
         {`
+         
+          p {
+            font-size: 0.8rem;
+          }
           .most-popular-wrap {
             margin: auto;
             width: 90%;
