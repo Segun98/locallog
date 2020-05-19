@@ -9,6 +9,10 @@ const Posts = new mongoose.Schema({
         type: String,
         required: true
     },
+    editid: {
+        type: String,
+        required: true
+    },
     description: {
         type: Object,
         required: true

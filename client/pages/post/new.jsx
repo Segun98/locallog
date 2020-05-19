@@ -12,9 +12,9 @@ import Footer from "../../components/Footer";
 import { request } from "graphql-request";
 import { dash, endpoint } from "../../utils/utils";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 export default function New() {
-
   //error handling
   const [Modal, setModal] = useState(false);
   const [error, seterror] = useState(false);
@@ -29,8 +29,8 @@ export default function New() {
     // uploader: { insertImageAsBase64URI: true },
     saveModeInStorage: true,
     style: {
-      fontSize: '16px'
-     }
+      fontSize: "16px",
+    },
   };
 
   //Router
@@ -53,7 +53,7 @@ export default function New() {
       email: email,
       link: link,
       author: author,
-      edit: edit
+      edit: edit,
     };
     const config = {
       headers: {
@@ -83,6 +83,7 @@ export default function New() {
   const ADD_POST = `
   mutation addPost(
     $title: String!
+    $editid: String!
     $date: String!
     $description: String!
     $email: String!
@@ -96,6 +97,7 @@ export default function New() {
   ) {
     addPost(
       title: $title
+      editid:$editid
       date: $date
       description: $description
       email: $email
@@ -107,7 +109,7 @@ export default function New() {
       authorProfile: $authorProfile
       titleurl: $titleurl
     ) {
-      id
+      editid
       titleurl
       description
       email
@@ -131,6 +133,7 @@ export default function New() {
 
       const variables = {
         title: capital_letter(title),
+        editid: uuidv4(),
         titleurl: dash(title),
         date,
         description: content,
@@ -152,7 +155,7 @@ export default function New() {
           res.addPost.email,
           res.addPost.titleurl,
           res.addPost.author,
-          res.addPost.id
+          res.addPost.editid
         );
         setModal(true);
         setTitle("");
@@ -178,6 +181,15 @@ export default function New() {
     <Layout>
       <Head>
         <title>New Post | Tadlace </title>
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+        />
       </Head>
       <div>
         <div
@@ -191,7 +203,7 @@ export default function New() {
             left: "0px",
             right: "0px",
             zIndex: "99999",
-            textAlign:"center"
+            textAlign: "center",
           }}
         >
           Your Post Has Been Successfuly Published!! You Will Now Be Redirected
@@ -271,8 +283,7 @@ export default function New() {
                 <label htmlFor="imgUrl">
                   <h3>Cover Image URL</h3>{" "}
                   <small style={{ fontSize: "0.7rem" }}>
-                    Right-click on an image and "copy image address",
-                    checkout{" "}
+                    Right-click on an image and "copy image address", checkout{" "}
                     <a
                       href="https://pixabay.com/"
                       target="_blank"
@@ -394,12 +405,13 @@ export default function New() {
         </section>
         <Footer />
         <style jsx>{`
-        label h3, h2{
-          color: rgb(51, 62, 99);
-        }
-        li{
-          list-style: square;
-         }
+          label h3,
+          h2 {
+            color: rgb(51, 62, 99);
+          }
+          li {
+            list-style: square;
+          }
           textarea {
             line-height: 1.5;
           }

@@ -18,6 +18,9 @@ const PostType = new GraphQLObjectType({
         id: {
             type: GraphQLID
         },
+        editid:{
+            type: GraphQLString
+        },
         titleurl: {
             type: GraphQLString
         },
@@ -143,12 +146,12 @@ const RootQuery = new GraphQLObjectType({
         postToEdit: {
             type: PostType,
             args: {
-                id: {
-                    type: GraphQLID
+                editid: {
+                    type: GraphQLString
                 }
             },
             resolve: async function (parent, args) {
-                return await Posts.findOne({_id:args.id})
+                return await Posts.findOne({editid:args.editid})
             }
         },
     }
@@ -164,6 +167,9 @@ const Mutation = new GraphQLObjectType({
             type: PostType,
             args: {
                 title: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                editid: {
                     type: new GraphQLNonNull(GraphQLString)
                 },
                 description: {
@@ -206,6 +212,7 @@ const Mutation = new GraphQLObjectType({
                 if (postexists) {
                     let post = new Posts({
                         titleurl: `${args.titleurl}-${random}`,
+                        editid: args.editid,
                         title: args.title,
                         description: args.description,
                         date: args.date,
@@ -222,6 +229,7 @@ const Mutation = new GraphQLObjectType({
                 } else {
                     let post = new Posts({
                         titleurl: args.titleurl,
+                        editid: args.editid,
                         title: args.title,
                         description: args.description,
                         date: args.date,
@@ -275,13 +283,13 @@ const Mutation = new GraphQLObjectType({
                description: {
                     type: new GraphQLNonNull(GraphQLString)
                 },
-                id: {
-                    type: GraphQLID
+                editid: {
+                    type: new GraphQLNonNull(GraphQLString)
                 }
             },
             resolve: async function (parent, args) {
                 await Posts.findOneAndUpdate({
-                    _id: args.id
+                    editid: args.editid
                 }, {
                     $set: {
                         description: args.description

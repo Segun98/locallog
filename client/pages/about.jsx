@@ -55,7 +55,7 @@ export default function About() {
       setbody("");
       setsubject("");
       setdisable(false);
-      alert("Message Sent!")
+      alert("Message Sent!");
     } catch (err) {
       console.log(err.response);
       setdisable(false);
@@ -88,6 +88,15 @@ export default function About() {
         <meta property="og:site_name" content="Locallog" />
         <meta property="article:publisher" content="Segun Olanitori" />
         <meta property="article:author" content="Segun Olanitori" />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+        />
       </Head>
       <div className="about-page">
         <h3 style={{ margin: "15px 0", textAlign: "center" }}>
@@ -219,8 +228,12 @@ export default function About() {
               width: 90%;
               text-align: justify;
             }
-            p, li, h3, h4, label{
-              color: rgb(51,62,99)
+            p,
+            li,
+            h3,
+            h4,
+            label {
+              color: rgb(51, 62, 99);
             }
 
             ul li {

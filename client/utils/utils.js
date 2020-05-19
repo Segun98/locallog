@@ -20,6 +20,6 @@ export function dash(str) {
   return dashed.toLowerCase()
 }
 
-export const endpoint = "https://backlog.now.sh/graphql"
+export const endpoint = "http://localhost:8080/graphql"
 // "http://localhost:8080/graphql"
 // "https://backlog.now.sh/graphql"

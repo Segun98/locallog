@@ -4,7 +4,7 @@ import Link from "next/link";
 import { request } from "graphql-request";
 import AllPosts from "../components/AllPosts";
 import MostPopular from "../components/MostPopular";
-import {truncateAlt, truncateTitle, endpoint} from "../utils/utils"
+import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
 
 const ALL_POSTS_QUERY = `
   {
@@ -37,7 +37,6 @@ function Index({ posts }) {
   const fourthItem = posts[posts.length - 4];
   const fifthItem = posts[posts.length - 5];
 
-
   return (
     <Layout>
       <Head>
@@ -63,6 +62,15 @@ function Index({ posts }) {
         <meta property="og:site_name" content="Locallog" />
         <meta property="article:publisher" content="Segun Olanitori" />
         <meta property="article:author" content="Segun Olanitori" />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+        />
       </Head>
       <div>
         <section className="latest-posts-home">
@@ -164,10 +172,9 @@ function Index({ posts }) {
       <style jsx>
         {`
           /* INDEX PAGE  */
-          h5{
-            color: rgb(51,62,99)
+          h5 {
+            color: rgb(51, 62, 99);
           }
-
 
           .latest-posts-home {
             margin: 5px auto;
@@ -179,9 +186,8 @@ function Index({ posts }) {
             margin-bottom: 10px;
             width: 95%;
           }
-          .latest-head h1{
-            color: rgb(51,62,99)
-
+          .latest-head h1 {
+            color: rgb(51, 62, 99);
           }
 
           .latest-posts-wrap {

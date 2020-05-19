@@ -13,9 +13,9 @@ const JoditEditor = dynamic(importJodit, {
 });
 
 const EDIT_QUERY = `
-query postToEdit($id: ID) {
-      postToEdit(id: $id) {
-        id
+query postToEdit($editid: String!) {
+      postToEdit(editid: $editid) {
+        editid
         title
         description
         author
@@ -26,7 +26,7 @@ query postToEdit($id: ID) {
 
 export async function getServerSideProps({ params }) {
   const variables = {
-    id: params.id,
+    editid: params.id,
   };
 
   const res = await request(endpoint, EDIT_QUERY, variables);
@@ -67,14 +67,14 @@ function index({ post }) {
 
   const EDIT_POST = `
   mutation updatePost(
-    $id: ID
+    $editid: String!
     $description: String!
   ) {
     updatePost(
-      id: $id
+      editid: $editid
       description: $description
     ) {
-      id
+      editid
       titleurl
     }
   }
@@ -85,7 +85,7 @@ function index({ post }) {
 
     const variables = {
       description: content,
-      id: post.id,
+      editid: post.editid,
     };
     try {
       setdisable(true);
