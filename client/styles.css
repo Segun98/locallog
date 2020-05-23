@@ -1,33 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Manrope&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaina+2|Manrope&display=swap');
 
-
-/* TABLET SCREEN  */
-
-/* @media only screen and (min-width:600px) {
-    
-} */
-
-/* IPAD PRO | SMALL LAPTOP  */
-
-/* @media only screen and (min-width:1000px) {
-
-    
-} */
-
-/* LAPTOP  */
-
-/* @media only screen and (min-width:1300px) {
-    
-} */
-
-/* 4K SCREEN  */
-
-/* @media only screen and (min-width:2500px) {
-
-   
-}  */
-
 /* GLOBAL STYLES */
 * {
     margin: 0;
@@ -38,14 +11,16 @@
 body {
     font-family: 'Manrope', sans-serif !important;
     line-height: 1.6;
-    background-color: rgb(255,255,255);
+    background: ghostwhite;
+    
 }
 
-button, a{
+button,
+a {
     cursor: pointer;
 }
 
-textarea{
+textarea {
     border: 1px solid #333;
     font-family: 'Manrope', sans-serif;
     line-height: 1.6 !important;
@@ -64,21 +39,44 @@ a {
     color: black;
 }
 
-.spinner{
-    font-size: 40px;
+.spinner {
+    width: 40px;
     animation: spinner 1s ease infinite;
     position: relative;
+}
+
+.rdw-editor-toolbar {
+    position: sticky !important;
+    top: 0px !important;
+    z-index: 999 !important;
 }
 
 @keyframes spinner {
     0% {
         transform: rotate(360deg);
     }
-    50%{
+
+    50% {
         transform: rotate(180deg);
     }
-    100%{
+
+    100% {
         transform: rotate(360deg);
+    }
+}
+
+.header-menu img {
+    animation: menu 3s ease forwards;
+    position: relative;
+}
+
+@keyframes menu {
+    0% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
     }
 }
 
@@ -195,7 +193,7 @@ a {
 
 .new-post-page {
     margin: auto;
-    width: 80%;
+    width: 90%;
     padding: 10px 0 30px 0;
 }
 
@@ -208,17 +206,12 @@ a {
 
 .form-item input {
     border: none;
-    border-bottom: 1px solid black;
     outline: none;
-    padding: 7px 0;
-}
-
-.title {
-    font-size: larger;
+    padding: 7px 5px;
 }
 
 .form-item input:focus {
-    border-bottom: whitesmoke;
+    border-bottom: 1px solid rgb(51, 62, 99);
 }
 
 .form-item label {
@@ -236,7 +229,7 @@ a {
     background: none;
     border: 1px solid white;
     color: white;
-    background: black;
+    background: #333;
     padding: 10px 20px;
     display: block;
     border-radius: 5px;
@@ -255,16 +248,15 @@ a {
 /* IPAD PRO | SMALL LAPTOP  */
 
 @media only screen and (min-width:1000px) {
-    .new-post-page {
-        width: 70%;
+
+    .form-wrap-new {
+        display: grid;
+        display: -moz-grid;
+        display: -ms-grid;
+        grid-template-columns: 3fr 1fr;
+        column-gap: 20px
     }
-  .form-wrap-new{
-      display: grid;
-      display: -moz-grid;
-      display: -ms-grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap:20px
-  }
+     
 }
 
 /* 4K SCREEN  */

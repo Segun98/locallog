@@ -10,7 +10,7 @@ export default function CategoryList({ href, src, alt, title, author, date }) {
             <img src={src} alt={alt} />
             <div className="category-item-content">
               <h5>{title}</h5>
-              <p style={{ margin: "5px 0" }}>{author}</p>
+              <p style={{ margin: "5px 0", fontSize:"14px" }}>{author}</p>
               <h6>{date}</h6>
             </div>
           </div>

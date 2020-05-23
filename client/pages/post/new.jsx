@@ -1,44 +1,36 @@
-import { useState, useRef } from "react";
-import dynamic from "next/dynamic";
-const importJodit = () => import("jodit-react");
-
-const JoditEditor = dynamic(importJodit, {
-  ssr: false,
-});
+import { useState } from "react";
 import Layout from "../../components/Layout";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+const Editor = dynamic(
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+  { ssr: false }
+);
+import { EditorState, convertToRaw } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
 import { useRouter } from "next/router";
-import Footer from "../../components/Footer";
+import { convertFromRaw } from "draft-js";
+import "isomorphic-unfetch";
 import { request } from "graphql-request";
 import { dash, endpoint } from "../../utils/utils";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import Footer from "../../components/Footer";
 
-export default function New() {
-  //error handling
+export default function Editorpage() {
+  const [description, setDescription] = useState(EditorState.createEmpty());
   const [Modal, setModal] = useState(false);
   const [error, seterror] = useState(false);
   const [disable, setdisable] = useState(false);
-
-  //Text Editor
-  const editor = useRef(null);
-  const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    askBeforePasteHTML: false,
-    askBeforePasteFromWord: false,
-    // uploader: { insertImageAsBase64URI: true },
-    saveModeInStorage: true,
-    style: {
-      fontSize: "16px",
-    },
-  };
+  let postLength = stateToHTML(
+    convertFromRaw(convertToRaw(description.getCurrentContent()))
+  ).length;
 
   //Router
   const router = useRouter();
 
   //Input fields states
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const [email, setemail] = useState("");
   const [Category, setCategory] = useState("");
   const [author, setauthor] = useState("");
@@ -69,14 +61,14 @@ export default function New() {
   }
 
   function capital_letter(str) {
-    str = str.split(" ");
+    let tit = str.trim().replace(/\s+/g, " ");
+    tit = tit.split(" ");
 
-    for (var i = 0, x = str.length; i < x; i++) {
-      str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+    for (var i = 0, x = tit.length; i < x; i++) {
+      tit[i] = tit[i][0].toUpperCase() + tit[i].substr(1);
     }
-
-    return str.join(" ");
-  }
+    return tit.join(" ");
+  }  
 
   //graphql query
 
@@ -119,18 +111,41 @@ export default function New() {
     }
   }
 `;
+  // let content = stateToHTML(
+  //   convertFromRaw(convertToRaw(description.getCurrentContent()))
+  // );
+
+  // const result = {
+  //   title: title,
+  //   editid: uuidv4(),
+  //   titleurl: dash(title),
+  //   date: new Date(),
+  //   description: content,
+  //   email,
+  //   category: `${Category === "" ? "Other" : Category}`,
+  //   author,
+  //   count,
+  //   url,
+  //   metaDesc,
+  //   authorProfile,
+  // };
+
+  // console.log(result);
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     // Prevents short content
-    if (content.length < 400) {
+    if (postLength < 400) {
       alert("Post too short");
     } else {
       //DATE
       const dateOptions = { month: "short", day: "numeric", year: "numeric" };
       const today = new Date();
       const date = today.toLocaleDateString("en-US", dateOptions);
-
+      let content = stateToHTML(
+        convertFromRaw(convertToRaw(description.getCurrentContent()))
+      );
       const variables = {
         title: capital_letter(title),
         editid: uuidv4(),
@@ -159,7 +174,7 @@ export default function New() {
         );
         setModal(true);
         setTitle("");
-        setContent("");
+        setDescription(EditorState.createEmpty());
         setemail("");
         setCategory("");
         setauthor("");
@@ -175,6 +190,43 @@ export default function New() {
         setModal(false);
       }
     }
+  };
+
+  //image upload
+  const uploadCallback =  (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    return new Promise( async (resolve, reject) => {
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+  
+      try {
+         const res = await axios.post("http://localhost:8080/upload", formData, config);         
+        resolve({ data: { link: res.data} })
+      } catch (err) {
+        console.log(err);
+      }
+      // fetch("https://backlog.now.sh/upload", {
+      //   method: "POST",
+      //   mode: "cors",
+      //   credentials: "include",
+      //   body: formData,
+      // })
+        // .then((res) => res.json())
+        // .then((resData) => {
+        //   console.log(resData);
+        //   resolve({ data: { link: resData } });
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        //   reject(error.toString());
+        // });
+    });
   };
 
   return (
@@ -212,195 +264,223 @@ export default function New() {
         <section className="new-post-page">
           <form onSubmit={onSubmit} className="new-post-form" autoComplete="on">
             <main className="form-wrap-new">
-              <div className="form-item">
-                <label htmlFor="title">
-                  {" "}
-                  <h3>Title</h3>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="My Post Title..."
-                  defaultValue={title}
-                  className="title"
-                  onBlur={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="form-item">
-                <label htmlFor="email">
-                  <h3>Email</h3>
-                </label>
-                <input
-                  type="email"
-                  defaultValue={email}
-                  required
-                  placeholder="Please enter a valid email"
-                  onBlur={(e) => {
-                    setemail(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="form-item">
-                <label htmlFor="category">
-                  <h3>Post Category</h3>
-                </label>
-                <select
-                  defaultValue={Category}
-                  onBlur={(e) => {
-                    setCategory(e.target.value);
-                  }}
-                >
-                  <option defaultValue="">--select--</option>
-                  <option defaultValue="Business">Business</option>
-                  <option defaultValue="Entertainment">Entertainment</option>
-                  <option defaultValue="Politics">Politics</option>
-                  <option defaultValue="Technology">Technology</option>
-                  <option defaultValue="Lifestyle">Lifestyle</option>
-                  <option defaultValue="Personal">Personal</option>
-                  <option defaultValue="Health">Health & Wellness</option>
-                  <option defaultValue="Food">Food</option>
-                  <option defaultValue="Other">Other</option>
-                </select>
-              </div>
-              <div className="form-item">
-                <label htmlFor="author">
-                  <h3>Author</h3>
-                </label>
-                <input
-                  type="text"
-                  defaultValue={author}
-                  required
-                  maxLength="20"
-                  placeholder="Please enter your full name"
-                  onBlur={(e) => {
-                    setauthor(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="form-item">
-                <label htmlFor="imgUrl">
-                  <h3>Cover Image URL</h3>{" "}
-                  <small style={{ fontSize: "0.7rem" }}>
-                    Right-click on an image and "copy image address", checkout{" "}
-                    <a
-                      href="https://pixabay.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: "underline" }}
-                    >
-                      Pixabay
-                    </a>{" "}
-                    for free stock photos
-                  </small>
-                </label>
-                <input
-                  type="url"
-                  required
-                  placeholder="image url"
-                  defaultValue={url}
-                  onBlur={(e) => {
-                    seturl(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="description"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "-13px",
-                  }}
-                >
-                  <h3>Post Description</h3>
-                  <small> (for SEO)</small>
-                </label>
-                <br />
-                <textarea
-                  cols="45"
-                  rows="5"
-                  name="metaDesc"
-                  maxLength="350"
-                  defaultValue={metaDesc}
-                  onBlur={(e) => {
-                    setmetaDesc(e.target.value);
-                  }}
-                  placeholder="Paste a sentence or two from your article"
-                  required
-                  style={{ padding: "15px 10px", width: "100%" }}
-                ></textarea>
-              </div>
-              <div>
-                <label
-                  htmlFor="profile"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "-13px",
-                  }}
-                >
-                  <h3>Author Profile</h3>
-                  <small style={{ fontSize: "12px" }}> (not required)</small>
-                </label>
-                <br />
-                <textarea
-                  cols="45"
-                  rows="5"
-                  maxLength="250"
-                  name="authorProfile"
-                  defaultValue={authorProfile}
-                  onBlur={(e) => {
-                    setauthorProfile(e.target.value);
-                  }}
-                  placeholder="A brief profile about you. You could add your social media handles and contact info. (This is displayed publicly under your post)"
-                  style={{ padding: "15px 10px", width: "100%" }}
-                ></textarea>
-              </div>
-            </main>
-            <div className="form-item">
-              <label htmlFor="Article">
-                <h2>Write Post</h2>
-              </label>
+              <section>
+                <div className="form-item">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Title..."
+                    style={{ fontSize: "1.3rem" }}
+                    defaultValue={title}
+                    className="title"
+                    onBlur={(e) => {
+                      setTitle(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="form-item">
+                  <label htmlFor="Article">
+                    <h3>Write Post</h3>
+                  </label>
 
-              <JoditEditor
-                ref={editor}
-                value={content}
-                config={config}
-                tabIndex={1} // tabIndex of textarea
-                onBlur={(newContent) => setContent(newContent)}
-              />
-            </div>
-            <div className="submit-post">
-              <div
-                style={{
-                  textAlign: "center",
-                  display: disable ? "block" : "none",
-                }}
-              >
-                <img
-                  src="/images/spinner.png"
-                  alt="spinner"
-                  className="spinner"
-                />
-              </div>
-              <div
-                style={{
-                  textAlign: "center",
-                  color: "red",
-                  display: error ? "block" : "none",
-                }}
-              >
-                <h3>
-                  An error occured, check your internet connection and try
-                  again.
-                </h3>
-              </div>
-              <button disabled={disable} type="submit" className="submit-post">
-                Publish
-              </button>
-            </div>
+                  <Editor
+                    wrapperStyle={{
+                      border: "1px 0 0 0 solid rgb(51, 62, 99)",
+                      marginBottom: "10px",
+                    }}
+                    editorStyle={{ minHeight: "90vh", padding: "10px" }}
+                    placeholder="Type Something..."
+                    toolbar={{
+                      inline: { inDropdown: true },
+                      list: { inDropdown: true },
+                      textAlign: { inDropdown: true },
+                      link: { inDropdown: true },
+                      history: { inDropdown: true },
+                      image: {
+                        uploadEnabled: true,
+                        urlEnabled: true,
+                        uploadCallback: uploadCallback,
+                        previewImage: true,
+                        alt: { present: true, mandatory: false },
+                        inputAccept:
+                          "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+                      },
+                    }}
+                    editorState={description}
+                    onEditorStateChange={(editorState) =>
+                      setDescription(editorState)
+                    }
+                  />
+                </div>
+                <div className="submit-post">
+                  <div
+                    style={{
+                      textAlign: "center",
+                      display: disable ? "block" : "none",
+                    }}
+                  >
+                    <img
+                      src="/images/spinner.png"
+                      alt="spinner"
+                      className="spinner"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      color: "red",
+                      display: error ? "block" : "none",
+                    }}
+                  >
+                    <h3>
+                      An error occured, check your internet connection and try
+                      again.
+                    </h3>
+                  </div>
+                  <button
+                    disabled={disable}
+                    type="submit"
+                    className="submit-post"
+                  >
+                    Publish
+                  </button>
+                </div>
+              </section>
+
+              <aside>
+                <div className="form-item">
+                  <div className="form-item">
+                    <label htmlFor="author">
+                      <h3>Author</h3>
+                    </label>
+                    <input
+                      type="text"
+                      defaultValue={author}
+                      required
+                      maxLength="20"
+                      placeholder="Please enter your full name"
+                      onBlur={(e) => {
+                        setauthor(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <label htmlFor="email">
+                    <h3>Email</h3>
+                  </label>
+                  <input
+                    type="email"
+                    defaultValue={email}
+                    required
+                    placeholder="Please enter a valid email"
+                    onBlur={(e) => {
+                      setemail(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="form-item">
+                  <label htmlFor="category">
+                    <h3>Post Category</h3>
+                  </label>
+                  <select
+                    defaultValue={Category}
+                    onBlur={(e) => {
+                      setCategory(e.target.value);
+                    }}
+                  >
+                    <option defaultValue="">--select--</option>
+                    <option defaultValue="Business">Business</option>
+                    <option defaultValue="Entertainment">Entertainment</option>
+                    <option defaultValue="Politics">Politics</option>
+                    <option defaultValue="Technology">Technology</option>
+                    <option defaultValue="Lifestyle">Lifestyle</option>
+                    <option defaultValue="Personal">Personal</option>
+                    <option defaultValue="Health">Health & Wellness</option>
+                    <option defaultValue="Food">Food</option>
+                    <option defaultValue="Other">Other</option>
+                  </select>
+                </div>
+
+                <div className="form-item">
+                  <label htmlFor="imgUrl">
+                    <h3>Cover Image URL</h3>{" "}
+                    <small style={{ fontSize: "0.7rem" }}>
+                      Right-click on an image and "copy image address", checkout{" "}
+                      <a
+                        href="https://pixabay.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "underline" }}
+                      >
+                        Pixabay
+                      </a>{" "}
+                      for free stock photos
+                    </small>
+                  </label>
+                  <input
+                    type="url"
+                    required
+                    placeholder="image url"
+                    defaultValue={url}
+                    onBlur={(e) => {
+                      seturl(e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="description"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "-13px",
+                    }}
+                  >
+                    <h3>Post Description</h3>
+                    <small> (for SEO)</small>
+                  </label>
+                  <br />
+                  <textarea
+                    cols="45"
+                    rows="5"
+                    name="metaDesc"
+                    maxLength="350"
+                    defaultValue={metaDesc}
+                    onBlur={(e) => {
+                      setmetaDesc(e.target.value);
+                    }}
+                    placeholder="Paste a sentence or two from your article"
+                    required
+                    style={{ padding: "15px 10px", width: "100%" }}
+                  ></textarea>
+                </div>
+                <div>
+                  <label
+                    htmlFor="profile"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "-13px",
+                    }}
+                  >
+                    <h3>Author Profile</h3>
+                    <small style={{ fontSize: "12px" }}> (not required)</small>
+                  </label>
+                  <br />
+                  <textarea
+                    cols="45"
+                    rows="5"
+                    maxLength="250"
+                    name="authorProfile"
+                    defaultValue={authorProfile}
+                    onBlur={(e) => {
+                      setauthorProfile(e.target.value);
+                    }}
+                    placeholder="A brief profile about you. You could add your social media handles and contact info. (This is displayed publicly under your post)"
+                    style={{ padding: "15px 10px", width: "100%" }}
+                  ></textarea>
+                </div>
+              </aside>
+            </main>
           </form>
         </section>
         <Footer />
@@ -414,6 +494,10 @@ export default function New() {
           }
           textarea {
             line-height: 1.5;
+          }
+          input {
+            border-radius: 5px 5px 0 0;
+            background: ghostwhite;
           }
         `}</style>
       </div>

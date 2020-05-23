@@ -12,6 +12,7 @@ export default function About() {
   const [body, setbody] = useState("");
   const [subject, setsubject] = useState("");
 
+
   function handleName(e) {
     setName(e.target.value);
   }
@@ -112,18 +113,24 @@ export default function About() {
             What You Get on Locallog
           </h4>
           <ul>
-            <li>Write articles quickly and easily without having to sign up</li>
+            <li>Write articles easily without having to sign up</li>
             <li>
               Full control - Your articles are published exactly how you write
               them; no ads in between, all stylings are the same.
             </li>
             <li>
-              Rich Text-Editor (jodit) - Use keyboard shortcuts on texts and
+              Rich Text-Editor (Draft JS) - Use keyboard shortcuts on texts and
               more{" "}
             </li>
             <li>
-              Aggregate your articles by searching by your name in the search
-              box
+              Aggregate your articles in a shareable page, search by your name in the search
+              box.
+            </li>
+            <li>
+              Edit your post
+            </li>
+            <li>
+              Read Comments under your post
             </li>
             <li>Search Engine Optimization</li>
           </ul>

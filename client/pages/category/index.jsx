@@ -57,7 +57,7 @@ export default function Index({ posts }) {
       </Head>
       <div className="category">
         <div className="category-header">
-          <h2>Category - {capitalize(query.category)}</h2>
+          <h4>Category - {capitalize(query.category)}</h4>
         </div>
         <div
           style={{

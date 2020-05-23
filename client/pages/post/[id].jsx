@@ -1,12 +1,14 @@
+import React from "react";
+import ReactHtmlParser from "react-html-parser";
 import Layout from "../../components/Layout";
 import Head from "next/head";
-import ReactHtmlParser from "react-html-parser";
 import Footer from "../../components/Footer";
 import { request } from "graphql-request";
 import Related from "../../components/Related";
 import { FacebookIcon } from "react-share";
 import { truncateAlt, endpoint } from "../../utils/utils";
 import Comments from "../../components/Comments";
+import Link from  'next/link'
 
 const POSTS_QUERY = `
 query post($titleurl: String!) {
@@ -40,7 +42,7 @@ export async function getServerSideProps({ params }) {
   };
 }
 
-function index({ post }) {
+export default function Index({ post }) {
   return (
     <Layout>
       <div>
@@ -142,6 +144,13 @@ function index({ post }) {
             </div>
           </div>
         </div>
+        <p style={{ color: "rgb(51,62,99)", textAlign: "center" }}>
+          Write a post on Locallog today, no sign up required, click{" "}
+          <Link href="/post/new">
+            <a>here</a>
+          </Link>
+        </p>
+        <br/>
         <hr />
         <section style={{ marginBottom: "20px" }}>
           <h3 style={{ marginBottom: "10px", color: "rgb(51,62,99)" }}>
@@ -306,5 +315,3 @@ function index({ post }) {
     </Layout>
   );
 }
-
-export default index;
