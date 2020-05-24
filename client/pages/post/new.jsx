@@ -316,6 +316,7 @@ export default function Editorpage() {
                   >
                     <option defaultValue="">--select--</option>
                     <option defaultValue="Business">Business</option>
+                    <option defaultValue="Covid-19">Covid-19</option>
                     <option defaultValue="Entertainment">Entertainment</option>
                     <option defaultValue="Politics">Politics</option>
                     <option defaultValue="Technology">Technology</option>

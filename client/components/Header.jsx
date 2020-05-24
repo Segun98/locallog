@@ -90,6 +90,11 @@ export default function Header() {
           </Link>
         </div>
         <div className="slide">
+          <Link href="/category?category=covid-19">
+            <a>Covid-19</a>
+          </Link>
+        </div>
+        <div className="slide">
           <Link href="/category?category=business">
             <a>Business</a>
           </Link>
