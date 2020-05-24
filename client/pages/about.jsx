@@ -12,7 +12,6 @@ export default function About() {
   const [body, setbody] = useState("");
   const [subject, setsubject] = useState("");
 
-
   function handleName(e) {
     setName(e.target.value);
   }
@@ -105,34 +104,31 @@ export default function About() {
         </h3>
         <div className="about-page-body">
           <p>
-            Locallog is an online publishing platform built for people to share
-            their stories, inform and impact the rest of the world, one article
-            at a time.
+            Locallog is an online publishing platform created for people to
+            share their stories, inform and impact the rest of the world, one
+            article at a time.
           </p>
           <h4 style={{ textAlign: "center", margin: "5px 0" }}>
             What You Get on Locallog
           </h4>
           <ul>
-            <li>Write articles easily without having to sign up</li>
+            <li>Publish articles easily without having to log in or sign up</li>
             <li>
               Full control - Your articles are published exactly how you write
               them; no ads in between, all stylings are the same.
             </li>
             <li>
-              Rich Text-Editor (Draft JS) - Use keyboard shortcuts on texts and
-              more{" "}
+              Rich Text-Editor (Jodit) - Use keyboard shortcuts on texts. You get a fully
+              responsive interface for easy writing on your mobile phone
             </li>
             <li>
-              Aggregate your articles in a shareable page, search by your name in the search
-              box.
+              Aggregate your articles in a shareable page, search by your name
+              in the search box.
             </li>
-            <li>
-              Edit your post
-            </li>
-            <li>
-              Read Comments under your post
-            </li>
+            <li>Edit your post</li>
+            <li>Read Comments under your post</li>
             <li>Search Engine Optimization</li>
+            <li>Add an author Profile</li>
           </ul>
           <br />
           <div id="contact">

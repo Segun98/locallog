@@ -45,10 +45,14 @@ a {
     position: relative;
 }
 
-.rdw-editor-toolbar {
+.jodit_toolbar {
     position: sticky !important;
     top: 0px !important;
     z-index: 999 !important;
+}
+
+.jodit_wysiwyg{
+    height: 90vh !important;
 }
 
 @keyframes spinner {

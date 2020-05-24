@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-const Editor = dynamic(
-  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
-  { ssr: false }
-);
-import { EditorState, convertToRaw } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
+const importJodit = () => import("jodit-react");
+const JoditEditor = dynamic(importJodit, {
+  ssr: false,
+});
 import { useRouter } from "next/router";
-import { convertFromRaw } from "draft-js";
 import "isomorphic-unfetch";
 import { request } from "graphql-request";
 import { dash, endpoint } from "../../utils/utils";
@@ -18,13 +15,23 @@ import { v4 as uuidv4 } from "uuid";
 import Footer from "../../components/Footer";
 
 export default function Editorpage() {
-  const [description, setDescription] = useState(EditorState.createEmpty());
   const [Modal, setModal] = useState(false);
   const [error, seterror] = useState(false);
   const [disable, setdisable] = useState(false);
-  let postLength = stateToHTML(
-    convertFromRaw(convertToRaw(description.getCurrentContent()))
-  ).length;
+
+  //Text Editor
+  const editor = useRef(null);
+  const config = {
+    readonly: false, // all options from https://xdsoft.net/jodit/doc/
+    askBeforePasteHTML: false,
+    askBeforePasteFromWord: false,
+    // uploader: { insertImageAsBase64URI: true },
+    saveModeInStorage: true,
+    style: {
+      fontSize: "16px",
+    },
+  };
+  const [content, setContent] = useState("");
 
   //Router
   const router = useRouter();
@@ -68,7 +75,7 @@ export default function Editorpage() {
       tit[i] = tit[i][0].toUpperCase() + tit[i].substr(1);
     }
     return tit.join(" ");
-  }  
+  }
 
   //graphql query
 
@@ -123,9 +130,7 @@ export default function Editorpage() {
       const dateOptions = { month: "short", day: "numeric", year: "numeric" };
       const today = new Date();
       const date = today.toLocaleDateString("en-US", dateOptions);
-      let content = stateToHTML(
-        convertFromRaw(convertToRaw(description.getCurrentContent()))
-      );
+
       const variables = {
         title: capital_letter(title),
         editid: uuidv4(),
@@ -154,7 +159,7 @@ export default function Editorpage() {
         );
         setModal(true);
         setTitle("");
-        setDescription(EditorState.createEmpty());
+        setContent("");
         setemail("");
         setCategory("");
         setauthor("");
@@ -170,28 +175,6 @@ export default function Editorpage() {
         setModal(false);
       }
     }
-  };
-
-  //image upload
-  const uploadCallback =  (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    
-    return new Promise( async (resolve, reject) => {
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-  
-      try {
-         const res = await axios.post("https://backlog.now.sh/upload", formData, config);         
-        resolve({ data: { link: res.data} })
-      } catch (err) {
-        console.log(err);
-      }
-    });
   };
 
   return (
@@ -248,33 +231,12 @@ export default function Editorpage() {
                     <h3>Write Post</h3>
                   </label>
 
-                  <Editor
-                    wrapperStyle={{
-                      border: "1px 0 0 0 solid rgb(51, 62, 99)",
-                      marginBottom: "10px",
-                    }}
-                    editorStyle={{ minHeight: "90vh", padding: "10px" }}
-                    placeholder="Type Something..."
-                    toolbar={{
-                      inline: { inDropdown: true },
-                      list: { inDropdown: true },
-                      textAlign: { inDropdown: true },
-                      link: { inDropdown: true },
-                      history: { inDropdown: true },
-                      image: {
-                        uploadEnabled: true,
-                        urlEnabled: true,
-                        uploadCallback: uploadCallback,
-                        previewImage: true,
-                        alt: { present: true, mandatory: false },
-                        inputAccept:
-                          "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-                      },
-                    }}
-                    editorState={description}
-                    onEditorStateChange={(editorState) =>
-                      setDescription(editorState)
-                    }
+                  <JoditEditor
+                    ref={editor}
+                    value={content}
+                    config={config}
+                    tabIndex={1} // tabIndex of textarea
+                    onBlur={(newContent) => setContent(newContent)}
                   />
                 </div>
                 <div className="submit-post">
@@ -369,7 +331,7 @@ export default function Editorpage() {
                   <label htmlFor="imgUrl">
                     <h3>Cover Image URL</h3>{" "}
                     <small style={{ fontSize: "0.7rem" }}>
-                      Right-click on an image and "copy image address", checkout{" "}
+                      Right-click on an image and "copy image address/location", checkout{" "}
                       <a
                         href="https://pixabay.com/"
                         target="_blank"
