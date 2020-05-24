@@ -57,10 +57,11 @@ export default function Related({ category, id }) {
             <div className="related-item">
               <img
                 src={`${relatedpost.url}`}
+                loading="lazy"
                 alt={truncateAlt(`${relatedpost.title}`)}
               />
               <div className="related-content">
-                <Link href={`/post/${relatedpost.titleurl}`}>
+                <Link href={`/post/${relatedpost.titleurl}`} as={`/post/${relatedpost.titleurl}`} >
                   <a>
                     <h5>{truncateTitle(relatedpost.title)}</h5>
                     <p>{relatedpost.author}</p>

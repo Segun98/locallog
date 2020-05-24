@@ -4,10 +4,10 @@ import Link from "next/link";
 export default function CategoryList({ href, src, alt, title, author, date }) {
   return (
     <div>
-      <Link href={href}>
+      <Link href={href} as={href}>
         <a>
           <div className="category-item">
-            <img src={src} alt={alt} />
+            <img src={src} alt={alt} loading="lazy" />
             <div className="category-item-content">
               <h5>{title}</h5>
               <p style={{ margin: "5px 0", fontSize:"14px" }}>{author}</p>

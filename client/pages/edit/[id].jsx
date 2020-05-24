@@ -137,7 +137,7 @@ function index({ post }) {
                 alignItems: "baseline",
               }}
             >
-              <h2>Title:</h2>
+              <h4>Title:</h4>
               <h4 style={{ marginLeft: "5px" }}>{post.title}</h4>
             </div>
             <label htmlFor="Article">

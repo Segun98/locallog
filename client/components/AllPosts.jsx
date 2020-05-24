@@ -42,7 +42,7 @@ export default function AllPosts() {
         </div>
         <div className="all-posts-wrap">
           {newfirst.map((allPosts) => (
-            <Link key={allPosts.id} href={`/post/${allPosts.titleurl}`}>
+            <Link key={allPosts.id} href={`/post/${allPosts.titleurl}`} as={`/post/${allPosts.titleurl}`} >
               <a>
                 <div className="all-posts">
                   <div className="all-posts-content">
@@ -52,6 +52,7 @@ export default function AllPosts() {
                   </div>
                   <img
                     src={`${allPosts.url}`}
+                    loading="lazy"
                     alt={truncateAlt(`${allPosts.title}`)}
                   />
                 </div>

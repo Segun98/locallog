@@ -18,7 +18,7 @@ const ALL_POSTS_QUERY = `
   }
 `;
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const res = await request(endpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
@@ -79,7 +79,7 @@ function Index({ posts }) {
           </div>
           <div className="latest-posts">
             <div className="latest-posts-wrap">
-              <Link href={`/post/${firstItem.titleurl}`}>
+              <Link href={`/post/${firstItem.titleurl}`} as={`/post/${firstItem.titleurl}`}>
                 <a>
                   <div className="main-post">
                     <img
@@ -96,7 +96,7 @@ function Index({ posts }) {
               </Link>
 
               <div className="middle-posts">
-                <Link href={`/post/${secondItem.titleurl}`}>
+                <Link href={`/post/${secondItem.titleurl}`} as={`/post/${secondItem.titleurl}`} >
                   <a>
                     <div className="middle-post">
                       <img
@@ -111,7 +111,7 @@ function Index({ posts }) {
                     </div>
                   </a>
                 </Link>
-                <Link href={`/post/${thirdItem.titleurl}`}>
+                <Link href={`/post/${thirdItem.titleurl}`} as={`/post/${thirdItem.titleurl}`}>
                   <a>
                     <div className="middle-post">
                       <img
@@ -127,7 +127,7 @@ function Index({ posts }) {
                   </a>
                 </Link>
 
-                <Link href={`/post/${fourthItem.titleurl}`}>
+                <Link href={`/post/${fourthItem.titleurl}`} as={`/post/${fourthItem.titleurl}`} >
                   <a>
                     <div className="middle-post">
                       <img
@@ -144,7 +144,7 @@ function Index({ posts }) {
                 </Link>
               </div>
 
-              <Link href={`/post/${fifthItem.titleurl}`}>
+              <Link href={`/post/${fifthItem.titleurl}`} as={`/post/${fifthItem.titleurl}`} >
                 <a>
                   <div className="right-post">
                     <img

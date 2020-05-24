@@ -9,7 +9,7 @@ export default async function(req, res) {
     to: "4topsports@gmail.com",
     from: email,
     subject,
-    text: body,
+    text: body
   }
 
   try {

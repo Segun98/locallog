@@ -111,26 +111,6 @@ export default function Editorpage() {
     }
   }
 `;
-  // let content = stateToHTML(
-  //   convertFromRaw(convertToRaw(description.getCurrentContent()))
-  // );
-
-  // const result = {
-  //   title: title,
-  //   editid: uuidv4(),
-  //   titleurl: dash(title),
-  //   date: new Date(),
-  //   description: content,
-  //   email,
-  //   category: `${Category === "" ? "Other" : Category}`,
-  //   author,
-  //   count,
-  //   url,
-  //   metaDesc,
-  //   authorProfile,
-  // };
-
-  // console.log(result);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -206,26 +186,11 @@ export default function Editorpage() {
       };
   
       try {
-         const res = await axios.post("http://localhost:8080/upload", formData, config);         
+         const res = await axios.post("https://backlog.now.sh/upload", formData, config);         
         resolve({ data: { link: res.data} })
       } catch (err) {
         console.log(err);
       }
-      // fetch("https://backlog.now.sh/upload", {
-      //   method: "POST",
-      //   mode: "cors",
-      //   credentials: "include",
-      //   body: formData,
-      // })
-        // .then((res) => res.json())
-        // .then((resData) => {
-        //   console.log(resData);
-        //   resolve({ data: { link: resData } });
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        //   reject(error.toString());
-        // });
     });
   };
 

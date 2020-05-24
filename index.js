@@ -30,7 +30,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.urlencoded({
-  extended: false
+  extended: true
 }));
 app.use(express.json());
 

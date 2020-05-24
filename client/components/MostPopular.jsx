@@ -47,10 +47,11 @@ export default function MostPopular() {
           <div className="most-popular-item-id">
             <img
               src={`${sorted[0].url}`}
+              loading="lazy"
               alt={truncateAlt(`${sorted[0].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[0].titleurl}`}>
+              <Link href={`/post/${sorted[0].titleurl}`} as={`/post/${sorted[0].titleurl}`} >
                 <a>
                   <h5>{truncateTitle(sorted[0].title)}</h5>
                   <p>{sorted[0].author}</p>
@@ -62,10 +63,11 @@ export default function MostPopular() {
           <div className="most-popular-item-id">
             <img
               src={`${sorted[1].url}`}
+              loading="lazy"
               alt={truncateAlt(`${sorted[1].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[1].titleurl}`}>
+              <Link href={`/post/${sorted[1].titleurl}`} as={`/post/${sorted[1].titleurl}`}>
                 <a>
                   <h5>{truncateTitle(sorted[1].title)}</h5>
                   <p>{sorted[1].author}</p>
@@ -77,10 +79,11 @@ export default function MostPopular() {
           <div className="most-popular-item-id">
             <img
               src={`${sorted[2].url}`}
+              loading="lazy"
               alt={truncateAlt(`${sorted[2].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[2].titleurl}`}>
+              <Link href={`/post/${sorted[2].titleurl}`} as={`/post/${sorted[2].titleurl}`} >
                 <a>
                   <h5>{truncateTitle(sorted[2].title)}</h5>
                   <p>{sorted[2].author}</p>
@@ -92,10 +95,11 @@ export default function MostPopular() {
           <div className="most-popular-item-id">
             <img
               src={`${sorted[3].url}`}
+              loading="lazy"
               alt={truncateAlt(`${sorted[3].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[3].titleurl}`}>
+              <Link href={`/post/${sorted[3].titleurl}`} as={`/post/${sorted[3].titleurl}`} >
                 <a>
                   <h5>{truncateTitle(sorted[3].title)}</h5>
                   <p>{sorted[3].author}</p>
@@ -107,10 +111,11 @@ export default function MostPopular() {
           <div className="most-popular-item-id">
             <img
               src={`${sorted[4].url}`}
+              loading="lazy"
               alt={truncateAlt(`${sorted[4].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[4].titleurl}`}>
+              <Link href={`/post/${sorted[4].titleurl}`} as={`/post/${sorted[4].titleurl}`} >
                 <a>
                   <h5>{truncateTitle(sorted[4].title)}</h5>
                   <p>{sorted[4].author}</p>
@@ -122,10 +127,11 @@ export default function MostPopular() {
           <div className="most-popular-item-id">
             <img
               src={`${sorted[5].url}`}
+              loading="lazy"
               alt={truncateAlt(`${sorted[5].title}`)}
             />
             <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[5].titleurl}`}>
+              <Link href={`/post/${sorted[5].titleurl}`} as={`/post/${sorted[5].titleurl}`} >
                 <a>
                   <h5>{truncateTitle(sorted[5].title)}</h5>
                   <p>{sorted[5].author}</p>
