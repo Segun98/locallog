@@ -22,6 +22,7 @@ export default function Layout(props) {
           />
           <meta name="theme-color" content="#000000" />
           <link rel="apple-touch-icon" href="/images/logo.png" />
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
         </Head>
       </div>
       <Header />

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { request } from "graphql-request";
 import Link from "next/link";
 import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
+import ScrollAnimation from "react-animate-on-scroll";
 
 export default function AllPosts() {
   useEffect(() => {
@@ -42,22 +43,27 @@ export default function AllPosts() {
         </div>
         <div className="all-posts-wrap">
           {newfirst.map((allPosts) => (
-            <Link key={allPosts.id} href={`/post/${allPosts.titleurl}`} as={`/post/${allPosts.titleurl}`} >
-              <a>
-                <div className="all-posts">
-                  <div className="all-posts-content">
-                    <h5>{truncateTitle(allPosts.title)}</h5>
-                    <p style={{ margin: "5px 0" }}>{allPosts.author}</p>
-                    <p>{allPosts.date}</p>
+            <ScrollAnimation animateIn="fadeIn" key={allPosts.id}>
+              <Link
+                href={`/post/${allPosts.titleurl}`}
+                as={`/post/${allPosts.titleurl}`}
+              >
+                <a>
+                  <div className="all-posts">
+                    <div className="all-posts-content">
+                      <h5>{truncateTitle(allPosts.title)}</h5>
+                      <p style={{ margin: "5px 0" }}>{allPosts.author}</p>
+                      <p>{allPosts.date}</p>
+                    </div>
+                    <img
+                      src={`${allPosts.url}`}
+                      loading="lazy"
+                      alt={truncateAlt(`${allPosts.title}`)}
+                    />
                   </div>
-                  <img
-                    src={`${allPosts.url}`}
-                    loading="lazy"
-                    alt={truncateAlt(`${allPosts.title}`)}
-                  />
-                </div>
-              </a>
-            </Link>
+                </a>
+              </Link>
+            </ScrollAnimation>
           ))}
         </div>
       </section>
@@ -75,6 +81,10 @@ export default function AllPosts() {
           .all-posts-head {
             margin: 10px auto;
             width: 90%;
+          }
+
+          .all-posts-head h2 {
+            font-size: 1.2rem;
           }
 
           .all-posts-wrap {
@@ -126,7 +136,10 @@ export default function AllPosts() {
 
           @media only screen and (min-width: 1000px) {
             .all-posts-wrap {
-              gap: 20px;
+              gap: 80px;
+            }
+            .all-posts-head h2 {
+              font-size: 1.5rem;
             }
           }
 
@@ -139,7 +152,7 @@ export default function AllPosts() {
             }
 
             .all-posts img {
-              width: 200px;
+              width: 150px;
               height: 150px;
             }
           }
@@ -148,7 +161,7 @@ export default function AllPosts() {
 
           @media only screen and (min-width: 2500px) {
             .all-posts-head {
-              width: 70%;
+              width: 65%;
             }
 
             .all-posts-wrap {

@@ -85,6 +85,9 @@ export default function Index({ posts }) {
           h6 {
             color: rgb(51, 62, 99);
           }
+          h6 {
+            font-size: 0.8rem;
+          }
         `}</style>
       </div>
     </Layout>

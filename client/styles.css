@@ -122,8 +122,8 @@ a {
 }
 
 .category-item img {
-    width: 150px;
-    height: 100px;
+    width: 130px;
+    height: 80px;
 }
 
 /* TABLET SCREEN  */
@@ -134,8 +134,7 @@ a {
     }
 
     .category-item img {
-        width: 150px;
-        height: 150px;
+        height: 100px;
     }
 
     .category-item-content {

@@ -6,6 +6,7 @@ import AllPosts from "../components/AllPosts";
 import MostPopular from "../components/MostPopular";
 import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
 
+
 const ALL_POSTS_QUERY = `
   {
     posts {
@@ -14,11 +15,12 @@ const ALL_POSTS_QUERY = `
       author
       date
       url
+      metaDesc
     }
   }
 `;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await request(endpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
@@ -79,7 +81,10 @@ function Index({ posts }) {
           </div>
           <div className="latest-posts">
             <div className="latest-posts-wrap">
-              <Link href={`/post/${firstItem.titleurl}`} as={`/post/${firstItem.titleurl}`}>
+              <Link
+                href={`/post/${firstItem.titleurl}`}
+                as={`/post/${firstItem.titleurl}`}
+              >
                 <a>
                   <div className="main-post">
                     <img
@@ -88,6 +93,7 @@ function Index({ posts }) {
                     />
                     <div className="main-post-content">
                       <h5>{truncateTitle(firstItem.title)}</h5>
+                      <p>{truncateTitle(firstItem.metaDesc)}</p>
                       <p>{firstItem.author}</p>
                       <h6>{firstItem.date}</h6>
                     </div>
@@ -96,7 +102,10 @@ function Index({ posts }) {
               </Link>
 
               <div className="middle-posts">
-                <Link href={`/post/${secondItem.titleurl}`} as={`/post/${secondItem.titleurl}`} >
+                <Link
+                  href={`/post/${secondItem.titleurl}`}
+                  as={`/post/${secondItem.titleurl}`}
+                >
                   <a>
                     <div className="middle-post">
                       <img
@@ -111,7 +120,10 @@ function Index({ posts }) {
                     </div>
                   </a>
                 </Link>
-                <Link href={`/post/${thirdItem.titleurl}`} as={`/post/${thirdItem.titleurl}`}>
+                <Link
+                  href={`/post/${thirdItem.titleurl}`}
+                  as={`/post/${thirdItem.titleurl}`}
+                >
                   <a>
                     <div className="middle-post">
                       <img
@@ -127,7 +139,10 @@ function Index({ posts }) {
                   </a>
                 </Link>
 
-                <Link href={`/post/${fourthItem.titleurl}`} as={`/post/${fourthItem.titleurl}`} >
+                <Link
+                  href={`/post/${fourthItem.titleurl}`}
+                  as={`/post/${fourthItem.titleurl}`}
+                >
                   <a>
                     <div className="middle-post">
                       <img
@@ -144,7 +159,10 @@ function Index({ posts }) {
                 </Link>
               </div>
 
-              <Link href={`/post/${fifthItem.titleurl}`} as={`/post/${fifthItem.titleurl}`} >
+              <Link
+                href={`/post/${fifthItem.titleurl}`}
+                as={`/post/${fifthItem.titleurl}`}
+              >
                 <a>
                   <div className="right-post">
                     <img
@@ -152,6 +170,7 @@ function Index({ posts }) {
                       alt={truncateAlt(`${fifthItem.title}`)}
                     />
                     <h5>{truncateTitle(fifthItem.title)}</h5>
+                    <p>{truncateTitle(fifthItem.metaDesc)}</p>
                     <p>{fifthItem.author}</p>
                     <h6>{fifthItem.date}</h6>
                   </div>
@@ -177,7 +196,7 @@ function Index({ posts }) {
           }
 
           .latest-posts-home {
-            margin: 5px auto;
+            margin: 1px auto;
             width: 95%;
           }
 
@@ -188,6 +207,7 @@ function Index({ posts }) {
           }
           .latest-head h1 {
             color: rgb(51, 62, 99);
+            font-size: 1.2rem;
           }
 
           .latest-posts-wrap {
@@ -201,9 +221,8 @@ function Index({ posts }) {
           }
 
           .main-post img {
-            /* width: 350px; */
             width: 100%;
-            height: 300px;
+            height: 200px;
           }
 
           .main-post-content {
@@ -228,7 +247,7 @@ function Index({ posts }) {
           }
 
           .middle-post-content {
-            margin-left: 10px;
+            margin-left: 20px;
             line-height: 20px;
           }
 
@@ -237,8 +256,8 @@ function Index({ posts }) {
           }
 
           .middle-post img {
-            width: 150px;
-            height: 100px;
+            width: 130px;
+            height: 80px;
           }
 
           .right-post img {
@@ -269,6 +288,13 @@ function Index({ posts }) {
           @media only screen and (min-width: 1000px) {
             .main-post img {
               width: 400px;
+              height: 250px;
+            }
+            .latest-head h1 {
+              font-size: 1.5rem;
+            }
+            .right-post img {
+              height: 250px;
             }
           }
 

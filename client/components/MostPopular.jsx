@@ -3,6 +3,7 @@ import Link from "next/link";
 import { request } from "graphql-request";
 import ErrorMessage from "./ErrorMessage";
 import { truncateTitle, truncateAlt, endpoint } from "../utils/utils";
+import ScrollAnimation from "react-animate-on-scroll";
 
 export default function MostPopular() {
   useEffect(() => {
@@ -44,112 +45,147 @@ export default function MostPopular() {
         </div>
         <br />
         <div className="most-popular-wrap-id">
-          <div className="most-popular-item-id">
-            <img
-              src={`${sorted[0].url}`}
-              loading="lazy"
-              alt={truncateAlt(`${sorted[0].title}`)}
-            />
-            <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[0].titleurl}`} as={`/post/${sorted[0].titleurl}`} >
-                <a>
-                  <h5>{truncateTitle(sorted[0].title)}</h5>
-                  <p>{sorted[0].author}</p>
-                  <h6>{sorted[0].date}</h6>
-                </a>
-              </Link>
+          <ScrollAnimation animateIn="fadeIn">
+            <div className="most-popular-item-id">
+              <img
+                src={`${sorted[0].url}`}
+                loading="lazy"
+                alt={truncateAlt(`${sorted[0].title}`)}
+              />
+              <div className="most-popular-content-id">
+                <Link
+                  href={`/post/${sorted[0].titleurl}`}
+                  as={`/post/${sorted[0].titleurl}`}
+                >
+                  <a>
+                    <h5>{truncateTitle(sorted[0].title)}</h5>
+                    <p>{sorted[0].author}</p>
+                    <h6>{sorted[0].date}</h6>
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="most-popular-item-id">
-            <img
-              src={`${sorted[1].url}`}
-              loading="lazy"
-              alt={truncateAlt(`${sorted[1].title}`)}
-            />
-            <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[1].titleurl}`} as={`/post/${sorted[1].titleurl}`}>
-                <a>
-                  <h5>{truncateTitle(sorted[1].title)}</h5>
-                  <p>{sorted[1].author}</p>
-                  <h6>{sorted[1].date}</h6>
-                </a>
-              </Link>
+          </ScrollAnimation>
+
+          <ScrollAnimation animateIn="fadeIn">
+            <div className="most-popular-item-id">
+              <img
+                src={`${sorted[1].url}`}
+                loading="lazy"
+                alt={truncateAlt(`${sorted[1].title}`)}
+              />
+              <div className="most-popular-content-id">
+                <Link
+                  href={`/post/${sorted[1].titleurl}`}
+                  as={`/post/${sorted[1].titleurl}`}
+                >
+                  <a>
+                    <h5>{truncateTitle(sorted[1].title)}</h5>
+                    <p>{sorted[1].author}</p>
+                    <h6>{sorted[1].date}</h6>
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="most-popular-item-id">
-            <img
-              src={`${sorted[2].url}`}
-              loading="lazy"
-              alt={truncateAlt(`${sorted[2].title}`)}
-            />
-            <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[2].titleurl}`} as={`/post/${sorted[2].titleurl}`} >
-                <a>
-                  <h5>{truncateTitle(sorted[2].title)}</h5>
-                  <p>{sorted[2].author}</p>
-                  <h6>{sorted[2].date}</h6>
-                </a>
-              </Link>
+          </ScrollAnimation>
+
+          <ScrollAnimation animateIn="fadeIn">
+            <div className="most-popular-item-id">
+              <img
+                src={`${sorted[2].url}`}
+                loading="lazy"
+                alt={truncateAlt(`${sorted[2].title}`)}
+              />
+              <div className="most-popular-content-id">
+                <Link
+                  href={`/post/${sorted[2].titleurl}`}
+                  as={`/post/${sorted[2].titleurl}`}
+                >
+                  <a>
+                    <h5>{truncateTitle(sorted[2].title)}</h5>
+                    <p>{sorted[2].author}</p>
+                    <h6>{sorted[2].date}</h6>
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="most-popular-item-id">
-            <img
-              src={`${sorted[3].url}`}
-              loading="lazy"
-              alt={truncateAlt(`${sorted[3].title}`)}
-            />
-            <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[3].titleurl}`} as={`/post/${sorted[3].titleurl}`} >
-                <a>
-                  <h5>{truncateTitle(sorted[3].title)}</h5>
-                  <p>{sorted[3].author}</p>
-                  <h6>{sorted[3].date}</h6>
-                </a>
-              </Link>
+          </ScrollAnimation>
+
+          <ScrollAnimation animateIn="fadeIn">
+            <div className="most-popular-item-id">
+              <img
+                src={`${sorted[3].url}`}
+                loading="lazy"
+                alt={truncateAlt(`${sorted[3].title}`)}
+              />
+              <div className="most-popular-content-id">
+                <Link
+                  href={`/post/${sorted[3].titleurl}`}
+                  as={`/post/${sorted[3].titleurl}`}
+                >
+                  <a>
+                    <h5>{truncateTitle(sorted[3].title)}</h5>
+                    <p>{sorted[3].author}</p>
+                    <h6>{sorted[3].date}</h6>
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="most-popular-item-id">
-            <img
-              src={`${sorted[4].url}`}
-              loading="lazy"
-              alt={truncateAlt(`${sorted[4].title}`)}
-            />
-            <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[4].titleurl}`} as={`/post/${sorted[4].titleurl}`} >
-                <a>
-                  <h5>{truncateTitle(sorted[4].title)}</h5>
-                  <p>{sorted[4].author}</p>
-                  <h6>{sorted[4].date}</h6>
-                </a>
-              </Link>
+          </ScrollAnimation>
+
+          <ScrollAnimation animateIn="fadeIn">
+            <div className="most-popular-item-id">
+              <img
+                src={`${sorted[4].url}`}
+                loading="lazy"
+                alt={truncateAlt(`${sorted[4].title}`)}
+              />
+              <div className="most-popular-content-id">
+                <Link
+                  href={`/post/${sorted[4].titleurl}`}
+                  as={`/post/${sorted[4].titleurl}`}
+                >
+                  <a>
+                    <h5>{truncateTitle(sorted[4].title)}</h5>
+                    <p>{sorted[4].author}</p>
+                    <h6>{sorted[4].date}</h6>
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="most-popular-item-id">
-            <img
-              src={`${sorted[5].url}`}
-              loading="lazy"
-              alt={truncateAlt(`${sorted[5].title}`)}
-            />
-            <div className="most-popular-content-id">
-              <Link href={`/post/${sorted[5].titleurl}`} as={`/post/${sorted[5].titleurl}`} >
-                <a>
-                  <h5>{truncateTitle(sorted[5].title)}</h5>
-                  <p>{sorted[5].author}</p>
-                  <h6>{sorted[5].date}</h6>
-                </a>
-              </Link>
+          </ScrollAnimation>
+
+          <ScrollAnimation animateIn="fadeIn">
+            <div className="most-popular-item-id">
+              <img
+                src={`${sorted[5].url}`}
+                loading="lazy"
+                alt={truncateAlt(`${sorted[5].title}`)}
+              />
+              <div className="most-popular-content-id">
+                <Link
+                  href={`/post/${sorted[5].titleurl}`}
+                  as={`/post/${sorted[5].titleurl}`}
+                >
+                  <a>
+                    <h5>{truncateTitle(sorted[5].title)}</h5>
+                    <p>{sorted[5].author}</p>
+                    <h6>{sorted[5].date}</h6>
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
+          </ScrollAnimation>
         </div>
       </div>
 
       <style jsx>
         {`
-        h5,
-        h2 {
-          color: rgb(51, 62, 99);
-        }
-         
+          h5,
+          h2 {
+            color: rgb(51, 62, 99);
+          }
+
           p {
             font-size: 0.8rem;
           }
@@ -158,7 +194,12 @@ export default function MostPopular() {
             width: 90%;
           }
           .most-popular-head-id {
-            margin: 10px 0;
+            margin: 2px 0;
+          }
+
+          .most-popular-head-id h2 {
+            margin: 2px 0;
+            font-size: 1.2rem;
           }
 
           .most-popular-wrap-id {
@@ -176,7 +217,7 @@ export default function MostPopular() {
 
           .most-popular-item-id img {
             width: 100px;
-            height: 100px;
+            height: 80px;
           }
 
           .most-popular-content-id {
@@ -192,6 +233,10 @@ export default function MostPopular() {
           }
 
           @media only screen and (min-width: 1300px) {
+            .most-popular-head-id h2 {
+              margin: 2px 0;
+              font-size: 1.5rem;
+            }
             .most-popular-wrap-id {
               gap: 50px;
               grid-template-columns: 1fr 1fr 1fr;

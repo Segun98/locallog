@@ -26,7 +26,7 @@ export default function Footer() {
           </li>
           <li>Code of Conduct</li>
         </ul>
-        <h4 style={{ textAlign: "center" }}>&copy;Tadlace 2020</h4>
+        <h4 style={{ textAlign: "center" }}>&copy;Locallog 2020</h4>
       </footer>
 
       <style jsx>{`

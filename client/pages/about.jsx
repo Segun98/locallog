@@ -119,7 +119,7 @@ export default function About() {
             </li>
             <li>
               Rich Text-Editor (Jodit) - Use keyboard shortcuts on texts. You get a fully
-              responsive interface for easy writing on your mobile phone
+              responsive interface for easy writing even on your mobile phone
             </li>
             <li>
               Aggregate your articles in a shareable page, search by your name

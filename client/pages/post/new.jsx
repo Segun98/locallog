@@ -123,7 +123,7 @@ export default function Editorpage() {
     e.preventDefault();
 
     // Prevents short content
-    if (postLength < 400) {
+    if (content.length < 400) {
       alert("Post too short");
     } else {
       //DATE
@@ -180,7 +180,7 @@ export default function Editorpage() {
   return (
     <Layout>
       <Head>
-        <title>New Post | Tadlace </title>
+        <title>New Post | Locallog </title>
         <meta
           name="twitter:image"
           content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
@@ -322,7 +322,7 @@ export default function Editorpage() {
                     <option defaultValue="Technology">Technology</option>
                     <option defaultValue="Lifestyle">Lifestyle</option>
                     <option defaultValue="Personal">Personal</option>
-                    <option defaultValue="Health">Health & Wellness</option>
+                    <option defaultValue="Health">Health</option>
                     <option defaultValue="Food">Food</option>
                     <option defaultValue="Other">Other</option>
                   </select>

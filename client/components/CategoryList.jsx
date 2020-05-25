@@ -9,8 +9,8 @@ export default function CategoryList({ href, src, alt, title, author, date }) {
           <div className="category-item">
             <img src={src} alt={alt} loading="lazy" />
             <div className="category-item-content">
-              <h5>{title}</h5>
-              <p style={{ margin: "5px 0", fontSize:"14px" }}>{author}</p>
+              <h6>{title}</h6>
+              <p style={{ margin: "5px 0", fontSize: "14px" }}>{author}</p>
               <h6>{date}</h6>
             </div>
           </div>
@@ -20,6 +20,10 @@ export default function CategoryList({ href, src, alt, title, author, date }) {
         h5,
         h6 {
           color: rgb(51, 62, 99);
+        }
+
+        h6 {
+          font-size: 0.8rem;
         }
       `}</style>
     </div>
