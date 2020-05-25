@@ -83,7 +83,7 @@ export default function Index({ posts }) {
         </div>
         <div
           style={{
-            marginTop: filteredCategory.length < 3 ? "150px" : "10px",
+            marginTop: filteredCategory.length < 8 ? "250px" : "10px",
           }}
         >
         <Footer />

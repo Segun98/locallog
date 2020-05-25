@@ -46,36 +46,38 @@ export default function Related({ category, id }) {
   return (
     <div>
       <div className="related-head">
-        <h2 style={{ display: related.length === 0 ? "none" : "block" }}>
+        <h3 style={{ display: related.length === 0 ? "none" : "block" }}>
+          <hr />
           Related
-        </h2>
+        </h3>
       </div>
-      <br />
       <section className="related-section">
         {related.map((relatedpost, index) => (
           <div className="related-wrap" key={index}>
-            <div className="related-item">
               <img
                 src={`${relatedpost.url}`}
                 loading="lazy"
                 alt={truncateAlt(`${relatedpost.title}`)}
               />
               <div className="related-content">
-                <Link href={`/post/${relatedpost.titleurl}`} as={`/post/${relatedpost.titleurl}`} >
+                <Link
+                  href={`/post/${relatedpost.titleurl}`}
+                  as={`/post/${relatedpost.titleurl}`}
+                >
                   <a>
                     <h5>{truncateTitle(relatedpost.title)}</h5>
                     <p>{relatedpost.author}</p>
                     <h6>{relatedpost.date}</h6>
                   </a>
                 </Link>
-              </div>
             </div>
           </div>
         ))}
       </section>
       <style jsx>{`
         h5,
-        h2, h6 {
+        h3,
+        h6 {
           color: rgb(51, 62, 99);
         }
         .related-section {
@@ -88,25 +90,21 @@ export default function Related({ category, id }) {
         }
         .related-wrap {
           display: flex;
-          margin: auto;
-          width: 90%;
-          margin-bottom: 5px;
-        }
-        .related-item {
-          display: flex;
         }
         .related-content {
           margin-left: 20px;
         }
 
-        .related-item img {
+        .related-wrap img {
           width: 100px;
-          height: 100px;
+          height: 80px;
         }
         @media only screen and (min-width: 600px) {
           .related-section {
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 10px;
+            place-items:center;
+            
           }
         }
       `}</style>

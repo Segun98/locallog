@@ -71,7 +71,7 @@ export default function Index({ posts }) {
         </div>
         <div
           style={{
-            marginTop: posts.length < 3 ? "150px" : "10px",
+            marginTop: posts.length < 8 ? "250px" : "10px",
           }}
         >
           <Footer />

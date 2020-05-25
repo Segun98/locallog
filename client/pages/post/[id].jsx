@@ -147,15 +147,15 @@ export default function Index({ post }) {
         <p style={{ color: "rgb(51,62,99)", textAlign: "center" }}>
           Write a post on Locallog today, no sign up required, click{" "}
           <Link href="/post/new">
-            <a>here</a>
+            <a style={{textDecoration:"underline"}}>here</a>
           </Link>
         </p>
         <br/>
         <hr />
         <section style={{ marginBottom: "20px" }}>
-          <h3 style={{ marginBottom: "10px", color: "rgb(51,62,99)" }}>
+          <h4 style={{ marginBottom: "10px", color: "rgb(51,62,99)" }}>
             Share Post
-          </h3>
+          </h4>
           <div className="social-icons">
             <h6>
               <a
@@ -189,7 +189,6 @@ export default function Index({ post }) {
         <section>
           <Comments id={post.titleurl} />
         </section>
-        <hr />
         <section>
           <Related category={post.category} id={post.id} />
         </section>
@@ -299,13 +298,18 @@ export default function Index({ post }) {
             }
 
             .header-image img {
-              height: 500px;
+              height: 380px;
+              object-fit: cover;
+              /* object-fit: contain; */
             }
           }
 
           /* 4K SCREEN  */
 
           @media only screen and (min-width: 2500px) {
+            .header-image img {
+              height: 500px;
+            }
             .single-post {
               width: 50%;
             }
