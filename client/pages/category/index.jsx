@@ -20,7 +20,7 @@ const ALL_POSTS_QUERY = `
   }
 `;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await request(endpoint, ALL_POSTS_QUERY);
   const posts = await res.posts;
 
