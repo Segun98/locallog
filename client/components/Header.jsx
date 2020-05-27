@@ -13,7 +13,9 @@ export default function Header() {
 
   function handleSearch(e) {
     e.preventDefault();
-    router.push(`/search?author=${search}`);
+    if (search !== "") {
+      router.push(`/search?author=${search}`); 
+    }
   }
 
   return (
@@ -187,8 +189,8 @@ export default function Header() {
           }
 
           .write-a-post button {
-            background: #333;
-            border: 1px solid #333;
+            background: rgb(62,82,163);
+            border: 1px solid rgb(62,82,163);
             padding: 10px 10px;
             cursor: pointer;
             color: white;

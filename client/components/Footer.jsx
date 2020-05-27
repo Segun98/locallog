@@ -17,14 +17,26 @@ export default function Footer() {
               <a>About</a>
             </Link>
           </li>
-          <li>Privacy Policy</li>
-          <li>Terms of Use</li>
+          <li>
+            <Link href="/about#privacy">
+              <a>Privacy Policy</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/about#terms">
+              <a>Terms of Use</a>
+            </Link>
+          </li>
           <li>
             <Link href="/about#contact">
               <a>Contact</a>
             </Link>
           </li>
-          <li>Code of Conduct</li>
+          <li>
+            <Link href="/about#conduct">
+              <a>Code of Conduct</a>
+            </Link>
+          </li>
         </ul>
         <h4 style={{ textAlign: "center" }}>&copy;Locallog 2020</h4>
       </footer>

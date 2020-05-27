@@ -201,9 +201,9 @@ function index({ post }) {
         .edit-btn button {
           border: none;
           background: none;
-          border: 1px solid white;
+          border: 1px solid rgb(62,82,163);
           color: white;
-          background: black;
+          background: rgb(62,82,163);
           padding: 10px 20px;
           display: block;
           border-radius: 5px;

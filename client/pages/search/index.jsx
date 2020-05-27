@@ -80,7 +80,9 @@ export default function Index({ posts }) {
           .category {
             margin-top: 10px;
           }
-          ,
+          p {
+            font-size: 14px;
+          }
           h5,
           h6 {
             color: rgb(51, 62, 99);

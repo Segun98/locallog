@@ -13,6 +13,7 @@ import { dash, endpoint } from "../../utils/utils";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Footer from "../../components/Footer";
+import NProgress from "nprogress";
 
 export default function Editorpage() {
   const [Modal, setModal] = useState(false);
@@ -147,6 +148,7 @@ export default function Editorpage() {
       };
 
       try {
+        NProgress.start()
         seterror(false);
         setdisable(true);
         const res = await request(endpoint, ADD_POST, variables);
@@ -167,8 +169,10 @@ export default function Editorpage() {
         setmetaDesc("");
         setauthorProfile("");
         setdisable(false);
+        NProgress.done()
         router.push(`/post/${res.addPost.titleurl}`);
       } catch (err) {
+        NProgress.done()
         console.log(err.response);
         setdisable(false);
         seterror(true);

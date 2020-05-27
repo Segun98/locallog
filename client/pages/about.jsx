@@ -118,8 +118,9 @@ export default function About() {
               them; no ads in between, all stylings are the same.
             </li>
             <li>
-              Rich Text-Editor (Jodit) - Use keyboard shortcuts on texts. You get a fully
-              responsive interface for easy writing even on your mobile phone
+              Rich Text-Editor (Jodit) - Use keyboard shortcuts on texts. You
+              get a fully responsive interface for easy writing even on your
+              mobile phone
             </li>
             <li>
               Aggregate your articles in a shareable page, search by your name
@@ -130,6 +131,74 @@ export default function About() {
             <li>Search Engine Optimization</li>
             <li>Add an author Profile</li>
           </ul>
+          <br />
+          <section className="privacy" id="privacy">
+            <h3 style={{ textAlign: "center" }}>Privacy Policy</h3>
+            <p>
+              Locallog collects basic information as you visit and write on the
+              website. They Include:
+            </p>
+            <ul>
+              <li>Email</li>
+              <li>
+                Information you submit, such as comments and contact messages
+                sent to us
+              </li>
+            </ul>
+            <br />
+            <p>
+              We do not share or sell user personal information with third
+              parties
+            </p>
+            <br />
+            <p>
+              We run adverts in strategic spaces on the website, ensuring they
+              do not collide with a writer's content
+            </p>
+            <br />
+            <p>
+              We currently provide an Edit Post feature available in a writer's
+              Email as they publish a post
+            </p>
+            <br />
+            <p>
+              You can request for the deletion of all your information, Posts
+              and Comments, by <a href="/about#contact">contacting us</a>
+            </p>
+            <br />
+            <p>
+              We reserve the right to update this policy at any time, the time
+              of revision will be clearly stated on this page
+            </p>
+          </section>
+          <br />
+          <section className="conduct" id="conduct">
+            <h3 style={{ textAlign: "center" }}>Code of Conduct</h3>
+            <p>Unacceptable Behaviour</p>
+            <ul>
+              <li>Trolling, insulting comments </li>
+              <li>Personal and Political attacks</li>
+              <li>
+                Publishing others' data, information or work without explicit
+                permission or credit
+              </li>
+            </ul>
+            <p>
+              Report any form of abuse <a href="/about#contact">below</a>{" "}
+            </p>
+          </section>
+          <br />
+          <section className="terms" id="terms">
+            <h3 style={{ textAlign: "center" }}>Terms of Use</h3>
+            <p>
+              By accessing this website, you are agreeing to be bound by our
+              terms of use, privacy policy and code of conduct
+            </p>
+            <p>
+              Violaton of any of these can lead to us taking down your comments
+              or posts
+            </p>
+          </section>
           <br />
           <div id="contact">
             <h4 style={{ textAlign: "center" }}>
@@ -252,7 +321,7 @@ export default function About() {
             }
             button {
               padding: 10px 20px;
-              background: #333;
+              background: rgb(62,82,163);
               color: white;
               border: none;
               margin-bottom: 10px;

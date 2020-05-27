@@ -197,7 +197,7 @@ export default function Comments({ id }) {
         }
         button {
           padding: 10px 20px;
-          background: #333;
+          background: rgb(62, 82, 163);
           color: white;
           border: none;
           margin-bottom: 10px;
