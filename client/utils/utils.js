@@ -23,3 +23,4 @@ export function dash(str) {
 export const endpoint = "https://backlog.now.sh/graphql"
 // "http://localhost:8080/graphql"
 // "https://backlog.now.sh/graphql"
+// "https://locallog.herokuapp.com/graphql"

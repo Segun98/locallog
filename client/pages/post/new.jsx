@@ -1,13 +1,15 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-const importJodit = () => import("jodit-react");
-const JoditEditor = dynamic(importJodit, {
-  ssr: false,
-});
+const Editor = dynamic(
+  () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+  { ssr: false }
+);
+import { EditorState, convertToRaw } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
+import { convertFromRaw } from "draft-js";
 import { useRouter } from "next/router";
-import "isomorphic-unfetch";
 import { request } from "graphql-request";
 import { dash, endpoint } from "../../utils/utils";
 import axios from "axios";
@@ -19,20 +21,6 @@ export default function Editorpage() {
   const [Modal, setModal] = useState(false);
   const [error, seterror] = useState(false);
   const [disable, setdisable] = useState(false);
-
-  //Text Editor
-  const editor = useRef(null);
-  const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    askBeforePasteHTML: false,
-    askBeforePasteFromWord: false,
-    // uploader: { insertImageAsBase64URI: true },
-    saveModeInStorage: true,
-    style: {
-      fontSize: "16px",
-    },
-  };
-  const [content, setContent] = useState("");
 
   //Router
   const router = useRouter();
@@ -46,6 +34,10 @@ export default function Editorpage() {
   const [url, seturl] = useState("");
   const [metaDesc, setmetaDesc] = useState("");
   const [authorProfile, setauthorProfile] = useState("");
+  const [description, setDescription] = useState(EditorState.createEmpty());
+  let postLength = stateToHTML(
+    convertFromRaw(convertToRaw(description.getCurrentContent()))
+  ).length;
 
   async function acknowledgementEmail(title, email, link, author, edit) {
     const payload = {
@@ -124,14 +116,16 @@ export default function Editorpage() {
     e.preventDefault();
 
     // Prevents short content
-    if (content.length < 400) {
+    if (postLength.length < 400) {
       alert("Post too short");
     } else {
       //DATE
       const dateOptions = { month: "short", day: "numeric", year: "numeric" };
       const today = new Date();
       const date = today.toLocaleDateString("en-US", dateOptions);
-
+      let content = stateToHTML(
+        convertFromRaw(convertToRaw(description.getCurrentContent()))
+      );
       const variables = {
         title: capital_letter(title),
         editid: uuidv4(),
@@ -148,7 +142,7 @@ export default function Editorpage() {
       };
 
       try {
-        NProgress.start()
+        NProgress.start();
         seterror(false);
         setdisable(true);
         const res = await request(endpoint, ADD_POST, variables);
@@ -161,7 +155,7 @@ export default function Editorpage() {
         );
         setModal(true);
         setTitle("");
-        setContent("");
+        setDescription(EditorState.createEmpty());
         setemail("");
         setCategory("");
         setauthor("");
@@ -169,10 +163,10 @@ export default function Editorpage() {
         setmetaDesc("");
         setauthorProfile("");
         setdisable(false);
-        NProgress.done()
+        NProgress.done();
         router.push(`/post/${res.addPost.titleurl}`);
       } catch (err) {
-        NProgress.done()
+        NProgress.done();
         console.log(err.response);
         setdisable(false);
         seterror(true);
@@ -234,13 +228,27 @@ export default function Editorpage() {
                   <label htmlFor="Article">
                     <h3>Write Post</h3>
                   </label>
-
-                  <JoditEditor
-                    ref={editor}
-                    value={content}
-                    config={config}
-                    tabIndex={1} // tabIndex of textarea
-                    onBlur={(newContent) => setContent(newContent)}
+                  <Editor
+                    wrapperStyle={{
+                      border: "1px 0 0 0 solid rgb(51, 62, 99)",
+                      marginBottom: "10px",
+                    }}
+                    editorStyle={{ minHeight: "90vh", padding: "10px" }}
+                    placeholder="Type Something..."
+                    toolbar={{
+                      inline: { inDropdown: true },
+                      list: { inDropdown: true },
+                      textAlign: { inDropdown: true },
+                      link: { inDropdown: true },
+                      history: { inDropdown: true },
+                      image: {
+                        previewImage: true,
+                      },
+                    }}
+                    editorState={description}
+                    onEditorStateChange={(editorState) =>
+                      setDescription(editorState)
+                    }
                   />
                 </div>
                 <div className="submit-post">
@@ -336,7 +344,8 @@ export default function Editorpage() {
                   <label htmlFor="imgUrl">
                     <h3>Cover Image URL</h3>{" "}
                     <small style={{ fontSize: "0.7rem" }}>
-                      Right-click on an image and "copy image address/location", checkout{" "}
+                      Right-click on an image and "copy image address/location",
+                      checkout{" "}
                       <a
                         href="https://pixabay.com/"
                         target="_blank"
@@ -420,9 +429,6 @@ export default function Editorpage() {
           label h3,
           h2 {
             color: rgb(51, 62, 99);
-          }
-          li {
-            list-style: square;
           }
           textarea {
             line-height: 1.5;

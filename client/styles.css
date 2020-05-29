@@ -10,9 +10,8 @@
 
 body {
     font-family: 'Manrope', sans-serif !important;
-    line-height: 1.6;
     background: ghostwhite;
-    
+
 }
 
 button,
@@ -30,19 +29,9 @@ p {
     font-family: 'Manrope', sans-serif !important;
 }
 
-li {
-    list-style: none;
-}
-
 a {
     text-decoration: none;
     color: black;
-}
-
-.spinner {
-    width: 40px;
-    animation: spinner 1s ease infinite;
-    position: relative;
 }
 
 .jodit_toolbar {
@@ -51,9 +40,26 @@ a {
     z-index: 999 !important;
 }
 
-.jodit_wysiwyg{
+.jodit_wysiwyg {
     height: 90vh !important;
 }
+
+.rdw-editor-toolbar {
+    position: sticky !important;
+    top: 0px !important;
+    z-index: 999 !important;
+}
+
+.rdw-image-modal-url-input {
+    border-bottom: 1px solid black !important;
+}
+
+.spinner {
+    width: 40px;
+    animation: spinner 1s ease infinite;
+    position: relative;
+}
+
 
 @keyframes spinner {
     0% {
@@ -196,7 +202,7 @@ a {
 
 .new-post-page {
     margin: auto;
-    width: 90%;
+    width: 95%;
     padding: 10px 0 30px 0;
 }
 
@@ -229,9 +235,9 @@ a {
 
 .submit-post button {
     border: none;
-    border: 1px solid rgb(62,82,163);
+    border: 1px solid rgb(62, 82, 163);
     color: white;
-    background: rgb(62,82,163);
+    background: rgb(62, 82, 163);
     padding: 10px 20px;
     display: block;
     border-radius: 5px;
@@ -258,7 +264,7 @@ a {
         grid-template-columns: 3fr 1fr;
         column-gap: 20px
     }
-     
+
 }
 
 /* 4K SCREEN  */

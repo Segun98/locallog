@@ -230,6 +230,7 @@ export default function Header() {
             display: block;
             text-align: center;
             padding: 3px 10px;
+            list-style: none
           }
 
           .menu-wrap ul li:first-child {

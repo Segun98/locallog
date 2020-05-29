@@ -53,8 +53,6 @@ function index({ post }) {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
     askBeforePasteHTML: false,
     askBeforePasteFromWord: false,
-    // uploader: { insertImageAsBase64URI: true },
-    saveModeInStorage: true,
     style: {
       fontSize: "16px",
     },
@@ -131,13 +129,10 @@ function index({ post }) {
           <div className="form-item">
             <div
               style={{
-                display: "flex",
                 margin: "5px 0",
-                alignItems: "baseline",
               }}
             >
-              <h4>Title:</h4>
-              <h4 style={{ marginLeft: "5px" }}>{post.title}</h4>
+              <h3 style={{ textAlign: "center" }}>{post.title}</h3>
             </div>
             <label htmlFor="Article">
               <h2>Edit your post</h2>
@@ -192,7 +187,7 @@ function index({ post }) {
         }
         .edit-page {
           margin: auto;
-          width: 80%;
+          width: 90%;
         }
 
         .edit-btn {
@@ -201,9 +196,9 @@ function index({ post }) {
         .edit-btn button {
           border: none;
           background: none;
-          border: 1px solid rgb(62,82,163);
+          border: 1px solid rgb(62, 82, 163);
           color: white;
-          background: rgb(62,82,163);
+          background: rgb(62, 82, 163);
           padding: 10px 20px;
           display: block;
           border-radius: 5px;
