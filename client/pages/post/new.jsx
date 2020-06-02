@@ -243,7 +243,7 @@ export default function Editorpage() {
                       history: { inDropdown: true },
                       image: {
                         defaultSize: {
-                          height: "50%",
+                          height: "auto",
                           width: "70%",
                         },
                       },
