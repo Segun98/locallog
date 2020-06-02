@@ -242,7 +242,10 @@ export default function Editorpage() {
                       link: { inDropdown: true },
                       history: { inDropdown: true },
                       image: {
-                        previewImage: true,
+                        defaultSize: {
+                          height: "50%",
+                          width: "70%",
+                        },
                       },
                     }}
                     editorState={description}

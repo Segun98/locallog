@@ -18,6 +18,11 @@ export default function Footer() {
             </Link>
           </li>
           <li>
+            <Link href="/post/new">
+              <a>Write a Post</a>
+            </Link>
+          </li>
+          <li>
             <Link href="/about#privacy">
               <a>Privacy Policy</a>
             </Link>
@@ -38,13 +43,16 @@ export default function Footer() {
             </Link>
           </li>
         </ul>
-        <h4 style={{ textAlign: "center" }}>&copy;Locallog 2020</h4>
+        <h4 style={{ textAlign: "center", padding:"5px 0" }}>&copy;Locallog 2020</h4>
       </footer>
 
       <style jsx>{`
         footer {
           padding: 15px 0 0 0;
         }
+        li{
+            list-style:none
+          }
         ul {
           display: flex;
           align-items: center;
@@ -64,7 +72,7 @@ export default function Footer() {
             flex-direction: row;
             justify-content: space-between;
           }
-
+          
           footer h4 {
             margin: 10px 0;
           }

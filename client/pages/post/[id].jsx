@@ -8,7 +8,7 @@ import Related from "../../components/Related";
 import { FacebookIcon } from "react-share";
 import { truncateAlt, endpoint } from "../../utils/utils";
 import Comments from "../../components/Comments";
-import Link from  'next/link'
+import Link from "next/link";
 
 const POSTS_QUERY = `
 query post($titleurl: String!) {
@@ -79,6 +79,11 @@ export default function Index({ post }) {
             crossOrigin="anonymous"
             src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0"
           ></script>
+          <script
+            type="text/javascript"
+            src="https://platform-api.sharethis.com/js/sharethis.js#property=5ecf7a5e7cfa4a0012b476a1&product=inline-reaction-buttons&cms=website"
+            async="async"
+          ></script>
         </Head>
       </div>
       <div className="single-post">
@@ -144,13 +149,15 @@ export default function Index({ post }) {
             </div>
           </div>
         </div>
+        <br/>
+        <div class="sharethis-inline-reaction-buttons"></div>
         <p style={{ color: "rgb(51,62,99)", textAlign: "center" }}>
           Write a post on Locallog today, no sign up required, click{" "}
           <Link href="/post/new">
-            <a style={{textDecoration:"underline"}}>here</a>
+            <a style={{ textDecoration: "underline" }}>here</a>
           </Link>
         </p>
-        <br/>
+        <br />
         <hr />
         <section style={{ marginBottom: "20px" }}>
           <h4 style={{ marginBottom: "10px", color: "rgb(51,62,99)" }}>

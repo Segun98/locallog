@@ -209,6 +209,9 @@ export default function Comments({ id }) {
           margin-bottom: 3px;
           padding: 10px;
         }
+        li{
+          list-style:none
+        }
         ul li:first-child {
           font-size: 13px;
           color: rgb(51, 62, 99);

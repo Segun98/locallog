@@ -54,6 +54,10 @@ a {
     border-bottom: 1px solid black !important;
 }
 
+.st-cmp-settings-icon{
+    display: none !important;
+}
+
 .spinner {
     width: 40px;
     animation: spinner 1s ease infinite;
