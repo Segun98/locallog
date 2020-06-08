@@ -175,6 +175,31 @@ export default function Editorpage() {
     }
   };
 
+  //image upload
+  const uploadCallback = (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return new Promise(async (resolve, reject) => {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      try {
+        const res = await axios.post(
+          "https://backlog.now.sh/upload",
+          formData,
+          config
+        );
+        resolve({ data: { link: res.data } });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  };
+
   return (
     <Layout>
       <Head>
@@ -242,10 +267,17 @@ export default function Editorpage() {
                       link: { inDropdown: true },
                       history: { inDropdown: true },
                       image: {
+                        uploadEnabled: true,
+                        urlEnabled: true,
                         defaultSize: {
                           height: "auto",
                           width: "70%",
                         },
+                        uploadCallback: uploadCallback,
+                        previewImage: true,
+                        alt: { present: true, mandatory: false },
+                        inputAccept:
+                          "image/gif,image/jpeg,image/jpg,image/png,image/svg",
                       },
                     }}
                     editorState={description}
@@ -347,8 +379,9 @@ export default function Editorpage() {
                   <label htmlFor="imgUrl">
                     <h3>Cover Image URL</h3>{" "}
                     <small style={{ fontSize: "0.7rem" }}>
-                      Right-click on an image and "copy image address/location",
-                      checkout{" "}
+                      Upload with the editor, right click on the image and <strong>"copy
+                      image address"</strong>,or right-click on any image on the
+                      internet and copy image address. checkout{" "}
                       <a
                         href="https://pixabay.com/"
                         target="_blank"
