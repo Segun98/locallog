@@ -150,7 +150,7 @@ export default function Index({ post }) {
           </div>
         </div>
         <br/>
-        <div class="sharethis-inline-reaction-buttons"></div>
+        <div className="sharethis-inline-reaction-buttons"></div>
         <p style={{ color: "rgb(51,62,99)", textAlign: "center" }}>
           Write a post on Locallog today, no sign up required, click{" "}
           <Link href="/post/new">

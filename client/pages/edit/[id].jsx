@@ -19,6 +19,8 @@ query postToEdit($editid: String!) {
         description
         author
         titleurl
+        authorProfile
+        url
       }
     }
 `;
@@ -44,6 +46,8 @@ function index({ post }) {
   const [error, seterror] = useState(false);
   const [disable, setdisable] = useState(false);
   const [content, setContent] = useState("");
+  const [url, seturl] = useState("");
+  const [authorProfile, setauthorProfile] = useState("");
 
   const router = useRouter();
 
@@ -60,16 +64,22 @@ function index({ post }) {
 
   useEffect(() => {
     setContent(post.description);
+    seturl(post.url);
+    setauthorProfile(post.authorProfile);
   }, []);
 
   const EDIT_POST = `
   mutation updatePost(
     $editid: String!
     $description: String!
+    $authorProfile: String!
+    $url: String!
   ) {
     updatePost(
       editid: $editid
       description: $description
+      authorProfile: $authorProfile
+      url: $url
     ) {
       editid
       titleurl
@@ -83,6 +93,8 @@ function index({ post }) {
     const variables = {
       description: content,
       editid: post.editid,
+      authorProfile,
+      url
     };
     try {
       setdisable(true);
@@ -108,74 +120,120 @@ function index({ post }) {
           <title>Edit: {post.title} - | Locallog</title>
         </Head>
 
-        <form onSubmit={handleSubmit} className="edit-page">
-          <div
-            style={{
-              display: Modal ? "block" : "none",
-              color: "white",
-              background: "green",
-              padding: "10px 10px",
-              position: "fixed",
-              top: "0px",
-              left: "0px",
-              right: "0px",
-              zIndex: "99999",
-              textAlign: "center",
-            }}
+        <div
+          style={{
+            display: Modal ? "block" : "none",
+            color: "white",
+            background: "green",
+            padding: "10px 10px",
+            position: "fixed",
+            top: "0px",
+            left: "0px",
+            right: "0px",
+            zIndex: "99999",
+            textAlign: "center",
+          }}
+        >
+          Your Post Has Been Successfuly Edited!! You Will Now Be Redirected To
+          Your Post's Page
+        </div>
+        <section className="new-post-page">
+          <h3 style={{ textAlign: "center" }}>{post.title}</h3>
+          <form
+            onSubmit={handleSubmit}
+            className="new-post-form"
+            autoComplete="on"
           >
-            Your Post Has Been Successfuly Edited!! You Will Now Be Redirected
-            To Your Post's Page
-          </div>
-          <div className="form-item">
-            <div
-              style={{
-                margin: "5px 0",
-              }}
-            >
-              <h3 style={{ textAlign: "center" }}>{post.title}</h3>
-            </div>
-            <label htmlFor="Article">
-              <h2>Edit your post</h2>
-            </label>
+            <main className="form-wrap-new">
+              <section>
+                <div className="form-item">
+                  <label htmlFor="Article">
+                    <h3>Edit Post</h3>
+                  </label>
+                  <JoditEditor
+                    ref={editor}
+                    value={content}
+                    config={config}
+                    tabIndex={1} // tabIndex of textarea
+                    onBlur={(newContent) => setContent(newContent)}
+                  />
+                </div>
+                <div className="submit-post">
+                  <div
+                    style={{
+                      textAlign: "center",
+                      display: disable ? "block" : "none",
+                    }}
+                  >
+                    <img
+                      src="/images/spinner.png"
+                      alt="spinner"
+                      className="spinner"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      color: "red",
+                      display: error ? "block" : "none",
+                    }}
+                  >
+                    <h3>
+                      An error occured, check your internet connection and try
+                      again.
+                    </h3>
+                  </div>
+                  <button
+                    disabled={disable}
+                    type="submit"
+                    className="submit-post"
+                  >
+                    Update
+                  </button>
+                </div>
+              </section>
 
-            <JoditEditor
-              ref={editor}
-              value={content}
-              config={config}
-              tabIndex={1} // tabIndex of textarea
-              onBlur={(newContent) => setContent(newContent)}
-            />
-          </div>
-
-          <div className="edit-btn">
-            <div
-              style={{
-                textAlign: "center",
-                display: disable ? "block" : "none",
-              }}
-            >
-              <img
-                src="/images/spinner.png"
-                alt="spinner"
-                className="spinner"
-              />
-            </div>
-            <div
-              style={{
-                textAlign: "center",
-                color: "red",
-                display: error ? "block" : "none",
-              }}
-            >
-              <h3>
-                An error occured, check your internet connection and try again.
-              </h3>
-            </div>
-            <button disabled={disable} type="submit">
-              Update Post
-            </button>
-          </div>
-        </form>
+              <aside>
+                <div className="form-item">
+                  <label htmlFor="imgUrl">Cover Image URL</label>
+                  <input
+                    type="url"
+                    required
+                    placeholder="image url"
+                    defaultValue={url}
+                    onBlur={(e) => {
+                      seturl(e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="profile"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "-13px",
+                    }}
+                  >
+                    <h3>Author Profile</h3>
+                  </label>
+                  <br />
+                  <textarea
+                    cols="45"
+                    rows="5"
+                    maxLength="250"
+                    name="authorProfile"
+                    defaultValue={authorProfile}
+                    onBlur={(e) => {
+                      setauthorProfile(e.target.value);
+                    }}
+                    style={{ padding: "15px 10px", width: "100%" }}
+                  ></textarea>
+                </div>
+              </aside>
+            </main>
+          </form>
+        </section>
       </div>
       <br />
       <br />

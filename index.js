@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 8080
 connectDB()
 
 var corsOptions = {
-  origin: 'https://locallog.now.sh',
+  origin: 'http://localhost:3000',
   credentials: true
 };
 //'https://locallog.now.sh'

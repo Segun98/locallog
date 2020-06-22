@@ -285,6 +285,12 @@ const Mutation = new GraphQLObjectType({
                 },
                 editid: {
                     type: new GraphQLNonNull(GraphQLString)
+                },
+                authorProfile: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                url: {
+                    type: new GraphQLNonNull(GraphQLString)
                 }
             },
             resolve: async function (parent, args) {
@@ -292,7 +298,9 @@ const Mutation = new GraphQLObjectType({
                     editid: args.editid
                 }, {
                     $set: {
-                        description: args.description
+                        description: args.description,
+                        authorProfile: args.authorProfile,
+                        url:args.url
                     },
                 });
             }
