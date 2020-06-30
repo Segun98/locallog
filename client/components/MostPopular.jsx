@@ -245,13 +245,13 @@ export default function MostPopular() {
 
           /* 4K SCREEN  */
 
-          @media only screen and (min-width: 2500px) {
+          @media only screen and (min-width: 2000px) {
             .most-popular-wrap-id {
               gap: 70px;
             }
 
             .most-popular-wrap {
-              width: 65%;
+              width: 60%;
             }
           }
         `}

@@ -144,14 +144,27 @@ export default function Index({ post }) {
               <img src="/images/person.png" alt="profile" />
             </div>
             <div>
-              <h3 style={{ color: "rgb(51,62,99)" }}>{post.author}</h3>
-              <p className="author-profile-content">{post.authorProfile}</p>
+              <h3 style={{ color: "rgb(51,62,99)", marginBottom: "5px" }}>
+                {post.author}
+              </h3>
+              <p
+                className="author-profile-content"
+                style={{ whiteSpace: "pre-line" }}
+              >
+                {post.authorProfile}
+              </p>
             </div>
           </div>
         </div>
-        <br/>
+        <br />
         <div className="sharethis-inline-reaction-buttons"></div>
-        <p style={{ color: "rgb(51,62,99)", textAlign: "center" }}>
+        <p
+          style={{
+            color: "rgb(51,62,99)",
+            textAlign: "center",
+            fontWeight: "bolder",
+          }}
+        >
           Write a post on Locallog today, no sign up required, click{" "}
           <Link href="/post/new">
             <a style={{ textDecoration: "underline" }}>here</a>

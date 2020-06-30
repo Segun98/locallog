@@ -150,16 +150,11 @@ export default function AllPosts() {
               grid-template-columns: 1fr 1fr 1fr;
               gap: 30px;
             }
-
-            .all-posts img {
-              width: 150px;
-              height: 150px;
-            }
           }
 
           /* 4K SCREEN  */
 
-          @media only screen and (min-width: 2500px) {
+          @media only screen and (min-width: 2000px) {
             .all-posts-head {
               width: 65%;
             }

@@ -6,7 +6,6 @@ import AllPosts from "../components/AllPosts";
 import MostPopular from "../components/MostPopular";
 import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
 
-
 const ALL_POSTS_QUERY = `
   {
     posts {
@@ -315,11 +314,11 @@ function Index({ posts }) {
             }
           }
 
-          @media only screen and (min-width: 2500px) {
+          @media only screen and (min-width: 2000px) {
             .latest-posts-wrap {
               grid-template-columns: 1fr 1fr 1fr;
               gap: 50px;
-              width: 70%;
+              width: 60%;
             }
 
             .main-post img {
@@ -331,7 +330,7 @@ function Index({ posts }) {
             }
 
             .latest-head {
-              width: 70%;
+              width: 60%;
             }
           }
         `}
