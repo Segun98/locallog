@@ -59,7 +59,7 @@ export default function MostPopular() {
                 >
                   <a>
                     <h5>{truncateTitle(sorted[0].title)}</h5>
-                    <p>{sorted[0].author}</p>
+                    <p style={{ margin: "5px 0" }}>{sorted[0].author}</p>
                     <h6>{sorted[0].date}</h6>
                   </a>
                 </Link>
@@ -81,7 +81,7 @@ export default function MostPopular() {
                 >
                   <a>
                     <h5>{truncateTitle(sorted[1].title)}</h5>
-                    <p>{sorted[1].author}</p>
+                    <p style={{ margin: "5px 0" }}>{sorted[1].author}</p>
                     <h6>{sorted[1].date}</h6>
                   </a>
                 </Link>
@@ -103,7 +103,7 @@ export default function MostPopular() {
                 >
                   <a>
                     <h5>{truncateTitle(sorted[2].title)}</h5>
-                    <p>{sorted[2].author}</p>
+                    <p style={{ margin: "5px 0" }}>{sorted[2].author}</p>
                     <h6>{sorted[2].date}</h6>
                   </a>
                 </Link>
@@ -125,7 +125,7 @@ export default function MostPopular() {
                 >
                   <a>
                     <h5>{truncateTitle(sorted[3].title)}</h5>
-                    <p>{sorted[3].author}</p>
+                    <p style={{ margin: "5px 0" }}>{sorted[3].author}</p>
                     <h6>{sorted[3].date}</h6>
                   </a>
                 </Link>
@@ -147,7 +147,7 @@ export default function MostPopular() {
                 >
                   <a>
                     <h5>{truncateTitle(sorted[4].title)}</h5>
-                    <p>{sorted[4].author}</p>
+                    <p style={{ margin: "5px 0" }}>{sorted[4].author}</p>
                     <h6>{sorted[4].date}</h6>
                   </a>
                 </Link>
@@ -169,7 +169,7 @@ export default function MostPopular() {
                 >
                   <a>
                     <h5>{truncateTitle(sorted[5].title)}</h5>
-                    <p>{sorted[5].author}</p>
+                    <p style={{ margin: "5px 0" }}>{sorted[5].author}</p>
                     <h6>{sorted[5].date}</h6>
                   </a>
                 </Link>

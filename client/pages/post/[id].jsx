@@ -165,6 +165,7 @@ export default function Index({ post }) {
             fontWeight: "bolder",
           }}
         >
+          <br />
           Write a post on Locallog today, no sign up required, click{" "}
           <Link href="/post/new">
             <a style={{ textDecoration: "underline" }}>here</a>
@@ -222,7 +223,7 @@ export default function Index({ post }) {
           h3,
           h4,
           span {
-            font-family: "Manrope", sans-serif;
+            font-family: "Sen", sans-serif !important;
           }
 
           .single-post {

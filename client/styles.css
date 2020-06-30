@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Manrope&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaina+2|Manrope&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Sen&display=swap");
 
 /* GLOBAL STYLES */
 * {
@@ -9,7 +10,7 @@
 }
 
 body {
-    font-family: 'Manrope', sans-serif !important;
+    font-family: "Sen", sans-serif !important;
     background: ghostwhite;
 
 }
@@ -26,7 +27,7 @@ textarea {
 }
 
 p {
-    font-family: 'Manrope', sans-serif !important;
+    font-family: "Sen", sans-serif !important;
 }
 
 a {
@@ -54,7 +55,7 @@ a {
     border-bottom: 1px solid black !important;
 }
 
-.st-cmp-settings-icon{
+.st-cmp-settings-icon {
     display: none !important;
 }
 
