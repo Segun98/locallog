@@ -29,12 +29,6 @@ export default function AllPosts() {
     setposts(data);
   }
 
-  if (posts.length === 0) {
-    return null;
-  } else if (posts.length > 0) {
-    var newfirst = posts.reverse();
-  }
-
   return (
     <div>
       <section className="all-posts-section">
@@ -42,7 +36,7 @@ export default function AllPosts() {
           <h2>All Posts</h2>
         </div>
         <div className="all-posts-wrap">
-          {newfirst.map((allPosts) => (
+          {posts.map((allPosts) => (
             <ScrollAnimation animateIn="fadeIn" key={allPosts.id}>
               <Link
                 href={`/post/${allPosts.titleurl}`}

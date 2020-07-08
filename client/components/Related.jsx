@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
-import ErrorMessage from "./ErrorMessage";
 import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
 
 export default function Related({ category, id }) {
@@ -35,7 +34,6 @@ export default function Related({ category, id }) {
   } else if (posts.length > 0) {
     const filt = posts.filter((post) => post.id !== id); // prevents the same post from appearing
     var related = filt.filter((post) => post.category === category);
-    related.reverse();
     // var firstItem = posts[posts.length - 1];
     // var secondItem = posts[posts.length - 2];
     // var thirdItem = posts[posts.length - 3];
@@ -46,7 +44,12 @@ export default function Related({ category, id }) {
   return (
     <div>
       <div className="related-head">
-        <h3 style={{ display: related.length === 0 ? "none" : "block", margin: "5px 0"}}>
+        <h3
+          style={{
+            display: related.length === 0 ? "none" : "block",
+            margin: "5px 0",
+          }}
+        >
           <hr />
           Related
         </h3>
@@ -54,22 +57,22 @@ export default function Related({ category, id }) {
       <section className="related-section">
         {related.map((relatedpost, index) => (
           <div className="related-wrap" key={index}>
-              <img
-                src={`${relatedpost.url}`}
-                loading="lazy"
-                alt={truncateAlt(`${relatedpost.title}`)}
-              />
-              <div className="related-content">
-                <Link
-                  href={`/post/${relatedpost.titleurl}`}
-                  as={`/post/${relatedpost.titleurl}`}
-                >
-                  <a>
-                    <h5>{truncateTitle(relatedpost.title)}</h5>
-                    <p>{relatedpost.author}</p>
-                    <h6>{relatedpost.date}</h6>
-                  </a>
-                </Link>
+            <img
+              src={`${relatedpost.url}`}
+              loading="lazy"
+              alt={truncateAlt(`${relatedpost.title}`)}
+            />
+            <div className="related-content">
+              <Link
+                href={`/post/${relatedpost.titleurl}`}
+                as={`/post/${relatedpost.titleurl}`}
+              >
+                <a>
+                  <h5>{truncateTitle(relatedpost.title)}</h5>
+                  <p>{relatedpost.author}</p>
+                  <h6>{relatedpost.date}</h6>
+                </a>
+              </Link>
             </div>
           </div>
         ))}
@@ -103,8 +106,7 @@ export default function Related({ category, id }) {
           .related-section {
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            place-items:center;
-            
+            place-items: center;
           }
         }
       `}</style>

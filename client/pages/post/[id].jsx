@@ -164,6 +164,7 @@ export default function Index({ post }) {
             textAlign: "center",
             fontWeight: "bolder",
           }}
+          className="promo"
         >
           <br />
           Write a post on Locallog today, no sign up required, click{" "}
@@ -224,6 +225,24 @@ export default function Index({ post }) {
           h4,
           span {
             font-family: "Sen", sans-serif !important;
+          }
+
+          .promo {
+            font-size: 1.2rem;
+            animation: infinite 2s promo ease;
+            margin: 5px 0;
+          }
+          @keyframes promo {
+            0% {
+              transform: translateX(-10px);
+            }
+
+            50% {
+              transform: translateX(0px);
+            }
+            100% {
+              transform: translateX(10px);
+            }
           }
 
           .single-post {

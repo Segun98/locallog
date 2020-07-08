@@ -184,8 +184,14 @@ export default function Comments({ id }) {
       <style jsx>{`
         form {
           margin: auto;
-          width: 90%;
+          width: 70%;
           padding-top: 10px;
+        }
+
+        @media only screen and (min-width: 700px) {
+          form {
+            width: 50%;
+          }
         }
         form div {
           margin-top: 5px;
@@ -209,8 +215,8 @@ export default function Comments({ id }) {
           margin-bottom: 3px;
           padding: 10px;
         }
-        li{
-          list-style:none
+        li {
+          list-style: none;
         }
         ul li:first-child {
           font-size: 13px;

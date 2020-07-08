@@ -4,7 +4,7 @@ import Head from "next/head";
 import CategoryList from "../../components/CategoryList";
 import { request } from "graphql-request";
 import { truncateTitle, truncateAlt, endpoint } from "../../utils/utils";
-import Footer from "../../components/Footer"
+import Footer from "../../components/Footer";
 
 const ALL_POSTS_QUERY = `
   {
@@ -48,7 +48,6 @@ export default function Index({ posts }) {
   const filteredCategory = posts.filter(
     (post) => post.category === capitalize(query.category)
   );
-  filteredCategory.reverse();
 
   return (
     <Layout>
@@ -86,7 +85,7 @@ export default function Index({ posts }) {
             marginTop: filteredCategory.length < 8 ? "250px" : "10px",
           }}
         >
-        <Footer />
+          <Footer />
         </div>
       </div>
     </Layout>

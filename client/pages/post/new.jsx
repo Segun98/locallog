@@ -11,11 +11,12 @@ import { stateToHTML } from "draft-js-export-html";
 import { convertFromRaw } from "draft-js";
 import { useRouter } from "next/router";
 import { request } from "graphql-request";
-import { dash, endpoint } from "../../utils/utils";
+import { endpoint } from "../../utils/utils";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Footer from "../../components/Footer";
 import NProgress from "nprogress";
+import slug from "slug";
 
 export default function Editorpage() {
   const [Modal, setModal] = useState(false);
@@ -129,7 +130,7 @@ export default function Editorpage() {
       const variables = {
         title: capital_letter(title),
         editid: uuidv4(),
-        titleurl: dash(title),
+        titleurl: slug(title),
         date,
         description: content,
         email,
@@ -379,9 +380,9 @@ export default function Editorpage() {
                   <label htmlFor="imgUrl">
                     <h3>Cover Image URL</h3>{" "}
                     <small style={{ fontSize: "0.7rem" }}>
-                      Upload with the editor, right click on the image and <strong>"copy
-                      image address"</strong>,or right-click on any image on the
-                      internet and copy image address. checkout{" "}
+                      Upload with the editor, right click on the image and{" "}
+                      <strong>"copy image address"</strong>,or right-click on
+                      any image on the internet and copy image address. checkout{" "}
                       <a
                         href="https://pixabay.com/"
                         target="_blank"

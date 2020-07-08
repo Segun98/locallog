@@ -6,9 +6,9 @@ import AllPosts from "../components/AllPosts";
 import MostPopular from "../components/MostPopular";
 import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
 
-const ALL_POSTS_QUERY = `
+const LATEST_POSTS = `
   {
-    posts {
+    latest {
       titleurl
       title
       author
@@ -20,8 +20,8 @@ const ALL_POSTS_QUERY = `
 `;
 
 export async function getServerSideProps() {
-  const res = await request(endpoint, ALL_POSTS_QUERY);
-  const posts = await res.posts;
+  const res = await request(endpoint, LATEST_POSTS);
+  const posts = await res.latest;
 
   return {
     props: {
@@ -31,13 +31,6 @@ export async function getServerSideProps() {
 }
 
 function Index({ posts }) {
-  //LATEST POSTS
-  const firstItem = posts[posts.length - 1];
-  const secondItem = posts[posts.length - 2];
-  const thirdItem = posts[posts.length - 3];
-  const fourthItem = posts[posts.length - 4];
-  const fifthItem = posts[posts.length - 5];
-
   return (
     <Layout>
       <Head>
@@ -81,20 +74,20 @@ function Index({ posts }) {
           <div className="latest-posts">
             <div className="latest-posts-wrap">
               <Link
-                href={`/post/${firstItem.titleurl}`}
-                as={`/post/${firstItem.titleurl}`}
+                href={`/post/${posts[0].titleurl}`}
+                as={`/post/${posts[0].titleurl}`}
               >
                 <a>
                   <div className="main-post">
                     <img
-                      src={`${firstItem.url}`}
-                      alt={truncateAlt(`${firstItem.title}`)}
+                      src={`${posts[0].url}`}
+                      alt={truncateAlt(`${posts[0].title}`)}
                     />
                     <div className="main-post-content">
-                      <h5>{truncateTitle(firstItem.title)}</h5>
-                      <p>{truncateTitle(firstItem.metaDesc)}</p>
-                      <p>{firstItem.author}</p>
-                      <h6>{firstItem.date}</h6>
+                      <h5>{truncateTitle(posts[0].title)}</h5>
+                      <p>{truncateTitle(posts[0].metaDesc)}</p>
+                      <p>{posts[0].author}</p>
+                      <h6>{posts[0].date}</h6>
                     </div>
                   </div>
                 </a>
@@ -102,56 +95,56 @@ function Index({ posts }) {
 
               <div className="middle-posts">
                 <Link
-                  href={`/post/${secondItem.titleurl}`}
-                  as={`/post/${secondItem.titleurl}`}
+                  href={`/post/${posts[1].titleurl}`}
+                  as={`/post/${posts[1].titleurl}`}
                 >
                   <a>
                     <div className="middle-post">
                       <img
-                        src={`${secondItem.url}`}
-                        alt={truncateAlt(`${secondItem.title}`)}
+                        src={`${posts[1].url}`}
+                        alt={truncateAlt(`${posts[1].title}`)}
                       />
                       <div className="middle-post-content">
-                        <h5>{truncateTitle(secondItem.title)}</h5>
-                        <p>{secondItem.author}</p>
-                        <h6>{secondItem.date}</h6>
+                        <h5>{truncateTitle(posts[1].title)}</h5>
+                        <p>{posts[1].author}</p>
+                        <h6>{posts[1].date}</h6>
                       </div>
                     </div>
                   </a>
                 </Link>
                 <Link
-                  href={`/post/${thirdItem.titleurl}`}
-                  as={`/post/${thirdItem.titleurl}`}
+                  href={`/post/${posts[2].titleurl}`}
+                  as={`/post/${posts[2].titleurl}`}
                 >
                   <a>
                     <div className="middle-post">
                       <img
-                        src={`${thirdItem.url}`}
-                        alt={truncateAlt(`${thirdItem.title}`)}
+                        src={`${posts[2].url}`}
+                        alt={truncateAlt(`${posts[2].title}`)}
                       />
                       <div className="middle-post-content">
-                        <h5>{truncateTitle(thirdItem.title)}</h5>
-                        <p>{thirdItem.author}</p>
-                        <h6>{thirdItem.date}</h6>
+                        <h5>{truncateTitle(posts[2].title)}</h5>
+                        <p>{posts[2].author}</p>
+                        <h6>{posts[2].date}</h6>
                       </div>
                     </div>
                   </a>
                 </Link>
 
                 <Link
-                  href={`/post/${fourthItem.titleurl}`}
-                  as={`/post/${fourthItem.titleurl}`}
+                  href={`/post/${posts[3].titleurl}`}
+                  as={`/post/${posts[3].titleurl}`}
                 >
                   <a>
                     <div className="middle-post">
                       <img
-                        src={`${fourthItem.url}`}
-                        alt={truncateAlt(`${fourthItem.title}`)}
+                        src={`${posts[3].url}`}
+                        alt={truncateAlt(`${posts[3].title}`)}
                       />
                       <div className="middle-post-content">
-                        <h5>{truncateTitle(fourthItem.title)}</h5>
-                        <p>{fourthItem.author}</p>
-                        <h6>{fourthItem.date}</h6>
+                        <h5>{truncateTitle(posts[3].title)}</h5>
+                        <p>{posts[3].author}</p>
+                        <h6>{posts[3].date}</h6>
                       </div>
                     </div>
                   </a>
@@ -159,19 +152,19 @@ function Index({ posts }) {
               </div>
 
               <Link
-                href={`/post/${fifthItem.titleurl}`}
-                as={`/post/${fifthItem.titleurl}`}
+                href={`/post/${posts[4].titleurl}`}
+                as={`/post/${posts[4].titleurl}`}
               >
                 <a>
                   <div className="right-post">
                     <img
-                      src={`${fifthItem.url}`}
-                      alt={truncateAlt(`${fifthItem.title}`)}
+                      src={`${posts[4].url}`}
+                      alt={truncateAlt(`${posts[4].title}`)}
                     />
-                    <h5>{truncateTitle(fifthItem.title)}</h5>
-                    <p>{truncateTitle(fifthItem.metaDesc)}</p>
-                    <p>{fifthItem.author}</p>
-                    <h6>{fifthItem.date}</h6>
+                    <h5>{truncateTitle(posts[4].title)}</h5>
+                    <p>{truncateTitle(posts[4].metaDesc)}</p>
+                    <p>{posts[4].author}</p>
+                    <h6>{posts[4].date}</h6>
                   </div>
                 </a>
               </Link>
