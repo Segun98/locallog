@@ -3,87 +3,14 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLSchema,
-    GraphQLID,
     GraphQLList,
     GraphQLNonNull,
     GraphQLFloat
 } = graphql
 const Posts = require('../models/posts')
 const Comments = require('../models/comments')
-
-
-const PostType = new GraphQLObjectType({
-    name: 'Post',
-    fields: () => ({
-        id: {
-            type: GraphQLID
-        },
-        editid:{
-            type: GraphQLString
-        },
-        titleurl: {
-            type: GraphQLString
-        },
-        title: {
-            type: GraphQLString
-        },
-        description: {
-            type: GraphQLString
-        },
-        date: {
-            type: GraphQLString
-        },
-        category: {
-            type: GraphQLString
-        },
-        author: {
-            type: GraphQLString
-        },
-        email: {
-            type: GraphQLString
-        },
-        count: {
-            type: GraphQLFloat
-        },
-        url: {
-            type: GraphQLString
-        },
-        metaDesc: {
-            type: GraphQLString
-        },
-        authorProfile: {
-            type: GraphQLString
-        }
-    })
-});
-
-
-
-
-const CommentType = new GraphQLObjectType({
-    name: 'Comments',
-    fields: () => ({
-        id: {
-            type: GraphQLID
-        },
-        postid: {
-            type: GraphQLString
-        },
-        email: {
-            type: GraphQLString
-        },
-        name: {
-            type: GraphQLString
-        },
-        comment: {
-            type: GraphQLString
-        },
-        date: {
-            type: GraphQLString
-        }
-    })
-});
-
+const CommentType = require("./CommentType")
+const PostType = require("./PostType")
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -105,17 +32,37 @@ const RootQuery = new GraphQLObjectType({
                     },
                 });
 
-                return Posts.findOne({titleurl:args.titleurl})
+                return Posts.findOne({
+                    titleurl: args.titleurl
+                })
             }
         },
         posts: {
-            type: new GraphQLList(PostType),
+            type: GraphQLList(PostType),
             resolve() {
-                return Posts.find()
+                return Posts.find().sort({
+                    createdAt: "desc"
+                })
+            }
+        },
+        latest: {
+            type: GraphQLList(PostType),
+            resolve() {
+                return Posts.find().sort({
+                    createdAt: "desc"
+                }).limit(5)
+            }
+        },
+        popular: {
+            type: GraphQLList(PostType),
+            resolve() {
+                return Posts.find().sort({
+                    count: -1
+                }).limit(6)
             }
         },
         search: {
-            type: new GraphQLList(PostType),
+            type: GraphQLList(PostType),
             args: {
                 author: {
                     type: GraphQLString
@@ -127,14 +74,22 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve: async function (parent, args) {
 
-               return await Posts.find({
+                return await Posts.find({
                     $or: [{
-                        author:{$regex: args.author,$options:'i'}
+                        author: {
+                            $regex: args.author,
+                            $options: 'i'
+                        }
                     }, {
-                        title:{$regex: args.title,$options:'i'}
+                        title: {
+                            $regex: args.title,
+                            $options: 'i'
+                        }
                     }]
+                }).sort({
+                    createdAt: "desc"
                 })
-                
+
             }
         },
         comments: {
@@ -151,7 +106,9 @@ const RootQuery = new GraphQLObjectType({
                 }
             },
             resolve: async function (parent, args) {
-                return await Posts.findOne({editid:args.editid})
+                return await Posts.findOne({
+                    editid: args.editid
+                })
             }
         },
     }
@@ -167,40 +124,40 @@ const Mutation = new GraphQLObjectType({
             type: PostType,
             args: {
                 title: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 editid: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 description: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 date: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 category: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 author: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 email: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 count: {
-                    type: new GraphQLNonNull(GraphQLFloat)
+                    type: GraphQLNonNull(GraphQLFloat)
                 },
                 url: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 metaDesc: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 authorProfile: {
                     type: GraphQLString
                 },
                 titleurl: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 }
             },
             resolve: async function (parent, args) {
@@ -209,40 +166,22 @@ const Mutation = new GraphQLObjectType({
                     titleurl: args.titleurl
                 })
                 let random = Math.floor(Math.random() * 448994)
-                if (postexists) {
-                    let post = new Posts({
-                        titleurl: `${args.titleurl}-${random}`,
-                        editid: args.editid,
-                        title: args.title,
-                        description: args.description,
-                        date: args.date,
-                        category: args.category,
-                        author: args.author,
-                        email: args.email,
-                        count: args.count,
-                        url: args.url,
-                        metaDesc: args.metaDesc,
-                        authorProfile: args.authorProfile
-                    });
-                    return post.save()
 
-                } else {
-                    let post = new Posts({
-                        titleurl: args.titleurl,
-                        editid: args.editid,
-                        title: args.title,
-                        description: args.description,
-                        date: args.date,
-                        category: args.category,
-                        author: args.author,
-                        email: args.email,
-                        count: args.count,
-                        url: args.url,
-                        metaDesc: args.metaDesc,
-                        authorProfile: args.authorProfile
-                    });
-                    return post.save()
-                }
+                let post = new Posts({
+                    titleurl: `${postexists? args.titleurl+random : args.titleurl}`,
+                    editid: args.editid,
+                    title: args.title,
+                    description: args.description,
+                    date: args.date,
+                    category: args.category,
+                    author: args.author,
+                    email: args.email,
+                    count: args.count,
+                    url: args.url,
+                    metaDesc: args.metaDesc,
+                    authorProfile: args.authorProfile
+                });
+                return post.save()
 
             }
         },
@@ -250,19 +189,19 @@ const Mutation = new GraphQLObjectType({
             type: CommentType,
             args: {
                 postid: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 email: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 name: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 comment: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 date: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 }
             },
             resolve: async function (parent, args) {
@@ -280,17 +219,17 @@ const Mutation = new GraphQLObjectType({
         updatePost: {
             type: PostType,
             args: {
-               description: {
-                    type: new GraphQLNonNull(GraphQLString)
+                description: {
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 editid: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 authorProfile: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 },
                 url: {
-                    type: new GraphQLNonNull(GraphQLString)
+                    type: GraphQLNonNull(GraphQLString)
                 }
             },
             resolve: async function (parent, args) {
@@ -300,7 +239,7 @@ const Mutation = new GraphQLObjectType({
                     $set: {
                         description: args.description,
                         authorProfile: args.authorProfile,
-                        url:args.url
+                        url: args.url
                     },
                 });
             }
