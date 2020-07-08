@@ -5,7 +5,10 @@ const cors = require('cors')
 const graphqlHTTP = require('express-graphql')
 const schema = require('./schema/schema')
 const cloudinary = require('cloudinary').v2
-const {multerUploads, dataUri } = require('./multer')
+const {
+  multerUploads,
+  dataUri
+} = require('./multer')
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -21,7 +24,7 @@ const PORT = process.env.PORT || 8080
 connectDB()
 
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://locallog.now.sh',
   credentials: true
 };
 //'https://locallog.now.sh'
@@ -35,10 +38,10 @@ app.use(express.urlencoded({
 app.use(express.json());
 
 
-app.post('/upload', multerUploads, (req, res) => {  
-  
-const file = dataUri(req).content;
-  
+app.post('/upload', multerUploads, (req, res) => {
+
+  const file = dataUri(req).content;
+
   const data = {
     image: file,
   }
