@@ -117,7 +117,7 @@ export default function Editorpage() {
     e.preventDefault();
 
     // Prevents short content
-    if (postLength.length < 400) {
+    if (postLength < 400) {
       alert("Post too short");
     } else {
       //DATE

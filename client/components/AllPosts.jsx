@@ -32,7 +32,10 @@ export default function AllPosts() {
   return (
     <div>
       <section className="all-posts-section">
-        <div className="all-posts-head">
+        <div
+          className="all-posts-head"
+          style={{ visibility: posts.length === 0 ? "hidden" : "visible" }}
+        >
           <h2>All Posts</h2>
         </div>
         <div className="all-posts-wrap">

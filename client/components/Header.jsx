@@ -14,12 +14,24 @@ export default function Header() {
   function handleSearch(e) {
     e.preventDefault();
     if (search !== "") {
-      router.push(`/search?author=${search}`); 
+      router.push(`/search?author=${search}`);
     }
   }
 
   return (
     <div>
+      <aside
+        style={{
+          display: router.pathname === "/post/new" ? "none" : "block",
+        }}
+      >
+        <h5>
+          Write A Post On Locallog Today, No SignUp Required!{" "}
+          <Link href="/post/new">
+            <a>CLICK HERE</a>
+          </Link>
+        </h5>
+      </aside>
       <header>
         <div className="header-wrap">
           <div className="logo">
@@ -142,6 +154,22 @@ export default function Header() {
         {`
           /* HEADER STYLES */
 
+          aside {
+            text-align: center;
+            padding: 12px;
+            background: #805ad5;
+            color: white;
+            font-size: 14px;
+          }
+
+          @media only screen and (min-width: 700px) {
+            font-size: 0.9rem;
+          }
+          aside a {
+            color: lightgreen;
+            text-decoration: underline;
+          }
+
           header {
             padding: 5px 0;
           }
@@ -154,7 +182,7 @@ export default function Header() {
             align-items: center;
           }
 
-          .logo a{
+          .logo a {
             font-size: 25px;
             color: rgb(51, 62, 99);
           }
@@ -189,8 +217,8 @@ export default function Header() {
           }
 
           .write-a-post button {
-            background: rgb(62,82,163);
-            border: 1px solid rgb(62,82,163);
+            background: rgb(62, 82, 163);
+            border: 1px solid rgb(62, 82, 163);
             padding: 10px 10px;
             cursor: pointer;
             color: white;
@@ -230,7 +258,7 @@ export default function Header() {
             display: block;
             text-align: center;
             padding: 3px 10px;
-            list-style: none
+            list-style: none;
           }
 
           .menu-wrap ul li:first-child {
@@ -257,7 +285,7 @@ export default function Header() {
           /* TABLET SCREEN  */
 
           @media only screen and (min-width: 600px) {
-            .logo a{
+            .logo a {
               font-size: 28px;
             }
             .header-wrap {
