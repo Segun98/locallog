@@ -13,6 +13,13 @@ export function truncateTitle(str) {
     return str;
   }
 }
+export function truncateSearch(str) {
+  if (str.length > 60) {
+    return str.slice(0, 60) + "...";
+  } else {
+    return str;
+  }
+}
 
 export function dash(str) {
   const trimmed = str.trim();

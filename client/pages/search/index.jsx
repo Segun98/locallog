@@ -1,7 +1,7 @@
 import Layout from "../../components/Layout";
 import Head from "next/head";
 import { request } from "graphql-request";
-import { truncateTitle, truncateAlt, endpoint } from "../../utils/utils";
+import { truncateSearch, truncateAlt, endpoint } from "../../utils/utils";
 import Link from "next/link";
 import Footer from "../../components/Footer";
 
@@ -59,7 +59,7 @@ export default function Index({ posts }) {
                   <div className="category-item">
                     <img src={post.url} alt={truncateAlt(post.title)} />
                     <div className="category-item-content">
-                      <h5>{truncateTitle(post.title)}</h5>
+                      <h5>{truncateSearch(post.title)}</h5>
                       <p style={{ margin: "5px 0" }}>{post.author}</p>
                       <h6>{post.date}</h6>
                     </div>

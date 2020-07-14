@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { request } from "graphql-request";
-import { truncateAlt, truncateTitle, endpoint } from "../utils/utils";
+import { truncateAlt, truncateSearch, endpoint } from "../utils/utils";
 
 export default function Related({ category, id }) {
   useEffect(() => {
@@ -68,8 +68,10 @@ export default function Related({ category, id }) {
                 as={`/post/${relatedpost.titleurl}`}
               >
                 <a>
-                  <h5>{truncateTitle(relatedpost.title)}</h5>
-                  <p>{relatedpost.author}</p>
+                  <h5>{truncateSearch(relatedpost.title)}</h5>
+                  <p style={{ margin: "5px 0", fontSize: "0.9rem" }}>
+                    {relatedpost.author}
+                  </p>
                   <h6>{relatedpost.date}</h6>
                 </a>
               </Link>

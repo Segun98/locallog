@@ -28,7 +28,26 @@ query post($titleurl: String!) {
     }
 `;
 
-export async function getServerSideProps({ params }) {
+const ALL_POSTS = `
+  {
+    posts {
+      titleurl
+    }
+  }
+  `;
+
+export async function getStaticPaths() {
+  const res = await request(endpoint, ALL_POSTS);
+  const posts = await res.posts;
+
+  const paths = posts.map((post) => ({
+    params: { id: post.titleurl },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }) {
   const variables = {
     titleurl: params.id,
   };
