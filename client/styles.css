@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Manrope&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Baloo+Bhaina+2|Manrope&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Sen&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 /* GLOBAL STYLES */
 * {
@@ -10,8 +10,9 @@
 }
 
 body {
-    font-family: "Sen", sans-serif !important;
+    font-family: "Sen", sans-serif;
     background: ghostwhite;
+    font-family: "Roboto", sans-serif !important;
 
 }
 
@@ -21,13 +22,18 @@ a {
 }
 
 textarea {
-    border: 1px solid #333;
+    border: 1px solid lightgrey;
     font-family: 'Manrope', sans-serif;
     line-height: 1.6 !important;
+    border-radius: 7px
+}
+
+input {
+    border-radius: 7px
 }
 
 p {
-    font-family: "Sen", sans-serif !important;
+    font-family: "Sen", sans-serif;
 }
 
 a {

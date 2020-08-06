@@ -26,11 +26,6 @@ export default function Layout(props) {
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"
           />
-          <script
-            data-ad-client="ca-pub-8308755574802635"
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          ></script>
         </Head>
       </div>
       <Header />

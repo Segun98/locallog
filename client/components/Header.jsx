@@ -193,7 +193,7 @@ export default function Header() {
           }
 
           .search-input {
-            border: 1px solid black;
+            border: 1px solid lightgrey;
             padding: 5px 5px;
             width: 130px;
             border-radius: 5px;

@@ -23,6 +23,40 @@ export default function Editorpage() {
   const [error, seterror] = useState(false);
   const [disable, setdisable] = useState(false);
 
+  //cover image upload
+  const [CoverImage, setCoverImage] = useState("");
+  const [CoverImageFile, setCoverImageFile] = useState("");
+  const [uploadMessage, setUploadMessage] = useState("");
+
+  async function coverImageUpload() {
+    if (!CoverImageFile) {
+      return alert("file is empty");
+    }
+
+    const data = new FormData();
+    data.append("file", CoverImageFile);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    try {
+      setUploadMessage("uploading...");
+      const res = await axios.post(
+        "https://backlog.now.sh/upload",
+        data,
+        config
+      );
+      if (res.data) {
+        setCoverImage(res.data);
+        setUploadMessage("success!");
+      }
+    } catch (err) {
+      console.log(err);
+      setUploadMessage("an error occured, retry...");
+    }
+  }
+
   //Router
   const router = useRouter();
 
@@ -117,8 +151,10 @@ export default function Editorpage() {
     e.preventDefault();
 
     // Prevents short content
-    if (postLength < 400) {
-      alert("Post too short");
+    if (postLength < 500) {
+      alert(
+        "Post too short, please don't spam the website with unecessary posts"
+      );
     } else {
       //DATE
       const dateOptions = { month: "short", day: "numeric", year: "numeric" };
@@ -137,7 +173,7 @@ export default function Editorpage() {
         category: `${Category === "" ? "Other" : Category}`,
         author,
         count,
-        url,
+        url: `${CoverImage ? CoverImage : url}`,
         metaDesc,
         authorProfile,
       };
@@ -195,6 +231,9 @@ export default function Editorpage() {
           config
         );
         resolve({ data: { link: res.data } });
+        if (!CoverImage || !url) {
+          setCoverImage(res.data);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -378,32 +417,38 @@ export default function Editorpage() {
 
                 <div className="form-item">
                   <label htmlFor="imgUrl">
-                    <h3>Cover Image URL</h3>{" "}
-                    <small style={{ fontSize: "0.7rem" }}>
-                      Upload with the editor, right click on the image and{" "}
-                      <strong>"copy image address"</strong>,or right-click on
-                      any image on the internet and copy image address. checkout{" "}
-                      <a
-                        href="https://pixabay.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ textDecoration: "underline" }}
-                      >
-                        Pixabay
-                      </a>{" "}
-                      for free stock photos
-                    </small>
+                    <h3>Cover Image</h3>
                   </label>
-                  <input
-                    type="url"
-                    required
-                    placeholder="image url"
-                    defaultValue={url}
-                    onBlur={(e) => {
-                      seturl(e.target.value);
-                    }}
-                  />
+                  <div className="upload-cover-img">
+                    <input
+                      type="file"
+                      name="file"
+                      onChange={(e) => {
+                        setCoverImageFile(e.target.files[0]);
+                      }}
+                    />
+                    <div style={{ color: "rgb(62, 82, 163)" }}>Or</div>
+                    <input
+                      type="url"
+                      placeholder="paste an image url"
+                      defaultValue={url}
+                      onBlur={(e) => {
+                        seturl(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="upload-cover-img-btn">
+                    {uploadMessage}
+                    <button
+                      disabled={url ? true : false}
+                      type="button"
+                      onClick={coverImageUpload}
+                    >
+                      upload
+                    </button>
+                  </div>
                 </div>
+
                 <div>
                   <label
                     htmlFor="description"
@@ -473,6 +518,25 @@ export default function Editorpage() {
           input {
             border-radius: 5px 5px 0 0;
             background: ghostwhite;
+          }
+          .upload-cover-img {
+            display: flex;
+            align-items: baseline;
+          }
+          .upload-cover-img input:first-child {
+            width: 130px;
+          }
+          .upload-cover-img input:last-child {
+            width: 150px;
+            border-bottom: 1px solid #333;
+          }
+
+          .upload-cover-img-btn button {
+            background: rgb(62, 82, 163);
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 7px;
           }
         `}</style>
       </div>

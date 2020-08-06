@@ -58,12 +58,12 @@ function Index({ posts }) {
         <meta property="article:author" content="Segun Olanitori" />
         <meta
           name="twitter:image"
-          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1596675066/tadlog/20200517_232032_0000_xvpy87.png"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1596675066/tadlog/20200517_232032_0000_xvpy87.png"
         />
       </Head>
       <div>

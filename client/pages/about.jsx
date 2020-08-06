@@ -90,12 +90,12 @@ export default function About() {
         <meta property="article:author" content="Segun Olanitori" />
         <meta
           name="twitter:image"
-          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1596675066/tadlog/20200517_232032_0000_xvpy87.png"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1589912401/tadlog/tadlog-logo_bix8vj.png"
+          content="https://res.cloudinary.com/dowrygm9b/image/upload/v1596675066/tadlog/20200517_232032_0000_xvpy87.png"
         />
       </Head>
       <div className="about-page">
@@ -312,19 +312,22 @@ export default function About() {
               list-style: square;
               line-height: 1.5;
             }
+
             form div {
               margin-top: 5px;
             }
             input {
               width: 100%;
               padding: 10px;
+              border: 1px solid lightgrey;
             }
             button {
               padding: 10px 20px;
-              background: rgb(62,82,163);
+              background: rgb(62, 82, 163);
               color: white;
               border: none;
               margin-bottom: 10px;
+              border-radius: 7px;
             }
             @media only screen and (min-width: 600px) {
               .about-page-body {
@@ -332,9 +335,13 @@ export default function About() {
               }
             }
 
-            @media only screen and (min-width: 1300px) {
+            @media only screen and (min-width: 1200px) {
               .about-page-body {
                 width: 50%;
+              }
+              #contact {
+                margin: auto;
+                width: 70%;
               }
             }
           `}

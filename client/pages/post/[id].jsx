@@ -28,26 +28,7 @@ query post($titleurl: String!) {
     }
 `;
 
-const ALL_POSTS = `
-  {
-    posts {
-      titleurl
-    }
-  }
-  `;
-
-export async function getStaticPaths() {
-  const res = await request(endpoint, ALL_POSTS);
-  const posts = await res.posts;
-
-  const paths = posts.map((post) => ({
-    params: { id: post.titleurl },
-  }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const variables = {
     titleurl: params.id,
   };
@@ -243,24 +224,24 @@ export default function Index({ post }) {
           h3,
           h4,
           span {
-            font-family: "Sen", sans-serif !important;
+            font-family: "Roboto", sans-serif;
           }
 
           .promo {
-            font-size: 1.2rem;
-            animation: infinite 2s promo ease;
+            font-size: 1.1rem;
+            animation: infinite 3s promo ease;
             margin: 5px 0;
           }
           @keyframes promo {
             0% {
-              transform: translateX(-10px);
+              transform: translateX(5px);
             }
 
             50% {
               transform: translateX(0px);
             }
             100% {
-              transform: translateX(10px);
+              transform: translateX(5px);
             }
           }
 
@@ -319,12 +300,11 @@ export default function Index({ post }) {
           }
           .author-profile {
             display: flex;
-            justify-content: space-between;
             border: 1px solid lightgrey;
             padding: 10px;
           }
           .author-profile img {
-            margin-right: 10px;
+            margin-right: 15px;
             border: 1px solid lightgrey;
             border-radius: 50%;
             padding: 5px;
@@ -357,8 +337,12 @@ export default function Index({ post }) {
             }
 
             .header-image img {
-              height: 380px;
-              object-fit: cover;
+               {
+                /* height: 380px;
+              object-fit: cover; */
+              }
+              width: 100%;
+              height: auto;
               /* object-fit: contain; */
             }
           }

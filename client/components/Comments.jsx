@@ -190,7 +190,7 @@ export default function Comments({ id }) {
 
         @media only screen and (min-width: 700px) {
           form {
-            width: 50%;
+            width: 60%;
           }
         }
         form div {
@@ -199,7 +199,7 @@ export default function Comments({ id }) {
         input {
           width: 100%;
           padding: 10px;
-          border: 1px solid #333;
+          border: 1px solid lightgrey;
         }
         button {
           padding: 10px 20px;
@@ -207,6 +207,7 @@ export default function Comments({ id }) {
           color: white;
           border: none;
           margin-bottom: 10px;
+          border-radius: 7px;
         }
         ul {
           margin: auto;
