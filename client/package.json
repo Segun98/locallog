@@ -24,7 +24,7 @@
     "react": "^16.13.1",
     "react-animate-on-scroll": "^2.1.5",
     "react-dom": "^16.13.1",
-    "react-draft-wysiwyg": "^1.14.5",
+    "react-draft-wysiwyg": "^1.14.6",
     "react-html-parser": "^2.0.2",
     "react-share": "^4.1.0",
     "slug": "^3.3.0",
