@@ -24,10 +24,10 @@ export function truncateSearch(str) {
 export function dash(str) {
   const trimmed = str.trim();
   const dashed = trimmed.split(" ").join("-");
-  return dashed.toLowerCase()
+  return dashed.toLowerCase();
 }
 
-export const endpoint = "https://backlog.now.sh/graphql"
+export const endpoint = "https://backlog.vercel.app/graphql";
 // "http://localhost:8080/graphql"
 // "https://backlog.now.sh/graphql"
 // "https://locallog.herokuapp.com/graphql"
